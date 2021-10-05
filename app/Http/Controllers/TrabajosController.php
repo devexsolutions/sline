@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Trabajo;
 use App\Models\Foto;
 use App\Models\Documento;
+use App\Models\Estado;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
 
@@ -19,7 +20,10 @@ class TrabajosController extends Controller
     public function index()
     {
         $trabajos = Trabajo::all();
-        return view('trabajos.index', compact('trabajos'));
+        $estados = Estado::all();
+        $estado =  $estados->toArray();
+      
+        return view('trabajos.index', compact('trabajos', 'estado'));
     }
 
     /**
@@ -38,63 +42,63 @@ class TrabajosController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function postAdjuntarImagenes(Request $request)
     {
         
           
             $fotos = array();
             if($request->hasfile('oclusion'))
             {
-                $path = public_path().'/fotos-trabajos/' . $trabajo->id;
+                $path = public_path().'/fotos-trabajos/' .  $request->session()->get('trabajo-id');;
                 File::makeDirectory($path, $mode = 0755, true, true);          
                 $request->file('oclusion')->move($path,$request->file('oclusion')->getClientOriginalName());
                 $fotos['oclusion'] = $request->file('oclusion')->getClientOriginalName();
             }
             if($request->hasfile('lateralDerecho'))
             {
-                $path = public_path().'/fotos-trabajos/' . $trabajo->id;
+                $path = public_path().'/fotos-trabajos/' . $request->session()->get('trabajo-id');
                 File::makeDirectory($path, $mode = 0755, true, true);          
                 $request->file('lateralDerecho')->move($path,$request->file('lateralIzquierdo')->getClientOriginalName());
                 $fotos['lateralDerecho'] = $request->file('lateralDerecho')->getClientOriginalName();
             }
             if($request->hasfile('lateralIzquierdo'))
             {
-                $path = public_path().'/fotos-trabajos/' . $trabajo->id;
+                $path = public_path().'/fotos-trabajos/' .  $request->session()->get('trabajo-id');
                 File::makeDirectory($path, $mode = 0755, true, true);          
                 $request->file('lateralIzquierdo')->move($path,$request->file('lateralIzquierdo')->getClientOriginalName());
                 $fotos['lateralIzquierdo'] = $request->file('lateralIzquierdo')->getClientOriginalName();
             }
             if($request->hasfile('arcoSuperior'))
             {
-                $path = public_path().'/fotos-trabajos/' . $trabajo->id;
+                $path = public_path().'/fotos-trabajos/' .  $request->session()->get('trabajo-id');
                 File::makeDirectory($path, $mode = 0755, true, true);          
                 $request->file('arcoSuperior')->move($path,$request->file('arcoSuperior')->getClientOriginalName());
                 $fotos['arcoSuperior'] = $request->file('arcoSuperior')->getClientOriginalName();
             }
             if($request->hasfile('arcoInferior'))
             {
-                $path = public_path().'/fotos-trabajos/' . $trabajo->id;
+                $path = public_path().'/fotos-trabajos/' .  $request->session()->get('trabajo-id');
                 File::makeDirectory($path, $mode = 0755, true, true);          
                 $request->file('arcoInferior')->move($path,$request->file('arcoInferior')->getClientOriginalName());
                 $fotos['arcoInferior'] = $request->file('arcoInferior')->getClientOriginalName();
             }
             if($request->hasfile('sonrisa'))
             {
-                $path = public_path().'/fotos-trabajos/' . $trabajo->id;
+                $path = public_path().'/fotos-trabajos/' .  $request->session()->get('trabajo-id');
                 File::makeDirectory($path, $mode = 0755, true, true);          
                 $request->file('sonrisa')->move($path,$request->file('sonrisa')->getClientOriginalName());
                 $fotos['sonrisa'] = $request->file('sonrisa')->getClientOriginalName();
             }
             if($request->hasfile('reposo'))
             {
-                $path = public_path().'/fotos-trabajos/' . $trabajo->id;
+                $path = public_path().'/fotos-trabajos/' .  $request->session()->get('trabajo-id');
                 File::makeDirectory($path, $mode = 0755, true, true);          
                 $request->file('reposo')->move($path,$request->file('reposo')->getClientOriginalName());
                 $fotos['reposo'] = $request->file('reposo')->getClientOriginalName();
             }
             if($request->hasfile('perfilReposo'))
             {
-                $path = public_path().'/fotos-trabajos/' . $trabajo->id;
+                $path = public_path().'/fotos-trabajos/' . $request->session()->get('trabajo-id');
                 File::makeDirectory($path, $mode = 0755, true, true);          
                 $request->file('perfilReposo')->move($path,$request->file('perfilReposo')->getClientOriginalName());
                 $fotos['perfilReposo'] = $request->file('perfilReposo')->getClientOriginalName();
@@ -102,18 +106,12 @@ class TrabajosController extends Controller
             
             foreach($fotos as $indice =>$valor){
                 $foto = new Foto();
-                $foto->trabajo_id = $trabajoId;
+                $foto->trabajo_id =  $request->session()->get('trabajo-id');
                 $foto->nombre = $indice;
                 $foto->nombre_archivo = $valor;
                 $foto->save();
             }
-          
-           
-
-
-
-
-
+                     
             return redirect()->route('trabajos.index');
     }
 
@@ -221,7 +219,7 @@ class TrabajosController extends Controller
         $trabajo->estado_cod = '1';
         $trabajo->user_id = 1;
            
-        if(empty($request->session()->get('trabajo-id'))){
+        if(!empty($request->session()->get('trabajo-id'))){
             $trabajo->update();
         }else{
             $trabajo->save(); 
@@ -258,7 +256,7 @@ class TrabajosController extends Controller
                 $request->file('advertencias')->move($path,$request->file('advertencias')->getClientOriginalName());
                 $documentos['advertencias'] = $request->file('advertencias')->getClientOriginalName();
             }
-
+           
             foreach($documentos as $indice =>$valor){
                 $documento = new Documento();
                 $documento->trabajo_id = $request->session()->get('trabajo-id');

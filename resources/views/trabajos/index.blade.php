@@ -57,7 +57,7 @@
                                 {{$trabajo->objetivos}}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                               Solicitado
+                            {{ $estado[$trabajo->estado_cod - 1]["nombre"] }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 {{$trabajo->fecha_solicitud}}

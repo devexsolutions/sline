@@ -33,7 +33,7 @@
                 </div>
             </div>
             <div class="max-w-sm p-8 border-t-4 border-indigo-600 bg-white rounded shadow-lg">
-                <h3 class="text-2xl text-center">18</h3>
+                <h3 class="text-2xl text-center">TARIFA 18</h3>
                 <p class="text-center"><input required type="radio" class="form-radio" name="tarifa" value="18" /></p>
                 <div>
                     <ul class="space-y-4 list-disc">
@@ -44,7 +44,7 @@
                 </div>
             </div>
             <div class="max-w-sm p-8 border-t-4 border-indigo-600 bg-white rounded shadow-lg">
-                <h3 class="text-2xl text-center">30</h3>
+                <h3 class="text-2xl text-center">TARIFA 30</h3>
                 <p class="text-center"><input required type="radio" class="form-radio" name="tarifa" value="30" /></p>
                 <div>
                     <ul class="space-y-4 list-disc">
@@ -55,7 +55,7 @@
                 </div>
             </div>
             <div class="max-w-sm p-8 border-t-4 border-indigo-600 bg-white rounded shadow-lg">
-                <h3 class="text-2xl text-center">48</h3>
+                <h3 class="text-2xl text-center">TARIFA 48</h3>
                 <p class="text-center"><input required type="radio" class="form-radio" name="tarifa" value="48" /></p>
                 <div>
                     <ul class="space-y-4 list-disc">

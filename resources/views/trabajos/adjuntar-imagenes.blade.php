@@ -15,7 +15,7 @@
             Nuevo Trabajo  &#10148;  Seleccionar Tarifa &#10148; Datos Paciente &#10148; Documentos Legales
         </h2>
     </x-slot>
-    <form action="{{ route('trabajos.documentos-legales.post') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('trabajos.adjuntar-imagenes.post') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
                 <div class="px-4 py-3 my-7 bg-gray-50 text-right sm:px-6">

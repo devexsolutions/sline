@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Routing\UrlGenerator;
+
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -21,10 +23,17 @@ class AuthServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(UrlGenerator $url)
     {
-        $this->registerPolicies();
+        if (env('REDIRECT_HTTPS')) {
+            $url->formatScheme('https://');
+        }
+    }
 
-        //
+    public function register()
+    {
+        if (env('REDIRECT_HTTPS')) {
+            $this->app['request']->server->set('HTTPS', true);
+        }
     }
 }

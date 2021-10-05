@@ -36,4 +36,4 @@ Route::get('trabajos/documentos-legales', '\App\Http\Controllers\TrabajosControl
 Route::post('trabajos/documentos-legales', '\App\Http\Controllers\TrabajosController@postDocumentosLegales')->name('trabajos.documentos-legales.post');
   
 Route::get('trabajos/adjuntar-imagenes', '\App\Http\Controllers\TrabajosController@adjuntarImagenes')->name('trabajos.adjuntar-imagenes');
-Route::post('trabajos/adjuntar-imagenes', '\App\Http\Controllers\TrabajosController@postAdjuntarImagenes')->name('trabajos.adjuntar-imagenes-post');
+Route::post('trabajos/adjuntar-imagenes', '\App\Http\Controllers\TrabajosController@postAdjuntarImagenes')->name('trabajos.adjuntar-imagenes.post');
