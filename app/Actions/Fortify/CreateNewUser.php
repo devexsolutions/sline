@@ -20,36 +20,40 @@ class CreateNewUser implements CreatesNewUsers
      */
     public function create(array $input)
     {
-        Validator::make($input, [
-            'name' => ['required', 'string', 'max:255'],
-            'nombre_fiscal' => ['required', 'string', 'max:255'],
-            'direccion_fiscal' => ['required', 'string', 'max:255'],
+        Validator::make($input, [            
+            'nombrefiscal' => ['required', 'string', 'max:255'],
+            'direccionfiscal' => ['required', 'string', 'max:255'],
             'nombre' => ['required', 'string', 'max:255'],
             'apellidos' => ['required', 'string', 'max:255'],
-            'numero_colegiado' => ['required', 'string', 'max:255'],
-            'colegio_dentistas' => ['required', 'string', 'max:255'],
-            'direccion_envio' => ['required', 'string', 'max:255'],
-            'persona_contacto' => ['required', 'string', 'max:255'],
-            'telefono' => ['required', 'string', 'max:255'],
-            'name' => ['required', 'string', 'max:255'],
+            'numerocolegiado' => ['required', 'string', 'max:255'],
+            'colegiodentistas' => ['required', 'string', 'max:255'],
+            'direccionenvio' => ['required', 'string', 'max:255'],
+            'personacontacto' => ['required', 'string', 'max:255'],
+            'telefono' => ['required', 'string', 'max:255'],           
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => $this->passwordRules(),
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['required', 'accepted'] : '',
         ])->validate();
 
-        return User::create([
+        $user =  User::create([
             'cif' => $input['cif'],
             'nombre_fiscal' => $input['nombrefiscal'],
             'direccion_fiscal' => $input['direccionfiscal'],
             'nombre' => $input['nombre'],
             'apellidos' => $input['apellidos'],
-            'numero_colegiado' => $input['numero_colegiado'],
-            'colegio_dentistas' => $input['colegio_dentistas'],
-            'direccion_envio' => $input['direccion_envio'],
-            'persona_contacto' => $input['persona_contacto'],
+            'numero_colegiado' => $input['numerocolegiado'],
+            'colegio_dentistas' => $input['colegiodentistas'],
+            'direccion_envio' => $input['direccionenvio'],
+            'persona_contacto' => $input['personacontacto'],
             'telefono' => $input['telefono'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
         ]);
+
+        $user->assignRole('cliente');
+
+        return $user;
+
+        
     }
 }

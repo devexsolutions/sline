@@ -24,6 +24,7 @@ class CreateTrabajosTable extends Migration
 			$table->longText('objetivos');
 			$table->timestamp('fecha_solicitud')->nullable();
 			$table->integer('estado_cod');
+            $table->integer('tarifa_cod');
             $table->timestamps();
             $table->softDeletes();
 

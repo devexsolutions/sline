@@ -7,6 +7,7 @@ use App\Models\Trabajo;
 use App\Models\Foto;
 use App\Models\Documento;
 use App\Models\Estado;
+use App\Models\Tarifa;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
 
@@ -176,15 +177,15 @@ class TrabajosController extends Controller
 
     public function seleccionaTarifa(Request $request)
     {
-       
-        return view('trabajos.selecciona-tarifa');
+        $tarifas = Tarifa::all();
+        return view('trabajos.selecciona-tarifa', compact('tarifas'));
     }
 
     public function postSeleccionaTarifa(Request $request){
         $validatedData = $request->validate([
-            'tarifa' => 'required',            
+            'tarifa_cod' => 'required',            
         ]);
-        if(empty($request->session()->get('tarifa'))){
+        if(empty($request->session()->get('tarifa_cod'))){
             $trabajo = new Trabajo();
             $trabajo->fill($validatedData);
             $request->session()->put('trabajo', $trabajo);

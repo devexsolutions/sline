@@ -21,7 +21,7 @@
     <body class="font-sans antialiased">
         <x-jet-banner />
 
-        <div class="min-h-screen bg-blue-900">
+        <div class="font-sans text-gray-900 antialiased">
             @livewire('navigation-menu')
 
             <!-- Page Heading -->

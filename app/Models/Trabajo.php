@@ -10,7 +10,7 @@ class Trabajo extends Model
 {
     use HasFactory;
     protected $fillable = [
-       'tarifa', 'nombre_paciente', 'apellidos_paciente', 'edad',  'nombre_clinica', 'nombre_doctor', 'objetivos', 'fecha_solicitud', 'estado_cod', 'user_id'
+       'tarifa_cod', 'nombre_paciente', 'apellidos_paciente', 'edad',  'nombre_clinica', 'nombre_doctor', 'objetivos', 'fecha_solicitud', 'estado_cod', 'user_id'
     ];
 
     /**
