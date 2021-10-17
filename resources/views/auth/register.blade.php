@@ -1,105 +1,118 @@
-<x-guest-layout>
-    <x-jet-authentication-card>
-        <x-slot name="logo">
-            <x-jet-authentication-card-logo />
-        </x-slot>
-
-        <x-jet-validation-errors class="mb-4" />
-
-        <form method="POST" action="{{ route('register') }}">
-            @csrf
-
-            <div class="mt-4">
-                <x-jet-label for="cif" value="{{ __('CIF/NIF') }} *" />
-                <x-jet-input id="cif" class="block mt-1 w-full" type="text" name="cif" :value="old('cif')" required autofocus autocomplete="cif" />
-            </div>
-
-            <div class="mt-4">
-                <x-jet-label for="nombrefiscal" value="{{ __('Nombre Fiscal') }} *" />
-                <x-jet-input id="nombrefiscal" class="block mt-1 w-full" type="text" name="nombrefiscal" :value="old('nombrefiscal')" required autofocus autocomplete="nombrefiscal" />
-            </div>
-
-            <div class="mt-4">
-                <x-jet-label for="direccionfiscal" value="{{ __('Dirección Fiscal') }} *" />
-                <x-jet-input id="direccionfiscal" class="block mt-1 w-full" type="text" name="direccionfiscal" :value="old('direccionfiscal')" required autofocus autocomplete="direccionfiscal" />
-            </div>
-
-            <div class="mt-4">
-                <x-jet-label for="nombre" value="{{ __('Nombre') }} *" />
-                <x-jet-input id="nombre" class="block mt-1 w-full" type="text" name="nombre" :value="old('nombre')" required autofocus autocomplete="nombre" />
-            </div>
-
-            <div class="mt-4">
-                <x-jet-label for="apellidos" value="{{ __('Apellidos') }} *" />
-                <x-jet-input id="apellidos" class="block mt-1 w-full" type="text" name="apellidos" :value="old('apellidos')" required autofocus autocomplete="apellidos" />
-            </div>
-
-            <div class="mt-4">
-                <x-jet-label for="numerocolegiado" value="{{ __('Número de Colegiado') }} *" />
-                <x-jet-input id="numerocolegiado" class="block mt-1 w-full" type="text" name="numerocolegiado" :value="old('numerocolegiado')" required autofocus autocomplete="numerocolegiado" />
-            </div>
-
-            <div class="mt-4">
-                <x-jet-label for="colegiodentistas" value="{{ __('Colegio de Dentistas') }} *" />
-                <x-jet-input id="colegiodentistas" class="block mt-1 w-full" type="text" name="colegiodentistas" :value="old('colegiodentistas')" required autofocus autocomplete="colegiodentistas" />
-            </div>
-
-            <div class="mt-4">
-                <x-jet-label for="direccionenvio" value="{{ __('Dirección de Envio') }} *" />
-                <x-jet-input id="direccionenvio" class="block mt-1 w-full" type="text" name="direccionenvio" :value="old('direccionenvio')" required autofocus autocomplete="direccionenvio" />
-            </div>
-
-            <div class="mt-4">
-                <x-jet-label for="personacontacto" value="{{ __('Persona de Contacto de la Clínica') }}" />
-                <x-jet-input id="personacontacto" class="block mt-1 w-full" type="text" name="personacontacto" :value="old('personacontacto')"  autofocus autocomplete="personacontacto" />
-            </div>
-
-            <div class="mt-4">
-                <x-jet-label for="telefono" value="{{ __('Teléfono') }} *" />
-                <x-jet-input id="telefono" class="block mt-1 w-full" type="text" name="telefono" :value="old('telefono')" required autofocus autocomplete="telefono" />
-            </div>            
-
-            <div class="mt-4">
-                <x-jet-label for="email" value="{{ __('Email') }} *" />
-                <x-jet-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required />
-            </div>
-
-            <div class="mt-4">
-                <x-jet-label for="password" value="{{ __('Password') }} *" />
-                <x-jet-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
-            </div>
-
-            <div class="mt-4">
-                <x-jet-label for="password_confirmation" value="{{ __('Confirm Password') }} *" />
-                <x-jet-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
-            </div>
-
-            @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
-                <div class="mt-4">
-                    <x-jet-label for="terms">
-                        <div class="flex items-center">
-                            <x-jet-checkbox name="terms" id="terms"/>
-
-                            <div class="ml-2">
-                                {!! __('I agree to the :terms_of_service and :privacy_policy', [
-                                        'terms_of_service' => '<a target="_blank" href="'.route('terms.show').'" class="underline text-sm text-gray-600 hover:text-gray-900">'.__('Terms of Service').'</a>',
-                                        'privacy_policy' => '<a target="_blank" href="'.route('policy.show').'" class="underline text-sm text-gray-600 hover:text-gray-900">'.__('Privacy Policy').'</a>',
-                                ]) !!}
-                            </div>
-                        </div>
-                    </x-jet-label>
+<x-guest-layout title="Register">
+    <div class="flex items-center min-h-screen p-6 bg-gray-50 dark:bg-gray-900">
+        <div class="flex-1 h-full max-w-4xl mx-auto overflow-hidden bg-white rounded-lg shadow-xl dark:bg-gray-800">
+            <div class="flex flex-col overflow-y-auto md:flex-row">
+                <div class="h-32 md:h-auto md:w-1/2">
+                    <img aria-hidden="true" class="object-cover w-full h-full dark:hidden" src="{{asset('img/create-account-office.jpeg')}}" alt="Office" />
+                    <img aria-hidden="true" class="hidden object-cover w-full h-full dark:block" src="{{asset('img/create-account-office-dark.jpeg')}}" alt="Office" />
                 </div>
-            @endif
+                <div class="flex items-center justify-center p-6 sm:p-12 md:w-1/2">
+                    <div class="w-full">
+                    <img aria-hidden="true" class="object-cover w-full h-full dark:hidden" src="{{ asset('img/logo-sline.gif') }}" alt="Office" />
 
-            <div class="flex items-center justify-end mt-4">
-                <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('login') }}">
-                    {{ __('¿Ya tiene usuario registrado?') }}
-                </a>
+                        <h1 class="mb-4 text-xl font-semibold text-gray-700 dark:text-gray-200">
+                            Crear Cuenta de Usuario
+                        </h1>
+                        @if ($errors->any())
+                        <div class="mb-4">
+                            <div class="font-medium text-red-600">Whoops! Something went wrong.</div>
 
-                <x-jet-button class="ml-4">
-                    {{ __('Registrar') }}
-                </x-jet-button>
+                            <ul class="mt-3 text-sm text-red-600 list-disc list-inside">
+                                @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        @endif
+
+                        @if (session('status'))
+                        <div class="mb-4 text-sm font-medium text-green-600">
+                            {{ session('status') }}
+                        </div>
+                        @endif
+
+                        <form method="POST" action="{{ route('register') }}">
+                            @csrf
+                            
+                            <label class="block text-sm">
+                                <span class="text-gray-700 dark:text-gray-400">Nombre Fiscal</span>
+                                <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="" type="text" name="nombrefiscal" :value="old('nombrefiscal')" required autofocus autocomplete="name" />
+                            </label>
+                            <label class="block mt-4 text-sm">
+                                <span class="text-gray-700 dark:text-gray-400">CIF / NIF</span>
+                                <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="" type="text" name="cif" :value="old('cif')" required />
+                            </label>
+
+                            <label class="block mt-4 text-sm">
+                                <span class="text-gray-700 dark:text-gray-400">Dirección Fiscal</span>
+                                <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="" type="text" name="direccionfiscal" :value="old('direccionfiscal')" required />
+                            </label>
+
+                            <label class="block mt-4 text-sm">
+                                <span class="text-gray-700 dark:text-gray-400">Nombre</span>
+                                <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="" type="text" name="nombre" :value="old('nombre')" required />
+                            </label>
+
+                            <label class="block mt-4 text-sm">
+                                <span class="text-gray-700 dark:text-gray-400">Apellidos</span>
+                                <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="" type="text" name="apellidos" :value="old('apellidos')" required />
+                            </label>
+
+                            <label class="block mt-4 text-sm">
+                                <span class="text-gray-700 dark:text-gray-400">Número de Colegiado</span>
+                                <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="" type="text" name="numerocolegiado" :value="old('numerocolegiado')" required />
+                            </label>
+
+                            <label class="block mt-4 text-sm">
+                                <span class="text-gray-700 dark:text-gray-400">Colegio de Dentistas</span>
+                                <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="" type="text" name="colegiodentistas" :value="old('colegiodentistas')" required />
+                            </label>
+
+                            <label class="block mt-4 text-sm">
+                                <span class="text-gray-700 dark:text-gray-400">Dirección de Envío</span>
+                                <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="" type="text" name="direccionenvio" :value="old('direccionenvio')" required />
+                            </label>
+
+                            <label class="block mt-4 text-sm">
+                                <span class="text-gray-700 dark:text-gray-400">Persona de Contacto</span>
+                                <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="" type="text" name="personacontacto" :value="old('personacontacto')" required />
+                            </label>
+
+                            <label class="block mt-4 text-sm">
+                                <span class="text-gray-700 dark:text-gray-400">Teléfono</span>
+                                <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="" type="text" name="telefono" :value="old('telefono')" required />
+                            </label>
+
+
+                            <label class="block mt-4 text-sm">
+                                <span class="text-gray-700 dark:text-gray-400">Email</span>
+                                <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Jane Doe" type="email" name="email" :value="old('email')" required />
+                            </label>
+                            <label class="block mt-4 text-sm">
+                                <span class="text-gray-700 dark:text-gray-400">Password</span>
+                                <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="***************" type="password" name="password" required autocomplete="new-password" />
+                            </label>
+                            <label class="block mt-4 text-sm">
+                                <span class="text-gray-700 dark:text-gray-400">
+                                    Confirm password
+                                </span>
+                                <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="***************" type="password" name="password_confirmation" required autocomplete="new-password" />
+                            </label>
+
+                            <!-- You should use a button here, as the anchor is only used for the example  -->
+                            <button class="block w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" type="submit">
+                                {{ __('Registrar') }}
+                            </button>
+                        </form>
+
+                        <p class="mt-4">
+                            <a class="text-sm font-medium text-purple-600 dark:text-purple-400 hover:underline" href="{{ route('login') }}">
+                                Ya estoy registrado Ir a Login
+                            </a>
+                        </p>
+                    </div>
+                </div>
             </div>
-        </form>
-    </x-jet-authentication-card>
+        </div>
+    </div>
 </x-guest-layout>

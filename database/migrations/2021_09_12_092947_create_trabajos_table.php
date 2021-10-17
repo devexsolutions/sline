@@ -25,6 +25,8 @@ class CreateTrabajosTable extends Migration
 			$table->timestamp('fecha_solicitud')->nullable();
 			$table->integer('estado_cod');
             $table->integer('tarifa_cod');
+            $table->string('numero_expediente',100);
+            $table->string('numero_colegiado',100);
             $table->timestamps();
             $table->softDeletes();
 
