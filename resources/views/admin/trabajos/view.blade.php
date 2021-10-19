@@ -24,9 +24,7 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="md:col-span-12">
-                <div class="h-20 bg-red-400 flex items-center justify-between sm:rounded-t-lg  sm:overflow-hidden">
-                  <p class="mr-0 text-white text-lg pl-5">ORDEN DE TRABAJO</p>
-                </div>    
+                   
                     <div class="mt-12 md:mt-0 md:col-span-2"> 
                         
                         <div class="shadow ">
@@ -37,8 +35,8 @@
                                                   <label for="nombre_paciente" class="block text-sm font-medium text-gray-700">
                                                       Nombre
                                                   </label>
-                                                  <div class="mt-1 flex rounded-md shadow-sm">                  
-                                                      <input type="text" name="nombre_paciente" id="nombre_paciente" value="{{ old('nombre_paciente', $trabajo->nombre_paciente) }}"  class="p-2 focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border border-gray-300" >
+                                                  <div class="mt-1 flex rounded-md shadow-sm"> 
+                                                      <label>{{ $trabajo->nombre_paciente }}</label>                 
                                                   </div>   
                                           </div>
                                           <div class="lg:w-1/2 w-1/2">
@@ -46,8 +44,8 @@
                                               Apellidos
                                               </label>
                                               <div class="mt-1 flex rounded-md shadow-sm">                  
-                                                <input type="text" name="apellidos_paciente" id="apellidos_paciente" value="{{ old('apellidos_paciente', $trabajo->apellidos_paciente) }}" class="p-2 focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border border-gray-300" >
-                                              </div>
+                                                <label>{{ $trabajo->apellidos_paciente }}</label>
+                                            </div>
                                           </div> 
                                     </div>
                             </div>
@@ -57,8 +55,8 @@
                                                   <label for="edad" class="block text-sm font-medium text-gray-700">
                                                       Edad
                                                   </label>
-                                                  <div class="mt-1 flex rounded-md shadow-sm">                  
-                                                      <input type="text" name="edad" id="edad" value="{{ old('edad', $trabajo->edad) }}" class="p-2 focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border border-gray-300" >
+                                                  <div class="mt-1 flex rounded-md shadow-sm">
+                                                  <label>{{ $trabajo->edad }}</label>                  
                                                   </div>   
                                           </div>
                                           <div class="lg:w-1/2 w-1/2">
@@ -66,8 +64,8 @@
                                                 Cl&iacute;nica
                                                 </label>
                                                 <div class="mt-1 flex rounded-md shadow-sm">                  
-                                                <input type="text" name="nombre_clinica" id="nombre_clinica" value="{{ old('nombre_clinica', $trabajo->nombre_clinica) }}" class="p-2 focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border border-gray-300" >
-                                                </div>
+                                                <label>{{ $trabajo->nombre_clinica }}</label>
+                                            </div>
                                           </div> 
                                     </div>
                             </div>
@@ -78,17 +76,19 @@
                                             Doctor
                                             </label>
                                             <div class="mt-1 flex rounded-md shadow-sm">                  
-                                            <input type="text" name="nombre_doctor" id="nombre_doctor" value="{{ old('nombre_doctor', $trabajo->nombre_doctor) }}" class="p-2 focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border border-gray-300" >
+                                                <label>{{ $trabajo->nombre_doctor }}</label>
                                             </div>   
                                           </div>
                                           <div class="lg:w-1/2 w-1/2">
                                           <label for="tipo" class="block text-sm font-medium text-gray-700">
                                             Tipo
                                             </label>
-                                            <div class="mt-1 flex rounded-md shadow-sm border p-2">                  
-                                            <select x-cloak id="tipo_cod" name="tipo_cod">
-                                                <option value="1">Generalista</option>                    
-                                            </select>
+                                            <div class="mt-1 flex rounded-md shadow-sm">    
+                                                @if ( $trabajo->apellidos_paciente  == 1)
+                                                    <label>Generalista</label>
+                                                @else
+                                                <label>Ortodoncista</label>
+                                                @endif  
                                             </div>
                                           </div> 
                                     </div>
@@ -99,7 +99,9 @@
                                 Objetivos
                             </label>
                             <div class="mt-1">
-                                <textarea id="objetivos" name="objetivos" rows="3" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md" >{{ old('objetivos', $trabajo->objetivos) }}</textarea>
+                                <pre>
+                                {{  $trabajo->objetivos }}
+                                </pre>
                             </div>
                               <p class="mt-2 text-sm text-gray-500">
                                   
@@ -118,8 +120,10 @@
                     @if (sizeof($trabajo->fotos) > 0)
                         @foreach($trabajo->fotos as $foto)
                         <div class="lg:w-1/4 p-4 w-1/2"> 
-                            @if (in_array($foto->nombre, $nombrefotos))                              
-                                <img class="w-full rounded-lg" src="/fotos-trabajos/{{$trabajo->id}}/{{$foto->nombre_archivo}}" />
+                            @if (in_array($foto->nombre, $nombrefotos)) 
+                                <a @click="$dispatch('img-modal', {  imgModalSrc: '/fotos-trabajos/{{$trabajo->id}}/{{$foto->nombre_archivo}}', imgModalDesc: '' })" class="cursor-pointer">
+                                    <img alt="Placeholder" class="object-fit w-full" src="/fotos-trabajos/{{$trabajo->id}}/{{$foto->nombre_archivo}}">
+                                </a>    
                             @else 
                                 <img class="w-full rounded-lg" src="/fotos-trabajos/no-image.png" />
                             @endif
@@ -140,40 +144,7 @@
                     @endif 
           </div>
     </div>  
-</div>  
-      <div class="px-4 py-3 my-7  bg-gray-50 text-right sm:px-6">
-          <div class="container px-5 py-14 mx-auto">
-                <div class="flex flex-wrap -m-4">
-                @foreach($nombrefotos as $nombrefoto)
-                            <div class="lg:w-1/4 p-4 w-1/2">
-                                <img class="w-full rounded-lg" src="/fotos-trabajos/no-image.png" />
-                                <div class="mt-4">  
-                                    <h2 class="text-gray-900 title-font text-lg text-center font-medium">{{$nombrefoto}}</h2>
-                                </div>
-                            </div>
-                        @endforeach
-                </div>                
-          </div>
-      </div>
-      <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
-          <div class="container px-5  mx-auto">
-                <div class="flex flex-wrap -m-4">
-                @foreach($nombrefotos as $nombrefoto)
-                            <div class="lg:w-1/4 p-4 w-1/2">
-                                <img class="w-full rounded-lg" src="/fotos-trabajos/no-image.png" />
-                                <div class="mt-4">  
-                                    <h2 class="text-gray-900 title-font text-lg text-center font-medium">{{$nombrefoto}}</h2>
-                                </div>
-                            </div>
-                        @endforeach
-                </div>     
-          </div>
-      </div>
-      <div class="py-12">
-        
-           
-      </div>       
-</div>   
+   
 <div class="px-4 py-3 my-7 bg-gray-50 text-right sm:px-6">
   <div class="container px-5 py-14 mx-auto">           
         <div class="flex flex-wrap -m-4">                 
@@ -185,5 +156,25 @@
          </div>
 </div> 
 
+<div x-data="{ imgModal : false, imgModalSrc : '', imgModalDesc : '' }">
+        <template @img-modal.window="imgModal = true; imgModalSrc = $event.detail.imgModalSrc; imgModalDesc = $event.detail.imgModalDesc;" x-if="imgModal">
+          <div x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform scale-90" x-transition:enter-end="opacity-100 transform scale-100" x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100 transform scale-100" x-transition:leave-end="opacity-0 transform scale-90" x-on:click.away="imgModalSrc = ''" class="p-2 fixed w-full h-100 inset-0 z-50 overflow-hidden flex justify-center items-center bg-black bg-opacity-75">
+            <div @click.away="imgModal = ''" class="flex flex-col max-w-3xl max-h-full overflow-auto">
+              <div class="z-50">
+                <button @click="imgModal = ''" class="float-right pt-2 pr-2 outline-none focus:outline-none">
+                  <svg class="fill-current text-white " xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+                    <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+                    </path>
+                  </svg>
+                </button>
+              </div>
+              <div class="p-2">
+                <img :alt="imgModalSrc" class="object-contain h-1/2-screen" :src="imgModalSrc">
+                <p x-text="imgModalDesc" class="text-center text-white"></p>
+              </div>
+            </div>
+          </div>
+        </template>
+ </div>
     
 </x-app-layout>

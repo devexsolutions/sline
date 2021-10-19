@@ -110,6 +110,46 @@ class TrabajosController extends Controller
                 $request->file('perfilReposo')->move($path,$request->file('perfilReposo')->getClientOriginalName());
                 $fotos['perfilReposo'] = $request->file('perfilReposo')->getClientOriginalName();
             }
+
+            if($request->hasfile('rxPanoramica'))
+            {
+                $path = public_path().'/fotos-trabajos/' . $request->session()->get('trabajo-id');
+                File::makeDirectory($path, $mode = 0755, true, true);          
+                $request->file('rxPanoramica')->move($path,$request->file('rxPanoramica')->getClientOriginalName());
+                $fotos['rxPanoramica'] = $request->file('rxPanoramica')->getClientOriginalName();
+            }
+
+            if($request->hasfile('otro'))
+            {
+                $path = public_path().'/fotos-trabajos/' . $request->session()->get('trabajo-id');
+                File::makeDirectory($path, $mode = 0755, true, true);          
+                $request->file('otro')->move($path,$request->file('otro')->getClientOriginalName());
+                $fotos['otro'] = $request->file('otro')->getClientOriginalName();
+            }
+
+            if($request->hasfile('superiorStl'))
+            {
+                $path = public_path().'/fotos-trabajos/' . $request->session()->get('trabajo-id');
+                File::makeDirectory($path, $mode = 0755, true, true);          
+                $request->file('superiorStl')->move($path,$request->file('superiorStl')->getClientOriginalName());
+                $fotos['superiorStl'] = $request->file('superiorStl')->getClientOriginalName();
+            }
+
+            if($request->hasfile('inferiorStl'))
+            {
+                $path = public_path().'/fotos-trabajos/' . $request->session()->get('trabajo-id');
+                File::makeDirectory($path, $mode = 0755, true, true);          
+                $request->file('inferiorStl')->move($path,$request->file('inferiorStl')->getClientOriginalName());
+                $fotos['inferiorStl'] = $request->file('inferiorStl')->getClientOriginalName();
+            }
+
+            if($request->hasfile('oclusionStl'))
+            {
+                $path = public_path().'/fotos-trabajos/' . $request->session()->get('trabajo-id');
+                File::makeDirectory($path, $mode = 0755, true, true);          
+                $request->file('oclusionStl')->move($path,$request->file('oclusionStl')->getClientOriginalName());
+                $fotos['oclusionStl'] = $request->file('oclusionStl')->getClientOriginalName();
+            }
             
             foreach($fotos as $indice =>$valor){
                 $foto = new Foto();
@@ -119,7 +159,7 @@ class TrabajosController extends Controller
                 $foto->save();
             }
                      
-            return redirect()->route('trabajos.index');
+            return redirect()->route('trabajos');
     }
 
     /**
@@ -228,13 +268,13 @@ class TrabajosController extends Controller
         $trabajo->estado_cod = '1';
         $trabajo->user_id = Auth::user()->id;
            
-        if(!empty($request->session()->get('trabajo-id'))){
-            $trabajo->update();
-        }else{
+     //   if(!empty($request->session()->get('trabajo-id'))){
+     //       $trabajo->update();
+     //   }else{
             $trabajo->save(); 
             $trabajoId = $trabajo->id;
             $request->session()->put('trabajo-id', $trabajoId);
-        }
+     //   }
            return redirect()->route('trabajos.documentos-legales');
     }
 

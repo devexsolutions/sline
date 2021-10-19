@@ -68,6 +68,7 @@ Route::group(['middleware' => ['role:admin']], function () {
 });
 */
 Route::get('admin/trabajos', ['\App\Http\Controllers\AdminController', 'index'])->name('admin.trabajos')->middleware('is_admin');
+Route::get('admin/trabajos/{id}', ['\App\Http\Controllers\AdminController', 'view'])->name('admin.trabajos.view')->middleware('is_admin');
 
 
 

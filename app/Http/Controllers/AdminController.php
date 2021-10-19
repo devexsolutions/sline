@@ -87,6 +87,32 @@ class AdminController extends Controller
         return view('admin.trabajos.view', compact('trabajo','fotos','nombrefotos'));
     }
 
+
+    public function view(int $id)
+    {
+        
+        $trabajo = Trabajo::find($id);
+        $estados = Estado::All();
+        $estado =  $estados->toArray();
+        $nuevoEstado = $estados[$trabajo->estado_cod];
+
+        $fotos = $trabajo->fotos; //>toArray();
+        $nombrefotos = array('oclusion','lateralDerecho','lateralIzquierdo','arcoSuperior','arcoInferior','sonrisa','reposo','perfilReposo');
+        
+       
+       
+        $trabajo->estado_cod = '2';
+        $trabajo->update();  
+        
+        $usuario = User::find($trabajo->user_id);
+        
+         // call our event here
+         event(new CambioEstadoTrabajo($nuevoEstado, $usuario, $trabajo->id));
+
+
+        return view('admin.trabajos.view', compact('trabajo','fotos','nombrefotos'));
+    }
+
     /**
      * Update the specified resource in storage.
      *
