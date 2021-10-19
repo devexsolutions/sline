@@ -21,12 +21,19 @@ Route::get('/', function () {
 Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::view('dashboard', 'dashboard')->name('dashboard');
     Route::view('forms', 'forms')->name('forms');
-    Route::view('cards', 'cards')->name('cards');
+    //Route::view('tarifas', 'tarifas')->name('tarifas');
     Route::view('charts', 'charts')->name('charts');
     Route::view('buttons', 'buttons')->name('buttons');
     Route::view('modals', 'modals')->name('modals');
     Route::view('tables', 'tables')->name('tables');
     Route::view('calendar', 'calendar')->name('calendar');
+
+    Route::get('tarifas', '\App\Http\Controllers\PagesController@verTarifas')->name('tarifas');
+    Route::get('solicitar-recogida', '\App\Http\Controllers\PagesController@solicitarRecogida')->name('solicitar-recogida');
+
+
+
+
     Route::get('trabajos', '\App\Http\Controllers\TrabajosController@index')->name('trabajos');
     Route::get('trabajos/edit/{id}', '\App\Http\Controllers\TrabajosController@edit')->name('trabajos.edit');
 
@@ -58,6 +65,9 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::put('admin/trabajos/{id}', '\App\Http\Controllers\TrabajosController@adminUpdateTrabajo')->name('admin.trabajos.update');
    
 });
+
+Route::get('admin/trabajos', ['\App\Http\Controllers\AdminController', 'index'])->name('admin.home')->middleware('is_admin');
+
 
 
 //Route::get('send-mail', 'MailController@sendMail')->name('send.mail');

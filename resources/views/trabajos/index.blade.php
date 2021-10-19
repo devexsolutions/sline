@@ -15,26 +15,26 @@
               Mis trabajos
             </h2>
             </div>
-                <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                <div class="shadow overflow-hidden border-b border-gray-700 sm:rounded-lg">
                     <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
+                    <thead class="bg-gray-700">
                         <tr>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-yellow-300 uppercase tracking-wider">
                             Clinica 
                         </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-yellow-300 uppercase tracking-wider">
                             Nombre
                         </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-yellow-300 uppercase tracking-wider">
                             Apellidos
                         </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-yellow-300 uppercase tracking-wider">
                             Objetivos
                         </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-yellow-300 uppercase tracking-wider">
                             Estado
                         </th>                       
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-yellow-300 uppercase tracking-wider">
                             Fecha
                         </th>
                         <th scope="col" class="relative px-6 py-3">

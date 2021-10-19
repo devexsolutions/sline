@@ -16,20 +16,24 @@ use DB;
 
 use App\Events\CambioEstadoTrabajo;
 
-class AdminController extends Controller
+class PagesController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function verTarifas()
     {
-        $trabajos = Trabajo::all();      
-        $estados = Estado::all();
-        $estado =  $estados->toArray();
-      
-        return view('admin.trabajos.index', compact('trabajos', 'estado'));
+        $tarifas = Tarifa::all();          
+        return view('tarifas', compact('tarifas'));
+    }
+
+
+    public function solicitarRecogida()
+    {
+        $trabajos = DB::table('trabajos')->where('user_id', '=', Auth::user()->id )->get();       
+        return view('solicitar_recogida', compact('trabajos'));
     }
 
     /**

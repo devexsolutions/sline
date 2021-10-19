@@ -4,8 +4,10 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Auth;
 
-class AdminMiddleware
+
+class Admin
 {
     /**
      * Handle an incoming request.
@@ -16,6 +18,9 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        return $next($request);
+        if (Auth::user() && Auth::user()->is_admin) {
+            return $next($request);
+        }
+        return redirect()->route('login');
     }
 }

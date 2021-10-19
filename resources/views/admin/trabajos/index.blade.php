@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Listado de Trabajos') }}
+            {{ __('Admin Listado de Trabajos') }}
         </h2>
     </x-slot>
 
@@ -11,8 +11,9 @@
             <div class="flex flex-col">
             <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                <div class="block mb-8">
-                <a href="{{ route('trabajos.selecciona-tarifa') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Solicitar Trabajo</a>
+                <div class="block mb-8"><h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
+              Listado de trabajos
+            </h2>
             </div>
                 <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                     <table class="min-w-full divide-y divide-gray-200">
