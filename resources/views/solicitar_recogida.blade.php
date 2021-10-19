@@ -27,7 +27,7 @@
                 <label for="tipo_cod" class="block text-sm font-medium text-gray-700 ">
                       Seleccionar Trabajo:
                  </label>
-                <select x-cloak id="tipo_cod" required name="tipo_cod">                                             
+                <select x-cloak id="tipo_cod" class="p-2 border-2 border-color-gray-300" required name="tipo_cod">                                             
                     @foreach($trabajos as $trabajo)
                         <option value="{{$trabajo->id}}">{{$trabajo->numero_expediente}}&nbsp;-&nbsp;{{$trabajo->nombre_paciente}}&nbsp;{{$trabajo->apellidos_paciente}}</option>
                     @endforeach  

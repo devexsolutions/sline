@@ -6,8 +6,10 @@
             <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                 <div class="block mb-8"><h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
-                @if (\Auth::user()->is_admin == true) Trabajos
-                @else Mis trabajos
+                @if (\Auth::user()->is_admin == true) 
+                    Trabajos
+                @else 
+                    Mis trabajos
                 @endif
             </h2>
             </div>
