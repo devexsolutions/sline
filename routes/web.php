@@ -31,6 +31,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('tarifas', '\App\Http\Controllers\PagesController@verTarifas')->name('tarifas');
     Route::get('solicitar-recogida', '\App\Http\Controllers\PagesController@solicitarRecogida')->name('solicitar-recogida');
 
+    Route::get('dashboard', '\App\Http\Controllers\PagesController@verDashboard')->name('dashboard');
 
 
 
@@ -51,7 +52,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
 
     Route::get('trabajos/edit/{id}', '\App\Http\Controllers\TrabajosController@edit')->name('trabajos.edit');
 });
-
+/*
 Route::group(['middleware' => ['role:cliente']], function () {
     //rutas accesibles solo para clientes
     //Route::resource('trabajos', \App\Http\Controllers\TrabajosController::class);
@@ -65,8 +66,8 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::put('admin/trabajos/{id}', '\App\Http\Controllers\TrabajosController@adminUpdateTrabajo')->name('admin.trabajos.update');
    
 });
-
-Route::get('admin/trabajos', ['\App\Http\Controllers\AdminController', 'index'])->name('admin.home')->middleware('is_admin');
+*/
+Route::get('admin/trabajos', ['\App\Http\Controllers\AdminController', 'index'])->name('admin.trabajos')->middleware('is_admin');
 
 
 

@@ -36,6 +36,19 @@ class PagesController extends Controller
         return view('solicitar_recogida', compact('trabajos'));
     }
 
+
+    public function verDashboard()
+    {
+        if (Auth::user()->is_admin)
+            $trabajos = Trabajo::all();          
+        else
+            $trabajos = DB::table('trabajos')->where('user_id', '=', Auth::user()->id )->get(); 
+        
+        $estados = Estado::all();
+        $estado =  $estados->toArray();      
+        return view('dashboard', compact('trabajos','estado'));
+    }
+
     /**
      * Show the form for creating a new resource.
      *
