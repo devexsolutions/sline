@@ -10,10 +10,10 @@
                 </div>
                 <div class="flex items-center justify-center p-6 sm:p-12 md:w-1/2">
                     <div class="w-full">
-                        <h1 class="mb-4 text-xl font-semibold text-gray-700 dark:text-gray-200">Forgot password</h1>
+                        <h1 class="mb-4 text-xl font-semibold text-gray-700 dark:text-gray-200">Olvidé mi contraseña</h1>
                         @if ($errors->any())
                         <div class="mb-4">
-                            <div class="font-medium text-red-600">Whoops! Something went wrong.</div>
+                            <div class="font-medium text-red-600">Whoops! Algo fue mal.</div>
 
                             <ul class="mt-3 text-sm text-red-600 list-disc list-inside">
                                 @foreach ($errors->all() as $error)
@@ -45,6 +45,11 @@
                                 {{ __('Resetear contraseña') }}
                             </button>
                         </form>
+                        <p class="mt-4">
+                            <a class="text-sm font-medium text-gray-700 dark:text-purple-400 hover:underline" href="{{ route('login') }}">
+                                Volver a login
+                            </a>
+                        </p>
                     </div>
                 </div>
             </div>
