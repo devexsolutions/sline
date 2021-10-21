@@ -324,59 +324,24 @@ class TrabajosController extends Controller
 
 
 
-    /**
-     * Admin listar trabajos.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function adminShowTrabajos()
+    public function view(int $id)
     {
-        $trabajos = Trabajo::all();        
-        $estados = Estado::all();
-        $estado =  $estados->toArray();
-      
-        return view('admin.trabajos.index', compact('trabajos', 'estado'));
-    }
-    
-     /**
-     * Admin editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function adminEditTrabajo(Trabajo $trabajo, int $id)
-    {
-        $fotos = $trabajo->fotos; //>toArray();
-        $nombrefotos = array('oclusion','lateralDerecho','lateralIzquierdo','arcoSuperior','arcoInferior','sonrisa','reposo','perfilReposo');
         
-        
-
         $trabajo = Trabajo::find($id);
         $estados = Estado::All();
         $estado =  $estados->toArray();
         $nuevoEstado = $estados[$trabajo->estado_cod];
+        session(['trabajo_seleccionado' => $trabajo->id ]);
+        $fotos = $trabajo->fotos; //>toArray();
+        $nombrefotos = array('oclusion','lateralDerecho','lateralIzquierdo','arcoSuperior','arcoInferior','sonrisa','reposo','perfilReposo');
+        
        
        
         $trabajo->estado_cod = '2';
         $trabajo->update();  
         
         $usuario = User::find($trabajo->user_id);
-        
-         // call our event here
-         event(new CambioEstadoTrabajo($nuevoEstado, $usuario, $trabajo->id));
 
-
-        return view('admin.trabajos.view', compact('trabajo','fotos','nombrefotos'));
-    }
-
-     /**
-     * Admin Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request     
-     * @return \Illuminate\Http\Response
-     */
-    public function adminUpdateTrabajo(Request $request)
-    {
-        //
+        return view('trabajos.view', compact('trabajo','fotos','nombrefotos'));
     }
 }

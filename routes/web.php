@@ -50,7 +50,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('trabajos/adjuntar-imagenes', '\App\Http\Controllers\TrabajosController@adjuntarImagenes')->name('trabajos.adjuntar-imagenes');
     Route::post('trabajos/adjuntar-imagenes', '\App\Http\Controllers\TrabajosController@postAdjuntarImagenes')->name('trabajos.adjuntar-imagenes.post');
 
-    Route::get('trabajos/edit/{id}', '\App\Http\Controllers\TrabajosController@edit')->name('trabajos.edit');
+    Route::get('trabajos/view/{id}', '\App\Http\Controllers\TrabajosController@view')->name('trabajos.view');
 });
 /*
 Route::group(['middleware' => ['role:cliente']], function () {

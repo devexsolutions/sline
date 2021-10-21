@@ -23,7 +23,7 @@ class Comentarios extends Component
     public function render()
     {        
        // $comentarios = Comentario::latest()->get();  
-       $comentarios = Comentario::where('trabajo_id',  session('trabajo_seleccionado'))->get();     
+       $comentarios = Comentario::where('trabajo_id',  session('trabajo_seleccionado'))->orderBy('created_at', 'desc')->get();     
         return view('livewire.comentarios', compact('comentarios'));
     }
 
@@ -62,6 +62,7 @@ class Comentarios extends Component
         } catch (\Throwable $th) {
             throw $th;
         }
+        $this->mensaje ='';
         $this->render();
     }
 }
