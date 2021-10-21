@@ -11,6 +11,8 @@ use App\Models\Estado;
 use App\Models\Tarifa;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Session;
+
 use Auth;
 use DB;
 
@@ -67,14 +69,15 @@ class AdminController extends Controller
         $fotos = $trabajo->fotos; //>toArray();
         $nombrefotos = array('oclusion','lateralDerecho','lateralIzquierdo','arcoSuperior','arcoInferior','sonrisa','reposo','perfilReposo');
         
-        
+       
 
         $trabajo = Trabajo::find($id);
         $estados = Estado::All();
         $estado =  $estados->toArray();
         $nuevoEstado = $estados[$trabajo->estado_cod];
        
-       
+        session(['trabajo_seleccionado' => $trabajo->id ]);
+
         $trabajo->estado_cod = '2';
         $trabajo->update();  
         
@@ -95,7 +98,7 @@ class AdminController extends Controller
         $estados = Estado::All();
         $estado =  $estados->toArray();
         $nuevoEstado = $estados[$trabajo->estado_cod];
-
+        session(['trabajo_seleccionado' => $trabajo->id ]);
         $fotos = $trabajo->fotos; //>toArray();
         $nombrefotos = array('oclusion','lateralDerecho','lateralIzquierdo','arcoSuperior','arcoInferior','sonrisa','reposo','perfilReposo');
         

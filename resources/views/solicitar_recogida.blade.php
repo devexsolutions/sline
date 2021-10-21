@@ -19,7 +19,7 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
        
-        <div class="grid gap-6 mb-8 md:grid-cols-2">
+        <div class="grid gap-6 mb-8 md:grid-cols-2grid gap-6 mb-8 md:grid-cols-2">
                      
             <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
                 <p>DATOS DE RECOGIDA</p>

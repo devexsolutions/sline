@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Foto;
+use App\Models\Comentario;
 
 class Trabajo extends Model
 {
@@ -19,5 +20,13 @@ class Trabajo extends Model
     public function fotos()
     {
         return $this->hasMany(Foto::class);
+    }
+
+    /**
+     * Get the comentarios for the trabajo.
+     */
+    public function comentarios()
+    {
+        return $this->hasMany(Comentario::class);
     }
 }
