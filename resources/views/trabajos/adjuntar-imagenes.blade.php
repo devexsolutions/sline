@@ -217,7 +217,7 @@
                 </div>
                 <div class="lg:w-1/3 p-4 w-1/3">
                 <div class="border border-dashed border-gray-500 relative w-full	">
-                        <input type="file"  required name="oclusionStl" id="oclusionStl" class="cursor-pointer relative block opacity-0 w-full h-full p-20 z-50">
+                        <input type="file"  name="oclusionStl" id="oclusionStl" class="cursor-pointer relative block opacity-0 w-full h-full p-20 z-50">
                         <div class="text-center p-10 absolute top-0 right-0 left-0 m-auto">
                             <h4>
                                 Arrastre o haga clic para seleccionar el fichero

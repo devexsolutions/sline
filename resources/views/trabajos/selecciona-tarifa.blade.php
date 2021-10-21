@@ -40,15 +40,16 @@
                 <!-- modal header -->
                 <div class="border-b px-4 py-2 flex justify-between items-center">
                     <h3 class="font-semibold text-lg">
-                         {{$tarifa->tarifa}}
+                         
                     </h3>
-                    <button class="text-black close-modal{{$tarifa->id}}">&cross;</button>
+                    
                 </div>
                 <!-- modal body -->
                 <div class="p-3">
-                      {{$tarifa->descripcion}}
+                      {!! $tarifa->descripcion !!}
                 </div>
-                <div class="flex justify-end items-center w-100 border-t p-3">        
+                <div class="flex justify-end items-center w-100 border-t p-3">  
+                    <button class="text-black close-modal{{$tarifa->id}}">Cerrar</button>      
                 </div>
                 </div>
             </div>
