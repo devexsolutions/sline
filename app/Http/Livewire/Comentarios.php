@@ -22,7 +22,8 @@ class Comentarios extends Component
 
     public function render()
     {        
-        $comentarios = Comentario::latest()->get();       
+       // $comentarios = Comentario::latest()->get();  
+       $comentarios = Comentario::where('trabajo_id',  session('trabajo_seleccionado'))->get();     
         return view('livewire.comentarios', compact('comentarios'));
     }
 
