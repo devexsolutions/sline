@@ -76,14 +76,16 @@
                                                       <input type="text" required name="edad" id="edad" class="p-2 focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border border-gray-300" >
                                                   </div>   
                                           </div>
-                                          <div class="lg:w-1/2 w-1/2">
-                                              <label for="nombre_clinica" class="block text-sm font-medium text-gray-700 px-6">
-                                                Cl&iacute;nica
-                                                </label>
-                                                <div class="mt-1 flex rounded-md shadow-sm  px-6">                  
-                                                <input type="text" required name="nombre_clinica" id="nombre_clinica" class="p-2 focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border border-gray-300" >
-                                                </div>
-                                          </div> 
+                                          
+                                          <div class="lg:w-1/2  w-1/2">                              
+                                          <label for="numero_expediente" class="block text-sm font-medium text-gray-700 px-6">
+                                            Número de Expediente
+                                            </label>
+                                            <div class="mt-1 flex rounded-md shadow-sm px-6">                  
+                                            <input type="text" required name="numero_expediente" id="numero_expediente" class="p-2 focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border border-gray-300" >
+                                            </div>   
+                                          </div>
+
                                     </div>
                             </div>
                             <div class="container px-5 py-7 mx-auto">
@@ -112,22 +114,24 @@
 
                             <div class="container px-5 py-7 mx-auto">
                                 <div class="flex flex-wrap -m-4"> 
-                                          <div class="lg:w-1/2  w-1/2">                              
-                                          <label for="numero_expediente" class="block text-sm font-medium text-gray-700 px-6">
-                                            Número de Expediente
-                                            </label>
-                                            <div class="mt-1 flex rounded-md shadow-sm px-6">                  
-                                            <input type="text" required name="numero_expediente" id="numero_expediente" class="p-2 focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border border-gray-300" >
-                                            </div>   
-                                          </div>
-                                          <div class="lg:w-1/2 w-1/2">
+                                         <div class="lg:w-1/2 w-1/2">
                                             <label for="tipo" class="block text-sm font-medium text-gray-700 px-6">
                                                 Número de Colegiado (Doctor)
                                             </label>
                                             <div class="mt-1 flex rounded-md shadow-sm px-6">                  
                                                 <input type="text" required name="numero_colegiado" id="numero_colegiado" class="p-2 focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border border-gray-300" >
                                             </div>
-                                          </div> 
+                                          </div>
+                                            <div class="lg:w-1/2 w-1/2">
+                                              <label for="nombre_clinica" class="block text-sm font-medium text-gray-700 px-6">
+                                                Cl&iacute;nica
+                                                </label>
+                                                <div class="mt-1 flex rounded-md shadow-sm  px-6">                  
+                                                <input type="text" required name="nombre_clinica" id="nombre_clinica" class="p-2 focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border border-gray-300" >
+                                                </div>
+                                          </div>
+                                          
+                                          
                                     </div>
                             </div>
                                                       

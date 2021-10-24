@@ -30,7 +30,7 @@
                     <ul class="space-y-4 list-disc">
                     </ul>
                     <div class="flex items-center justify-center mt-4">
-                    <a href="#" class=" show-modal{{$tarifa->id}} w-full px-2 py-2 text-indigo-200 border-purple-600 rounded" id="modal{{$tarifa->id}}">+ Info</a>
+                      <a href="#" class=" show-modal{{$tarifa->id}} bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center" id="modal{{$tarifa->id}}">+ Info</a>
                     </div>
                 </div>
             </div>

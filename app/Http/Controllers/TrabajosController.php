@@ -13,8 +13,9 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
 use Auth;
 use DB;
-
+use Illuminate\Support\Facades\Event;
 use App\Events\CambioEstadoTrabajo;
+
 
 class TrabajosController extends Controller
 {
@@ -313,6 +314,8 @@ class TrabajosController extends Controller
                 $documento->nombre_archivo = $valor;
                 $documento->save();
             }
+            Event::dispatch(new CambioEstadoTrabajo('Solicitud de nuevo trabajo', Auth::user(), $request->session()->get('trabajo-id')));
+
             return redirect()->route('trabajos.adjuntar-imagenes');
     }
 

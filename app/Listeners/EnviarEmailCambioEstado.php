@@ -6,6 +6,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use App\Mail\CambioEstadoTrabajo as CambioEstadoTrabajoMail;
 use Illuminate\Support\Facades\Mail;
+use Log;
  
 
 use App\Events\CambioEstadoTrabajo;
@@ -36,7 +37,7 @@ class EnviarEmailCambioEstado
                       'body' => 'El trabajo número $event->idTrabajo ha cambiado su estado a $event->nuevoEstado.');
  
        // Mail::to('emails.mail')->send(new CambioEstadoTrabajoMail());              
-        Mail::send('emails.mail', $data, function($message) use ($data) {
+        Mail::send('emails.trabajos.cambioestado', $data, function($message) use ($data) {
             $message->to($data['email'])
                     ->subject('Cambio estado de trabajo');
             $message->from('info@slineinvisible.com');

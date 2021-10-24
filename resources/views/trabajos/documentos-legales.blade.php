@@ -24,35 +24,37 @@
     </x-slot>
     <form action="{{ route('trabajos.documentos-legales.post') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-    <div class="py-12">
+    <div  class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="md:col-span-12">
             <div class="mx-12 space-y-12 lg:space-y-0 lg:flex lg:gap-4 lg:items-center lg:justify-center">
             
             <div class="px-4 py-3 my-7  bg-gray-50 text-right sm:px-6">
-          <div class="container px-5  mx-auto">
+          <div class="container px-5  mx-auto" >
                 @include('wizard.step3')
-                <div class="flex flex-wrap -m-4">
+                <div class="flex flex-wrap -m-4" >
                              
-                    <h1>Prescipción Médica</h1>
-                    <div class="border border-dashed border-gray-500 relative w-full	">
-                          <input type="file"  required name="advertencias" id="advertencias" class="cursor-pointer relative block opacity-0 w-full h-full p-20 z-50">
+                    <h1>Prescripción Médica</h1>
+                    <div class="border border-dashed border-gray-500 relative w-full"  x-data="items()">
+
+                          <input type="file"  @change="updatePreview()" required name="prescripcion" id="prescripcion" class="cursor-pointer relative block opacity-0 w-full h-full p-20 z-50">
                           <div class="text-center p-10 absolute top-0 right-0 left-0 m-auto">
                               <h4>
                                   Arrastre o haga clic para seleccionar el fichero
                                   <br/>
                               </h4>
-                              <p class="">Seleccionar Fichero</p>
+                              <p class="">Seleccionar Fichero</p>                              
                               <img aria-hidden="true" class="h-14 m-auto dark:hidden" src="{{ asset('img/pdf.png') }}" alt="Office" />
-                          </div>
+                              <span class=" text-gray-800 font-bold py-2 px-4 rounded-full" x-text="nombreFicheroPrescripcion"></span>                             
+                           </div>
                     </div>
                   
                     <div class="grid gap-6 mb-8 md:grid-cols-2">
                      
                      <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
                            <h1>Aviso de Privacidad</h1>
-                          <div class="border  border-dashed border-gray-500 relative w-full	">
-                                <input type="file" required  name="advertencias" id="advertencias" class="cursor-pointer relative block opacity-0 w-full h-full p-20 z-50">
+                          <div  x-data="items2()"  class="border  border-dashed border-gray-500 relative w-full	">
+                                <input type="file" required @change="updatePreview2()" name="advertencias" id="advertencias" class="cursor-pointer relative block opacity-0 w-full h-full p-20 z-50">
                                 <div class="text-center p-10 absolute top-0 right-0 left-0 m-auto justify-items-center">
                                     <h4>
                                         Arrastre o haga clic para seleccionar el fichero
@@ -60,13 +62,14 @@
                                     </h4>
                                     <p class="">Seleccionar Fichero</p>
                                     <img aria-hidden="true" class="h-14 m-auto dark:hidden" src="{{ asset('img/pdf.png') }}" alt="Office" />
-                                </div>
+                                    <span class=" text-gray-800 font-bold py-2 px-4 rounded-full" x-text="nombreFicheroAvisoPrivacidad"></span>
+                                  </div>
                           </div>
                       </div>
                        <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
                           <h1>Autorización del Doctor </h1>
-                          <div class="border  border-dashed border-gray-500 relative w-full	">
-                                <input type="file" required  name="advertencias" id="advertencias" class="cursor-pointer relative block opacity-0 w-full h-full p-20 z-50">
+                          <div  x-data="items3()" class="border  border-dashed border-gray-500 relative w-full	">
+                                <input type="file" required @change="updatePreview3()" name="autorizacion" id="autorizacion" class="cursor-pointer relative block opacity-0 w-full h-full p-20 z-50">
                                 <div class="text-center p-10 absolute top-0 right-0 left-0 m-auto justify-items-center">
                                     <h4>
                                         Arrastre o haga clic para seleccionar el fichero
@@ -74,7 +77,8 @@
                                     </h4>
                                     <p class="">Seleccionar Fichero</p>
                                     <img aria-hidden="true" class="h-14 m-auto dark:hidden" src="{{ asset('img/pdf.png') }}" alt="Office" />
-                               </div>
+                                    <span class=" text-gray-800 font-bold py-2 px-4 rounded-full" x-text="nombreFicheroAutorizacionDoctor"></span>
+                                  </div>
                           </div>
                       </div>                 
                     </div>
@@ -95,5 +99,39 @@
 
 </form>
    
-    
+  
+<script>
+   
+  const items = () => {
+    return {
+      nombreFicheroPrescripcion: "",     
+      updatePreview: function () {
+        files = document.getElementById("prescripcion").files;
+        if (files.length > 0) this.nombreFicheroPrescripcion = files[0].name;
+        else this.nombreFicheroPrescripcion = "";     
+      }    
+    }
+  };
+  const items2 = () => {
+    return {
+      nombreFicheroAvisoPrivacidad: "",     
+      updatePreview2: function () {
+        files2 = document.getElementById("advertencias").files;
+        if (files2.length > 0) this.nombreFicheroAvisoPrivacidad = files2[0].name; 
+        else this.nombreFicheroAvisoPrivacidad = "";    
+      }    
+    }
+  };
+  const items3 = () => {
+    return {
+      nombreFicheroAutorizacionDoctor: "",     
+      updatePreview3: function () {
+        files3 = document.getElementById("autorizacion").files;
+        if (files3.length > 0) this.nombreFicheroAutorizacionDoctor = files3[0].name;  
+        else this.nombreFicheroAutorizacionDoctor = "";   
+      }    
+    }
+  };
+
+</script>
 </x-app-layout>
