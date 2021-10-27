@@ -30,8 +30,14 @@ class TrabajosController extends Controller
         $trabajos = DB::table('trabajos')->where('user_id', '=', Auth::user()->id )->get();
         $estados = Estado::all();
         $estado =  $estados->toArray();
+        
+        $colores = ["gray-200", "red-400", "orange-2500", "green-200", "blue-200", "indigo-200", "purple-200", "pink-200",
+                    "gray-300", "red-500", "orange-300", "green-300", "blue-300", "indigo-300", "purple-300", "pink-300",
+                    "gray-400", "red-600", "orange-500", "green-500", "blue-500", "indigo-500", "purple-500", "pink-500",   
+                ];
       
-        return view('trabajos.index', compact('trabajos', 'estado'));
+        return view('trabajos.index', compact('trabajos', 'estado','colores'));
+      
     }
 
     /**
@@ -159,6 +165,8 @@ class TrabajosController extends Controller
                 $foto->nombre_archivo = $valor;
                 $foto->save();
             }
+
+
                      
             return redirect()->route('trabajos');
     }
@@ -242,6 +250,8 @@ class TrabajosController extends Controller
             $request->session()->put('trabajo', $trabajo);
         }
 
+       // Event::dispatch(new CambioEstadoTrabajo('Solicitud de nuevo trabajo', Auth::user(), $trabajo));
+
         return redirect()->route('trabajos.datos-paciente');
     }
 
@@ -252,9 +262,7 @@ class TrabajosController extends Controller
     }
 
     public function postDatosPaciente(Request $request)
-    {
-     
-           // $trabajo = new Trabajo;
+    {     
         $trabajo = $request->session()->get('trabajo');
         $trabajo->tipo_cod = intval($request->tipo_cod);
         $trabajo->nombre_paciente = $request->nombre_paciente;
@@ -266,17 +274,14 @@ class TrabajosController extends Controller
         $trabajo->numero_colegiado = $request->numero_colegiado;
         $trabajo->numero_expediente = $request->numero_expediente;
         $trabajo->fecha_solicitud = Carbon::now();
-        $trabajo->estado_cod = '1';
+        $trabajo->estado_cod = '1'; // Solicitud de trabajo
         $trabajo->user_id = Auth::user()->id;
-           
-     //   if(!empty($request->session()->get('trabajo-id'))){
-     //       $trabajo->update();
-     //   }else{
-            $trabajo->save(); 
-            $trabajoId = $trabajo->id;
-            $request->session()->put('trabajo-id', $trabajoId);
-     //   }
-           return redirect()->route('trabajos.documentos-legales');
+
+        $trabajo->save(); 
+        $trabajoId = $trabajo->id;
+        $request->session()->put('trabajo-id', $trabajoId);
+    
+        return redirect()->route('trabajos.documentos-legales');
     }
 
     public function documentosLegales(Request $request)
@@ -314,7 +319,6 @@ class TrabajosController extends Controller
                 $documento->nombre_archivo = $valor;
                 $documento->save();
             }
-            Event::dispatch(new CambioEstadoTrabajo('Solicitud de nuevo trabajo', Auth::user(), $request->session()->get('trabajo-id')));
 
             return redirect()->route('trabajos.adjuntar-imagenes');
     }
@@ -323,6 +327,22 @@ class TrabajosController extends Controller
     {
        
         return view('trabajos.adjuntar-imagenes');
+    }
+
+    public function postAceptarPlanificacion(Request $request)
+    {
+        $trabajo = Trabajo::find(session('trabajo_seleccionado'));
+        $trabajo->estado_cod = '4'; //Pendiente Pago
+        $trabajo->update();
+        return redirect()->route('trabajos');
+    }
+
+    public function postRechazarPlanificacion(Request $request)
+    {
+        $trabajo = Trabajo::find(session('trabajo_seleccionado'));
+        $trabajo->estado_cod = '20'; //Segunda Revision
+        $trabajo->update();
+        return redirect()->route('trabajos');
     }
 
 
@@ -336,15 +356,11 @@ class TrabajosController extends Controller
         $nuevoEstado = $estados[$trabajo->estado_cod];
         session(['trabajo_seleccionado' => $trabajo->id ]);
         $fotos = $trabajo->fotos; //>toArray();
+        $documentos = $trabajo->documentos;
         $nombrefotos = array('oclusion','lateralDerecho','lateralIzquierdo','arcoSuperior','arcoInferior','sonrisa','reposo','perfilReposo');
-        
-       
-       
-        $trabajo->estado_cod = '2';
-        $trabajo->update();  
-        
+      
         $usuario = User::find($trabajo->user_id);
 
-        return view('trabajos.view', compact('trabajo','fotos','nombrefotos'));
+        return view('trabajos.view', compact('trabajo','fotos','nombrefotos','documentos'));
     }
 }

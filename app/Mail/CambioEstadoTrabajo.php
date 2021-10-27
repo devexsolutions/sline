@@ -7,8 +7,17 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
+use App\Models\Trabajo;
+
 class CambioEstadoTrabajo extends Mailable
 {
+     /**
+     * The trabajo instance.
+     *
+     * @var \App\Models\Trabajo
+     */
+    public $trabajo;
+
     use Queueable, SerializesModels;
 
     /**
@@ -16,9 +25,9 @@ class CambioEstadoTrabajo extends Mailable
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Trabajo $trabajo)
     {
-        //
+        $this->trabajo = $trabajo;
     }
 
     /**
@@ -28,6 +37,8 @@ class CambioEstadoTrabajo extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.trabajos.cambioestado');
+        return $this->markdown('emails.trabajos.cambioestado')->with([
+            'trabajo' => $this->trabajo,            
+        ]);
     }
 }

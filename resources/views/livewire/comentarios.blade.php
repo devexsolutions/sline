@@ -9,7 +9,7 @@
             </div>
         </div>
         <div class="block">
-            <button type="submit" class="w-full px-3 py-4 font-medium text-white bg-blue-600 rounded-lg">Enviar</button>
+            <button type="submit" class="w-full px-3 py-4 font-medium text-yellow-300 bg-gray-700 rounded-lg">Enviar</button>
            
         </div>
     </form>

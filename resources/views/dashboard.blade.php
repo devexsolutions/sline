@@ -56,9 +56,9 @@
                                 {{$trabajo->objetivos}}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
-                                    {{ $estado[$trabajo->estado_cod - 1]["nombre"] }}
-                                </span>
+                                <p class="px-2 py-1 font-semibold text-center leading-tight overflow-ellipsis overflow-hidden text-white bg-{{ $colores[$trabajo->estado_cod -1] }} rounded-full dark:bg-green-700 dark:text-green-100">
+                                    {{ $estado[$trabajo->estado_cod - 1]["nombre"] }}   
+                                </p>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 {{$trabajo->fecha_solicitud}}

@@ -30,8 +30,14 @@ class AdminController extends Controller
         $trabajos = Trabajo::all();      
         $estados = Estado::all();
         $estado =  $estados->toArray();
+
+
+        $colores = ["gray-200", "red-400", "orange-2500", "green-200", "blue-200", "indigo-200", "purple-200", "pink-200",
+        "gray-300", "red-500", "orange-300", "green-300", "blue-300", "indigo-300", "purple-300", "pink-300",
+        "gray-400", "red-600", "orange-500", "green-500", "blue-500", "indigo-500", "purple-500", "pink-500",   
+    ];
       
-        return view('admin.trabajos.index', compact('trabajos', 'estado'));
+        return view('admin.trabajos.index', compact('trabajos', 'estado','colores'));
     }
 
     /**
@@ -102,18 +108,52 @@ class AdminController extends Controller
         $fotos = $trabajo->fotos; //>toArray();
         $nombrefotos = array('oclusion','lateralDerecho','lateralIzquierdo','arcoSuperior','arcoInferior','sonrisa','reposo','perfilReposo');
         
-       
-       
-        $trabajo->estado_cod = '2';
-        $trabajo->update();  
+        if ($trabajo->estado_cod == 1){
+            $trabajo->estado_cod = '2'; //Pendiente Planificar
+            $trabajo->update();
+        }  
         
+        $historico = DB::table('historico')->where('trabajo_id', '=', session('trabajo_seleccionado') )->get();
+
         $usuario = User::find($trabajo->user_id);
         
          // call our event here
-         event(new CambioEstadoTrabajo($nuevoEstado, $usuario, $trabajo->id));
+         //event(new CambioEstadoTrabajo($nuevoEstado, $usuario, $trabajo->id));
 
 
-        return view('admin.trabajos.view', compact('trabajo','fotos','nombrefotos'));
+        return view('admin.trabajos.view', compact('trabajo','fotos','nombrefotos','historico'));
+    }
+
+
+    public function postGuardarPlanificacion(Request $request)
+    {       
+        if($request->hasfile('ipr'))
+        {
+            $path = public_path().'/documentos-gestion/' .  $request->session()->get('trabajo-id');
+            File::makeDirectory($path, $mode = 0755, true, true);   
+            $nombre_sanitizado = str_replace(" ", "_", $request->file('ipr')->getClientOriginalName() );       
+            $request->file('ipr')->move($path,$nombre_sanitizado);            
+            $documento = new Documento();
+            $documento->trabajo_id =  session('trabajo_seleccionado');
+            $documento->nombre = "IPR";
+            $documento->nombre_archivo =  $nombre_sanitizado;
+            $documento->save();
+        }
+        if(!empty($request->url_planificacion))
+        {
+            $documento = new Documento();
+            $documento->trabajo_id = session('trabajo_seleccionado');
+            $documento->nombre =  "url_planificacion";
+            $documento->nombre_archivo = $request->url_planificacion;
+            $documento->save();
+        }            
+        $trabajo = Trabajo::find(session('trabajo_seleccionado'));        
+        $trabajo->estado_cod = '3'; //Planificacion Realizada
+        $trabajo->update(); 
+
+
+
+        return redirect()->route('admin.trabajos');
     }
 
     /**

@@ -51,6 +51,10 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::post('trabajos/adjuntar-imagenes', '\App\Http\Controllers\TrabajosController@postAdjuntarImagenes')->name('trabajos.adjuntar-imagenes.post');
 
     Route::get('trabajos/view/{id}', '\App\Http\Controllers\TrabajosController@view')->name('trabajos.view');
+    Route::post('trabajos/aceptar-planificacion', '\App\Http\Controllers\TrabajosController@postAceptarPlanificacion')->name('trabajos.aceptar-planificacion.post');
+    Route::post('trabajos/rechazar-planificacion', '\App\Http\Controllers\TrabajosController@postRechazarPlanificacion')->name('trabajos.rechazar-planificacion.post');
+    
+
 });
 /*
 Route::group(['middleware' => ['role:cliente']], function () {
@@ -69,7 +73,7 @@ Route::group(['middleware' => ['role:admin']], function () {
 */
 Route::get('admin/trabajos', ['\App\Http\Controllers\AdminController', 'index'])->name('admin.trabajos')->middleware('is_admin');
 Route::get('admin/trabajos/{id}', ['\App\Http\Controllers\AdminController', 'view'])->name('admin.trabajos.view')->middleware('is_admin');
-
+Route::post('admin/trabajos/guardar-planificacion', '\App\Http\Controllers\AdminController@postGuardarPlanificacion')->name('admin.trabajos.guardar-planificacion.post')->middleware('is_admin');
 
 
 //Route::get('send-mail', 'MailController@sendMail')->name('send.mail');

@@ -45,8 +45,15 @@ class PagesController extends Controller
             $trabajos = DB::table('trabajos')->where('user_id', '=', Auth::user()->id )->get(); 
         
         $estados = Estado::all();
-        $estado =  $estados->toArray();      
-        return view('dashboard', compact('trabajos','estado'));
+        $estado =  $estados->toArray(); 
+        
+        $colores = ["gray-200", "red-400", "orange-2500", "green-200", "blue-200", "indigo-200", "purple-200", "pink-200",
+        "gray-300", "red-500", "orange-300", "green-300", "blue-300", "indigo-300", "purple-300", "pink-300",
+        "gray-400", "red-600", "orange-500", "green-500", "blue-500", "indigo-500", "purple-500", "pink-500",   
+    ];
+      
+        return view('dashboard', compact('trabajos', 'estado','colores'));
+      
     }
 
     /**
