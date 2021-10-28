@@ -8,6 +8,7 @@ use App\Models\USer;
 use App\Models\Foto;
 use App\Models\Documento;
 use App\Models\Estado;
+use App\Models\Historico;
 use App\Models\Tarifa;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
@@ -25,13 +26,12 @@ class TrabajosController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        //$trabajos = Trabajo::all();
+    {        
         $trabajos = DB::table('trabajos')->where('user_id', '=', Auth::user()->id )->get();
         $estados = Estado::all();
         $estado =  $estados->toArray();
         
-        $colores = ["gray-200", "red-400", "orange-2500", "green-200", "blue-200", "indigo-200", "purple-200", "pink-200",
+        $colores = ["gray-200", "red-400", "orange-200", "green-200", "blue-200", "indigo-200", "purple-200", "pink-200",
                     "gray-300", "red-500", "orange-300", "green-300", "blue-300", "indigo-300", "purple-300", "pink-300",
                     "gray-400", "red-600", "orange-500", "green-500", "blue-500", "indigo-500", "purple-500", "pink-500",   
                 ];
@@ -58,8 +58,6 @@ class TrabajosController extends Controller
      */
     public function postAdjuntarImagenes(Request $request)
     {
-        
-          
             $fotos = array();
             if($request->hasfile('oclusion'))
             {
@@ -166,7 +164,15 @@ class TrabajosController extends Controller
                 $foto->save();
             }
 
+            $trabajo = Trabajo::find($request->session()->get('trabajo-id'));
+            $trabajo->estado_cod = '1'; // Con Documentos Legales
+            $trabajo->update();
 
+            $historico = new Historico();
+            $historico->trabajo_id = $request->session()->get('trabajo-id');
+            $historico->user_id = Auth::user()->id;
+            $historico->operacion = "Trabajo Creado";
+            $historico->save();
                      
             return redirect()->route('trabajos');
     }
@@ -189,11 +195,9 @@ class TrabajosController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Trabajo $trabajo)
-    {
-        
+    {        
         $fotos = $trabajo->fotos; //>toArray();
         $nombrefotos = array('oclusion','lateralDerecho','lateralIzquierdo','arcoSuperior','arcoInferior','sonrisa','reposo','perfilReposo');
-       // print_r($fotos);      
         return view('trabajos.edit', compact('trabajo','fotos','nombrefotos'));
     }
 
@@ -250,8 +254,6 @@ class TrabajosController extends Controller
             $request->session()->put('trabajo', $trabajo);
         }
 
-       // Event::dispatch(new CambioEstadoTrabajo('Solicitud de nuevo trabajo', Auth::user(), $trabajo));
-
         return redirect()->route('trabajos.datos-paciente');
     }
 
@@ -274,7 +276,7 @@ class TrabajosController extends Controller
         $trabajo->numero_colegiado = $request->numero_colegiado;
         $trabajo->numero_expediente = $request->numero_expediente;
         $trabajo->fecha_solicitud = Carbon::now();
-        $trabajo->estado_cod = '1'; // Solicitud de trabajo
+        $trabajo->estado_cod = '99'; // Solicitud Incompleta
         $trabajo->user_id = Auth::user()->id;
 
         $trabajo->save(); 
@@ -285,42 +287,49 @@ class TrabajosController extends Controller
     }
 
     public function documentosLegales(Request $request)
-    {
-       
+    {       
         return view('trabajos.documentos-legales');
     }
 
     public function postDocumentosLegales(Request $request)
     {
-       
-       // $request->validate([
-        //    'file' => 'required|mimes:png,jpg,jpeg,csv,txt,xlx,xls,pdf|max:2048'
-        //    ]);
     
-            if($request->hasfile('prescripcion'))
-            {
-                $path = public_path().'/documentos-legales/' .  $request->session()->get('trabajo-id');
-                File::makeDirectory($path, $mode = 0755, true, true);          
-                $request->file('prescripcion')->move($path,$request->file('prescripcion')->getClientOriginalName());
-                $documentos['prescripcion'] = $request->file('prescripcion')->getClientOriginalName();
-            }
-            if($request->hasfile('advertencias'))
-            {
-                $path = public_path().'/documentos-legales/' .  $request->session()->get('trabajo-id');
-                File::makeDirectory($path, $mode = 0755, true, true);          
-                $request->file('advertencias')->move($path,$request->file('advertencias')->getClientOriginalName());
-                $documentos['advertencias'] = $request->file('advertencias')->getClientOriginalName();
-            }
-           
-            foreach($documentos as $indice =>$valor){
-                $documento = new Documento();
-                $documento->trabajo_id = $request->session()->get('trabajo-id');
-                $documento->nombre = $indice;
-                $documento->nombre_archivo = $valor;
-                $documento->save();
-            }
+        if($request->hasfile('prescripcion'))
+        {
+            $path = public_path().'/documentos-legales/' .  $request->session()->get('trabajo-id');
+            File::makeDirectory($path, $mode = 0755, true, true);          
+            $request->file('prescripcion')->move($path,$request->file('prescripcion')->getClientOriginalName());
+            $documentos['prescripcion'] = $request->file('prescripcion')->getClientOriginalName();
+        }
+        if($request->hasfile('advertencias'))
+        {
+            $path = public_path().'/documentos-legales/' .  $request->session()->get('trabajo-id');
+            File::makeDirectory($path, $mode = 0755, true, true);          
+            $request->file('advertencias')->move($path,$request->file('advertencias')->getClientOriginalName());
+            $documentos['advertencias'] = $request->file('advertencias')->getClientOriginalName();
+        }
 
-            return redirect()->route('trabajos.adjuntar-imagenes');
+        if($request->hasfile('autorizacion'))
+        {
+            $path = public_path().'/documentos-legales/' .  $request->session()->get('trabajo-id');
+            File::makeDirectory($path, $mode = 0755, true, true);          
+            $request->file('autorizacion')->move($path,$request->file('autorizacion')->getClientOriginalName());
+            $documentos['autorizacion'] = $request->file('autorizacion')->getClientOriginalName();
+        }
+        
+        foreach($documentos as $indice =>$valor){
+            $documento = new Documento();
+            $documento->trabajo_id = $request->session()->get('trabajo-id');
+            $documento->nombre = $indice;
+            $documento->nombre_archivo = $valor;
+            $documento->save();
+        }
+
+        $trabajo = Trabajo::find($request->session()->get('trabajo-id'));
+        $trabajo->estado_cod = '98'; // Con Documentos Legales
+        $trabajo->update();
+
+        return redirect()->route('trabajos.adjuntar-imagenes');
     }
 
     public function adjuntarImagenes(Request $request)
@@ -334,6 +343,12 @@ class TrabajosController extends Controller
         $trabajo = Trabajo::find(session('trabajo_seleccionado'));
         $trabajo->estado_cod = '4'; //Pendiente Pago
         $trabajo->update();
+
+        $historico = new Historico();
+        $historico->trabajo_id = session('trabajo_seleccionado');
+        $historico->user_id = Auth::user()->id;
+        $historico->operacion = "El trabajo ha sido aceptado por el cliente";
+        $historico->save();
         return redirect()->route('trabajos');
     }
 
@@ -342,6 +357,13 @@ class TrabajosController extends Controller
         $trabajo = Trabajo::find(session('trabajo_seleccionado'));
         $trabajo->estado_cod = '20'; //Segunda Revision
         $trabajo->update();
+
+        $historico = new Historico();
+        $historico->trabajo_id = session('trabajo_seleccionado');
+        $historico->user_id = Auth::user()->id;
+        $historico->operacion = "El trabajo ha sido rechazado por el cliente";
+        $historico->save();
+        
         return redirect()->route('trabajos');
     }
 
@@ -357,7 +379,7 @@ class TrabajosController extends Controller
         session(['trabajo_seleccionado' => $trabajo->id ]);
         $fotos = $trabajo->fotos; //>toArray();
         $documentos = $trabajo->documentos;
-        $nombrefotos = array('oclusion','lateralDerecho','lateralIzquierdo','arcoSuperior','arcoInferior','sonrisa','reposo','perfilReposo');
+        $nombrefotos = array('oclusion','lateralDerecho','lateralIzquierdo','arcoSuperior','arcoInferior','sonrisa','reposo','perfilReposo','rxPanoramica','otro','superiorStl','inferiorStl','oclusionStl');
       
         $usuario = User::find($trabajo->user_id);
 

@@ -13,7 +13,7 @@ class CreateTableHistorico extends Migration
      */
     public function up()
     {
-        Schema::create('historico', function (Blueprint $table) {
+        Schema::create('historicos', function (Blueprint $table) {
             $table->id();          
             $table->integer('trabajo_id');
             $table->string('operacion');
@@ -33,6 +33,6 @@ class CreateTableHistorico extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('historico');
+        Schema::dropIfExists('historicos');
     }
 }

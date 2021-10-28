@@ -9,6 +9,7 @@ use App\Models\Foto;
 use App\Models\Documento;
 use App\Models\Estado;
 use App\Models\Tarifa;
+use App\Models\Historico;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
@@ -32,7 +33,7 @@ class AdminController extends Controller
         $estado =  $estados->toArray();
 
 
-        $colores = ["gray-200", "red-400", "orange-2500", "green-200", "blue-200", "indigo-200", "purple-200", "pink-200",
+        $colores = ["gray-200", "red-400", "orange-200", "green-200", "blue-200", "indigo-200", "purple-200", "pink-200",
         "gray-300", "red-500", "orange-300", "green-300", "blue-300", "indigo-300", "purple-300", "pink-300",
         "gray-400", "red-600", "orange-500", "green-500", "blue-500", "indigo-500", "purple-500", "pink-500",   
     ];
@@ -106,14 +107,19 @@ class AdminController extends Controller
         $nuevoEstado = $estados[$trabajo->estado_cod];
         session(['trabajo_seleccionado' => $trabajo->id ]);
         $fotos = $trabajo->fotos; //>toArray();
-        $nombrefotos = array('oclusion','lateralDerecho','lateralIzquierdo','arcoSuperior','arcoInferior','sonrisa','reposo','perfilReposo');
+        $nombrefotos = array('oclusion','lateralDerecho','lateralIzquierdo','arcoSuperior','arcoInferior','sonrisa','reposo','perfilReposo','rxPanoramica','otro','superiorStl','inferiorStl','oclusionStl');
         
         if ($trabajo->estado_cod == 1){
             $trabajo->estado_cod = '2'; //Pendiente Planificar
             $trabajo->update();
+            $historico = new Historico();
+            $historico->trabajo_id = session('trabajo_seleccionado');
+            $historico->user_id = Auth::user()->id;
+            $historico->operacion = "El trabajo pasa a Pendiente";
+            $historico->save();
         }  
-        
-        $historico = DB::table('historico')->where('trabajo_id', '=', session('trabajo_seleccionado') )->get();
+      
+        $historico = DB::table('historicos')->where('trabajo_id', '=', session('trabajo_seleccionado') )->get();
 
         $usuario = User::find($trabajo->user_id);
         
@@ -150,6 +156,12 @@ class AdminController extends Controller
         $trabajo = Trabajo::find(session('trabajo_seleccionado'));        
         $trabajo->estado_cod = '3'; //Planificacion Realizada
         $trabajo->update(); 
+
+        $historico = new Historico();
+        $historico->trabajo_id = session('trabajo_seleccionado');
+        $historico->user_id = Auth::user()->id;
+        $historico->operacion = "El trabajo Planificación Realizada";
+        $historico->save();
 
 
 

@@ -129,6 +129,54 @@
                                     </div>                            
                                 </div>
 
+                                <div class="px-4 py-5 bg-white space-y-6 sm:p-6 mt-6">
+                                        <div class="container px-5 py-7 mx-auto">
+                                            <div class="grid grid-cols-4 gap-4">
+                                                    @if (sizeof($trabajo->documentos) > 0)
+                                                        @foreach($trabajo->documentos as $documento) 
+                                                            @switch($documento->nombre)
+                                                                @case('prescripcion')
+                                                                    <div id="whoobe-pqyb1" class="w-full md:w-56 justify-center items-center shadow px-6 py-4 flex flex-col" style="font-family: Montserrat;">
+                                                                        <h5>Prescripción</h5>                                          
+                                                                        <a target="_blank" href="/documentos-legales/{{$trabajo->id}}/{{$documento->nombre_archivo}}" class="cursor-pointer">
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                                                            </svg>
+                                                                        </a>                                                                        
+                                                                    </div>
+                                                                
+                                                                    @break
+                                                                @case('advertencias')
+                                                                        <div id="whoobe-pqyb1" class="w-full md:w-56 justify-center items-center shadow px-6 py-4 flex flex-col" style="font-family: Montserrat;">
+                                                                            <h5>
+                                                                                Advertencias Legales
+                                                                            </h5>
+                                                                            <a target="_blank" href="/documentos-legales/{{$trabajo->id}}/{{$documento->nombre_archivo}}" class="cursor-pointer">
+                                                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                                                                </svg>
+                                                                            </a>
+                                                                        </div>
+                                                                     @break  
+                                                                @case('autorizacion')
+                                                                <div id="whoobe-pqyb1" class="w-full md:w-56 justify-center items-center shadow px-6 py-4 flex flex-col" style="font-family: Montserrat;">
+                                                                        <h5>Autorización</h5>                                          
+                                                                        <a target="_blank" href="/documentos-legales/{{$trabajo->id}}/{{$documento->nombre_archivo}}" class="cursor-pointer">
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                                                            </svg>
+                                                                        </a>
+                                                                    </div>
+                                                                    @break                                                                                                                         
+                                                            @endswitch                                                                                                                                                                     
+                                                        @endforeach                             
+                                                    @endif                                           
+                                            </div>
+                                        </div>
+                                </div>
+
+
+
                                 <div class="px-4 py-3 my-7 bg-gray-50 text-right sm:px-6">
                                     <div class="container px-5 py-14 mx-auto">           
                                             <div class="flex flex-wrap -m-4">
@@ -159,8 +207,9 @@
                                                 @endif 
                                             </div>
                                     </div>
-                                </div>  
-            
+                                </div>
+                                
+                               
                                 <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
                                         <div class="container px-5 py-7 mx-auto">
                                             <div class="grid grid-cols-4 gap-4">
@@ -185,7 +234,7 @@
                                                                             <h3 class="text-gray-700 text-3xl" id="whoobe-d4an2">
                                                                                 {{$documento->nombre}}
                                                                             </h3>
-                                                                            <a href="{{$documento->nombre_archivo}}" class="cursor-pointer">
+                                                                            <a target="_blank" href="/documentos-gestion/{{$trabajo->id}}/{{$documento->nombre_archivo}}" class="cursor-pointer">
                                                                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                                                                 </svg>
