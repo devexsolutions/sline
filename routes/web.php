@@ -54,26 +54,15 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::post('trabajos/aceptar-planificacion', '\App\Http\Controllers\TrabajosController@postAceptarPlanificacion')->name('trabajos.aceptar-planificacion.post');
     Route::post('trabajos/rechazar-planificacion', '\App\Http\Controllers\TrabajosController@postRechazarPlanificacion')->name('trabajos.rechazar-planificacion.post');
     
-
-});
-/*
-Route::group(['middleware' => ['role:cliente']], function () {
-    //rutas accesibles solo para clientes
-    //Route::resource('trabajos', \App\Http\Controllers\TrabajosController::class);
-   
+    Route::post('trabajos/aceptar-envio', '\App\Http\Controllers\TrabajosController@postAceptarEnvio')->name('trabajos.aceptar-envio.post');
+    Route::post('trabajos/rechazar-envio', '\App\Http\Controllers\TrabajosController@postRechazarEnvio')->name('trabajos.rechazar-envio.post');
 });
 
-Route::group(['middleware' => ['role:admin']], function () {
-    //rutas accesibles solo para admin
-    Route::get('admin/trabajos', '\App\Http\Controllers\TrabajosController@adminShowTrabajos')->name('admin.trabajos.index');
-    Route::get('admin/trabajos/edit/{id}', '\App\Http\Controllers\TrabajosController@adminEditTrabajo')->name('admin.trabajos.view');
-    Route::put('admin/trabajos/{id}', '\App\Http\Controllers\TrabajosController@adminUpdateTrabajo')->name('admin.trabajos.update');
-   
-});
-*/
 Route::get('admin/trabajos', ['\App\Http\Controllers\AdminController', 'index'])->name('admin.trabajos')->middleware('is_admin');
 Route::get('admin/trabajos/{id}', ['\App\Http\Controllers\AdminController', 'view'])->name('admin.trabajos.view')->middleware('is_admin');
 Route::post('admin/trabajos/guardar-planificacion', '\App\Http\Controllers\AdminController@postGuardarPlanificacion')->name('admin.trabajos.guardar-planificacion.post')->middleware('is_admin');
-
+Route::post('admin/trabajos/guardar-factura', '\App\Http\Controllers\AdminController@postGuardarFactura')->name('admin.trabajos.guardar-factura.post')->middleware('is_admin');
+Route::post('admin/trabajos/guardar-presupuesto', '\App\Http\Controllers\AdminController@postGuardarPresupuesto')->name('admin.trabajos.guardar-presupuesto.post')->middleware('is_admin');
+Route::post('admin/trabajos/guardar-envio', '\App\Http\Controllers\AdminController@postGuardarEnvio')->name('admin.trabajos.guardar-envio.post')->middleware('is_admin');
 
 //Route::get('send-mail', 'MailController@sendMail')->name('send.mail');

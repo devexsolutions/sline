@@ -28,7 +28,9 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $trabajos = Trabajo::all();      
+        $trabajos = DB::table('trabajos')        
+        ->where('estado_cod', '<', 98)
+        ->get();   
         $estados = Estado::all();
         $estado =  $estados->toArray();
 
@@ -119,7 +121,12 @@ class AdminController extends Controller
             $historico->save();
         }  
       
-        $historico = DB::table('historicos')->where('trabajo_id', '=', session('trabajo_seleccionado') )->get();
+        $documentos_planificacion = DB::table('documentos')->whereIn('nombre', ['IPR', 'url_planificacion', 'presupuesto', 'factura'])->get();
+                
+        $historico = DB::table('historicos')
+            ->join('users', 'users.id', '=', 'historicos.user_id')            
+            ->select('historicos.*', 'users.nombre_fiscal')
+            ->get();
 
         $usuario = User::find($trabajo->user_id);
         
@@ -127,7 +134,7 @@ class AdminController extends Controller
          //event(new CambioEstadoTrabajo($nuevoEstado, $usuario, $trabajo->id));
 
 
-        return view('admin.trabajos.view', compact('trabajo','fotos','nombrefotos','historico'));
+        return view('admin.trabajos.view', compact('trabajo','fotos','nombrefotos','historico','documentos_planificacion'));
     }
 
 
@@ -165,9 +172,107 @@ class AdminController extends Controller
 
 
 
-        return redirect()->route('admin.trabajos');
+        return redirect()->route('admin.trabajos')->with('message','El trabajo ha cambiado de estado a Planificación Realizada');
     }
 
+    public function postGuardarPresupuesto(Request $request)
+    {       
+        if($request->hasfile('presupuesto'))
+        {
+            $path = public_path().'/documentos-gestion/' . session('trabajo_seleccionado') ;
+            File::makeDirectory($path, $mode = 0755, true, true);   
+            $nombre_sanitizado = str_replace(" ", "_", $request->file('presupuesto')->getClientOriginalName() );       
+            $request->file('presupuesto')->move($path,$nombre_sanitizado);            
+            $documento = new Documento();
+            $documento->trabajo_id =  session('trabajo_seleccionado');
+            $documento->nombre = "presupuesto";
+            $documento->nombre_archivo =  $nombre_sanitizado;
+            $documento->save();
+        }
+                  
+        $trabajo = Trabajo::find(session('trabajo_seleccionado'));        
+        $trabajo->estado_cod = '4'; //Pendiente de Pago
+        $trabajo->update(); 
+
+        $historico = new Historico();
+        $historico->trabajo_id = session('trabajo_seleccionado');
+        $historico->user_id = Auth::user()->id;
+        $historico->operacion = "El trabajo pasa a pendiente de pago";
+        $historico->save();
+
+
+        return redirect()->route('admin.trabajos')->with('message','El trabajo ha cambiado de estado correctamente. Pendiente de Pago');
+    }
+
+    public function postGuardarFactura(Request $request)
+    {       
+        if($request->hasfile('factura'))
+        {
+            $path = public_path().'/documentos-gestion/' .  session('trabajo_seleccionado');
+            File::makeDirectory($path, $mode = 0755, true, true);   
+            $nombre_sanitizado = str_replace(" ", "_", $request->file('factura')->getClientOriginalName() );       
+            $request->file('factura')->move($path,$nombre_sanitizado);            
+            $documento = new Documento();
+            $documento->trabajo_id =  session('trabajo_seleccionado');
+            $documento->nombre = "factura";
+            $documento->nombre_archivo =  $nombre_sanitizado;
+            $documento->save();
+        }
+                    
+        $trabajo = Trabajo::find(session('trabajo_seleccionado'));        
+        $trabajo->estado_cod = '5'; //Fabricacion
+        $trabajo->update(); 
+
+        // Buscamos si hay algúna solicitud de recogida por parte del cliente.
+
+
+        $historico = new Historico();
+        $historico->trabajo_id = session('trabajo_seleccionado');
+        $historico->user_id = Auth::user()->id;
+        $historico->operacion = "El trabajo pasa a pendiente de pago";
+        $historico->save();
+
+
+
+        return redirect()->route('admin.trabajos')->with('message','El trabajo ha cambiado de estado correctamente. Pago Recibido');
+    }
+
+    public function postGuardarEnvio(Request $request)
+    {       
+        switch ($request->tipoEnvio) {
+            case 'ataches':
+                $estado = 9;
+                $enviado = " Plantilla de Ataches";
+                break;
+            case 'parcial':
+                $estado = 10;
+                $enviado = " Caso Parcial";
+                break;
+            case 'completo':
+                $estado = 11;
+                $enviado = " Caso Completo";
+                break;           
+        }
+
+        $textoOperacion = "El trabajo pasa a envio de ".$enviado;
+           
+        $trabajo = Trabajo::find(session('trabajo_seleccionado'));        
+        $trabajo->estado_cod = $estado; 
+        $trabajo->update(); 
+
+        $historico = new Historico();
+        $historico->trabajo_id = session('trabajo_seleccionado');
+        $historico->user_id = Auth::user()->id;
+        $historico->operacion = $textoOperacion;
+        $historico->save();
+
+
+
+        return redirect()->route('admin.trabajos')->with('message','El trabajo ha cambiado de estado correctamente a '.$textoOperacion);
+    }
+
+
+    
     /**
      * Update the specified resource in storage.
      *

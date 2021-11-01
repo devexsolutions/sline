@@ -35,7 +35,8 @@ class User extends Authenticatable
         'colegio_dentistas',
         'direccion_envio',
         'persona_contacto',
-        'telefono',  
+        'telefono', 
+        'codigo_comercial', 
         'email',
         'password',
     ];

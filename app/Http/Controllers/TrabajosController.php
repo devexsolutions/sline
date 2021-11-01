@@ -27,7 +27,10 @@ class TrabajosController extends Controller
      */
     public function index()
     {        
-        $trabajos = DB::table('trabajos')->where('user_id', '=', Auth::user()->id )->get();
+        $trabajos = DB::table('trabajos')
+                        ->where('user_id', '=', Auth::user()->id )
+                        ->where('estado_cod', '<', 98)
+                        ->get();
         $estados = Estado::all();
         $estado =  $estados->toArray();
         
@@ -174,7 +177,7 @@ class TrabajosController extends Controller
             $historico->operacion = "Trabajo Creado";
             $historico->save();
                      
-            return redirect()->route('trabajos');
+            return redirect()->route('trabajos')->with('message','Las imágenes se guardaron correctamente');
     }
 
     /**
@@ -254,7 +257,7 @@ class TrabajosController extends Controller
             $request->session()->put('trabajo', $trabajo);
         }
 
-        return redirect()->route('trabajos.datos-paciente');
+        return redirect()->route('trabajos.datos-paciente')->with('message','Tarífa seleccionada correctamente');
     }
 
     public function datosPaciente(Request $request)
@@ -283,7 +286,7 @@ class TrabajosController extends Controller
         $trabajoId = $trabajo->id;
         $request->session()->put('trabajo-id', $trabajoId);
     
-        return redirect()->route('trabajos.documentos-legales');
+        return redirect()->route('trabajos.documentos-legales')->with('message','Datos del Paciente guardados correctamente');
     }
 
     public function documentosLegales(Request $request)
@@ -329,7 +332,7 @@ class TrabajosController extends Controller
         $trabajo->estado_cod = '98'; // Con Documentos Legales
         $trabajo->update();
 
-        return redirect()->route('trabajos.adjuntar-imagenes');
+        return redirect()->route('trabajos.adjuntar-imagenes')->with('message','Documentos guardados correctamente');
     }
 
     public function adjuntarImagenes(Request $request)
@@ -349,7 +352,7 @@ class TrabajosController extends Controller
         $historico->user_id = Auth::user()->id;
         $historico->operacion = "El trabajo ha sido aceptado por el cliente";
         $historico->save();
-        return redirect()->route('trabajos');
+        return redirect()->route('trabajos')->with('message','El trabajo ha cambiado de estado correctamente. Aceptada Planificación');
     }
 
     public function postRechazarPlanificacion(Request $request)
@@ -363,8 +366,8 @@ class TrabajosController extends Controller
         $historico->user_id = Auth::user()->id;
         $historico->operacion = "El trabajo ha sido rechazado por el cliente";
         $historico->save();
-        
-        return redirect()->route('trabajos');
+
+        return redirect()->route('trabajos')->with('message','El trabajo ha cambiado de estado correctamente. Rechazada Planificación');
     }
 
 
@@ -384,5 +387,36 @@ class TrabajosController extends Controller
         $usuario = User::find($trabajo->user_id);
 
         return view('trabajos.view', compact('trabajo','fotos','nombrefotos','documentos'));
+    }
+
+
+
+    public function postRechazarEnvio(Request $request)
+    {       
+        $trabajo = Trabajo::find(session('trabajo_seleccionado'));        
+        $trabajo->estado_cod = '12'; //Plantillas aceptadas
+        $trabajo->update(); 
+
+        $historico = new Historico();
+        $historico->trabajo_id = session('trabajo_seleccionado');
+        $historico->user_id = Auth::user()->id;
+        $historico->operacion = "El trabajo pasa al estado. Plantillas aceptadas";
+        $historico->save();
+        return redirect()->route('trabajos')->with('message','El trabajo ha cambiado de estado correctamente');           
+       
+    }
+
+    public function postAceptarEnvio(Request $request)
+    {              
+        $trabajo = Trabajo::find(session('trabajo_seleccionado'));        
+        $trabajo->estado_cod = '12'; //Plantillas aceptadas
+        $trabajo->update(); 
+
+        $historico = new Historico();
+        $historico->trabajo_id = session('trabajo_seleccionado');
+        $historico->user_id = Auth::user()->id;
+        $historico->operacion = "El trabajo pasa al estado. Plantillas aceptadas";
+        $historico->save();
+        return redirect()->route('trabajos')->with('message','El trabajo ha cambiado de estado correctamente');
     }
 }

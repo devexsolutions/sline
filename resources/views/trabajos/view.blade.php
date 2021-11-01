@@ -212,7 +212,7 @@
                                
                                 <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
                                         <div class="container px-5 py-7 mx-auto">
-                                            <div class="grid grid-cols-4 gap-4">
+                                            <div class="grid grid-cols-4 gap-4 items-center">
                                                     @if (sizeof($trabajo->documentos) > 0)
                                                         @foreach($trabajo->documentos as $documento) 
                                                             @switch($documento->nombre)
@@ -230,7 +230,7 @@
                                                                 
                                                                     @break
                                                                 @case('IPR')
-                                                                        <div id="whoobe-pqyb1" class="w-full md:w-56 justify-center items-center shadow px-6 py-4 flex flex-col" style="font-family: Montserrat;">
+                                                                        <div id="whoobe-pqyb2" class="w-full md:w-56 justify-center items-center shadow px-6 py-4 flex flex-col" style="font-family: Montserrat;">
                                                                             <h3 class="text-gray-700 text-3xl" id="whoobe-d4an2">
                                                                                 {{$documento->nombre}}
                                                                             </h3>
@@ -242,20 +242,20 @@
                                                                         </div>
                                                                      @break  
                                                                 @case('factura')
-                                                                    <div>
-                                                                        <h5>Factura Planificación</h5>                                          
-                                                                        <a href="{{$documento->nombre_archivo}}" class="cursor-pointer">
-                                                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                    <div id="whoobe-pqyb3" class="w-full md:w-56 justify-center items-center shadow px-6 py-4 flex flex-col" style="font-family: Montserrat;">
+                                                                        <h5 class="text-gray-700 text-3xl" id="whoobe-d4an2">Factura Planificación</h5>                                          
+                                                                        <a target="_blank" href="{{$documento->nombre_archivo}}" class="cursor-pointer">
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                                                             </svg>
                                                                         </a>
                                                                     </div>
                                                                     @break
                                                                 @case('presupuesto')
-                                                                    <div>
-                                                                        <h5>Presupuesto Fabricación</h5>                                          
-                                                                        <a href="{{$documento->nombre_archivo}}" class="cursor-pointer">
-                                                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                    <div id="whoobe-pqyb4" class="w-full md:w-56 justify-center items-center shadow px-6 py-4 flex flex-col" style="font-family: Montserrat;">
+                                                                        <h5 class="text-gray-700 text-3xl" id="whoobe-d4an2">Presupuesto Fabricación</h5>                                          
+                                                                        <a target="_blank" href="{{$documento->nombre_archivo}}" class="cursor-pointer">
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                                                             </svg>
                                                                         </a>
@@ -269,10 +269,10 @@
                                 </div>
 
                                 @if ($trabajo->estado_cod == 3) 
-                                <div class="px-4 py-5 bg-white space-y-6 sm:p-6 mt-6">
+                                <div class="px-4 py-5 bg-white space-y-6 sm:p-6 mt-6 border-teal p-8 border-t-12 bg-white mb-6 rounded-lg shadow-lg">
                                         <div class="container px-5 py-7 mx-auto">
-                                            <div class="grid grid-cols-4 gap-4 w-full ">
-                                                                                                                                            
+                                            <div class="grid grid-cols-3 gap-4 w-full items-center ">
+                                            <h2>Indique si acepta o rechaza la planificación</h2>                                                                                    
                                                         <div class=" mr-70">
                                                             <form action="{{ route('trabajos.aceptar-planificacion.post') }}" method="POST" enctype="multipart/form-data">
                                                             @csrf
@@ -302,9 +302,80 @@
                                             </div>
                                         </div>
                                 </div>
-                                @endif    
+                                @endif  
+                                
+                                
+                                @if ($trabajo->estado_cod == 9 ) 
+                                <div class="px-4 py-5 bg-white space-y-6 sm:p-6 mt-6 border-teal p-8 border-t-12 bg-white mb-6 rounded-lg shadow-lg">
+                                        <div class="container px-5 py-7 mx-auto">
+                                            <div class="grid grid-cols-3 gap-4 w-full items-center ">
+                                                        <h2>Indique si acepta o rechaza las plantillas de ataches</h2>                                                                                   
+                                                        <div class=" mr-70">
+                                                            <form action="{{ route('trabajos.aceptar-envio.post') }}" method="POST" enctype="multipart/form-data">
+                                                            @csrf
+                                                                <button type="submit" class="flex mx-20 p-4 mb-8 text-sm font-semibold bg-yellow-300 bg-gray-700 rounded-lg shadow-md focus:outline-none focus:shadow-outline-purple" href="">
+                                                                    <div class="flex items-center">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                                                    </svg>
+                                                                        <span>Aceptar</span>
+                                                                    </div>                                                            
+                                                                </button>                                                            
+                                                            </form>  
+                                                        </div>
+                                                        <div class=" mx-170">  
+                                                            <form action="{{ route('trabajos.rechazar-envio.post') }}" method="POST" enctype="multipart/form-data">
+                                                            @csrf
+                                                                <button type="submit" class="flex p-4 mb-8 text-sm font-semibold  bg-yellow-300 bg-gray-700 rounded-lg shadow-md focus:outline-none focus:shadow-outline-purple" href="">
+                                                                    <div class="flex items-center">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                                                                        </svg>
+                                                                        <span>Rechazar</span>
+                                                                    </div>                                                            
+                                                                </button>
+                                                            </form>
+                                                        </div>                                                                              
+                                            </div>
+                                        </div>
+                                </div>
+                                @endif  
 
-
+                                @if ($trabajo->estado_cod == 9 || $trabajo->estado_cod == 10 )  
+                                <div class="px-4 py-5 bg-white space-y-6 sm:p-6 mt-6 border-teal p-8 border-t-12 bg-white mb-6 rounded-lg shadow-lg">
+                                        <div class="container px-5 py-7 mx-auto">
+                                            <div class="grid grid-cols-3 gap-4 w-full items-center ">
+                                                        <h2>¿Necesita refinamiento?</h2>                                                                                   
+                                                        <div class=" mr-70">
+                                                            <form action="{{ route('trabajos.aceptar-envio.post') }}" method="POST" enctype="multipart/form-data">
+                                                            @csrf
+                                                                <button type="submit" class="flex mx-10 p-4 mb-8 text-sm font-semibold bg-yellow-300 bg-gray-700 rounded-lg shadow-md focus:outline-none focus:shadow-outline-purple" href="">
+                                                                    <div class="flex items-center">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                                                    </svg>
+                                                                        <span>Refinamiento Parcial</span>
+                                                                    </div>                                                            
+                                                                </button>                                                            
+                                                            </form>  
+                                                        </div>
+                                                        <div class=" mx-170">  
+                                                            <form action="{{ route('trabajos.rechazar-envio.post') }}" method="POST" enctype="multipart/form-data">
+                                                            @csrf
+                                                                <button type="submit" class="flex p-4 mb-8 text-sm font-semibold  bg-yellow-300 bg-gray-700 rounded-lg shadow-md focus:outline-none focus:shadow-outline-purple" href="">
+                                                                    <div class="flex items-center">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                                                    </svg>
+                                                                        <span>   Refinamiento Total  </span>
+                                                                    </div>                                                            
+                                                                </button>
+                                                            </form>
+                                                        </div>                                                                              
+                                            </div>
+                                        </div>
+                                </div>
+                                @endif  
 
                              </div>
                         </div> 
