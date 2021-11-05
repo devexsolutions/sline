@@ -60,6 +60,15 @@ class AdminController extends Controller
         return view('admin.usuarios.view', compact('usuario'));
     }
 
+    public function postActivarUsuario(Request $request)
+    {
+        
+        $usuario = User::find($request->idUsuario);
+        $usuario->is_active = true;
+        $usuario->update(); 
+        return redirect()->route('admin.usuarios')->with('message','Usuario activado correctamente');
+    }
+
     /**
      * Show the form for creating a new resource.
      *
