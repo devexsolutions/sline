@@ -192,67 +192,14 @@
                 </div>                
           </div>
       </div>
-      <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
-          <div class="container px-5  mx-auto">
-                <div class="flex flex-wrap -m-4">
-                <div class="lg:w-1/3 p-4 w-1/3">        
-                <div class="border border-dashed border-gray-500 relative w-full	" x-data="items11()">
-                        <input type="file"  @change="updatePreview11()" name="superiorStl" id="superiorStl" class="cursor-pointer relative block opacity-0 w-full h-full p-20 z-50">
-                        <div class="text-center p-10 absolute top-0 right-0 left-0 m-auto">
-                            <h4>
-                                Arrastre o haga clic para seleccionar el fichero
-                                <br/>
-                            </h4>
-                            <p class="">Seleccionar Fichero</p>
-                            <span class=" text-gray-800 font-bold py-2 px-4 rounded-full" x-text="nombreFicheroSuperiorStl"></span>
-                        </div>
-                   </div>    
-                  <div class="mt-4">  
-                      <h2 class="text-gray-900 title-font text-center text-lg font-medium">SUPERIOR STL</h2>
-                  </div>
-                </div>
-                <div class="lg:w-1/3 p-4 w-1/3">
-                <div class="border border-dashed border-gray-500 relative w-full	" x-data="items12()">
-                        <input type="file" @change="updatePreview12()"  name="inferiorStl" id="inferiorStl" class="cursor-pointer relative block opacity-0 w-full h-full p-20 z-50">
-                        <div class="text-center p-10 absolute top-0 right-0 left-0 m-auto">
-                            <h4>
-                                Arrastre o haga clic para seleccionar el fichero
-                                <br/>
-                            </h4>
-                            <p class="">Seleccionar Fichero</p>
-                            <span class=" text-gray-800 font-bold py-2 px-4 rounded-full" x-text="nombreFicheroInferiorStl"></span>
-                        </div>
-                   </div>
-                  <div class="mt-4">          
-                    <h2 class="text-gray-900 title-font text-center text-lg font-medium">INFERIOR STL</h2>          
-                  </div>
-                </div>
-                <div class="lg:w-1/3 p-4 w-1/3">
-                <div class="border border-dashed border-gray-500 relative w-full	" x-data="items13()">
-                        <input type="file" @change="updatePreview13()" name="oclusionStl" id="oclusionStl" class="cursor-pointer relative block opacity-0 w-full h-full p-20 z-50">
-                        <div class="text-center p-10 absolute top-0 right-0 left-0 m-auto">
-                            <h4>
-                                Arrastre o haga clic para seleccionar el fichero
-                                <br/>
-                            </h4>
-                            <p class="">Seleccionar Fichero</p>
-                            <span class=" text-gray-800 font-bold py-2 px-4 rounded-full" x-text="nombreFicheroOclusionStl"></span>
-                        </div>
-                   </div>
-                  <div class="mt-4">          
-                    <h2 class="text-gray-900 title-font text-center text-lg font-medium">OCLUSIÓN STL</h2>          
-                  </div>
-                </div>     
-          </div>
-      </div>  
-</div>  <br /><br />
+        <br /><br />
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 md:text-right">
             <button type="submit" class="flex float-right	items-right justify-between p-4 mb-8 text-sm font-semibold bg-yellow-300 bg-gray-700 rounded-lg shadow-md focus:outline-none focus:shadow-outline-purple" href="https://github.com/estevanmaito/windmill-dashboard">
                   <div class="flex items-center">
                     <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
                       <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
                     </svg>
-                    <span>Guardar</span>
+                    <span>Subir STLs</span>
                   </div>
                   <span>&nbsp;&nbsp; →</span>
             </button>
@@ -363,39 +310,9 @@
       }    
     }
   };
-  const items11 = () => {
-    return {
-      nombreFicheroSuperiorStl: "",     
-      updatePreview11: function () {
-        files11 = document.getElementById("superiorStl").files;
-        if (files11.length > 0) this.nombreFicheroSuperiorStl = files11[0].name; 
-        else this.nombreFicheroSuperiorStl = "";    
-      }    
-    }
-  };
-  const items12 = () => {
-    return {
-      nombreFicheroInferiorStl: "",     
-      updatePreview12: function () {
-        files12 = document.getElementById("inferiorStl").files;
-        if (files12.length > 0) this.nombreFicheroInferiorStl = files12[0].name; 
-        else this.nombreFicheroInferiorStl = "";    
-      }    
-    }
-  };
-  const items13 = () => {
-    return {
-      nombreFicheroOclusionStl: "",     
-      updatePreview13: function () {
-        files13 = document.getElementById("oclusionStl").files;
-        if (files13.length > 0) this.nombreFicheroOclusionStl = files13[0].name; 
-        else this.nombreFicheroOclusionStl = "";    
-      }    
-    }
-  };
-  
  
-
+  
+  
 
 </script>
 </x-app-layout>

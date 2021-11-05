@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Trabajo;
-use App\Models\USer;
+use App\Models\User;
 use App\Models\Foto;
 use App\Models\Documento;
 use App\Models\Estado;
@@ -12,10 +12,21 @@ use App\Models\Historico;
 use App\Models\Tarifa;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
+use Illuminate\Http\UploadedFile;
 use Auth;
 use DB;
+use Storage;
 use Illuminate\Support\Facades\Event;
 use App\Events\CambioEstadoTrabajo;
+use Pion\Laravel\ChunkUpload\Exceptions\UploadFailedException;
+use Pion\Laravel\ChunkUpload\Exceptions\UploadMissingFileException;
+use Pion\Laravel\ChunkUpload\Handler\AbstractHandler;
+use Pion\Laravel\ChunkUpload\Handler\HandlerFactory;
+use Pion\Laravel\ChunkUpload\Receiver\FileReceiver;
+
+use Exception;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 
 class TrabajosController extends Controller
@@ -59,7 +70,7 @@ class TrabajosController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function postAdjuntarImagenes(Request $request)
+    public function postAdjuntarImagenesOld(Request $request)
     {
             $fotos = array();
             if($request->hasfile('oclusion'))
@@ -158,6 +169,106 @@ class TrabajosController extends Controller
                 $request->file('oclusionStl')->move($path,$request->file('oclusionStl')->getClientOriginalName());
                 $fotos['oclusionStl'] = $request->file('oclusionStl')->getClientOriginalName();
             }
+            
+            foreach($fotos as $indice =>$valor){
+                $foto = new Foto();
+                $foto->trabajo_id =  $request->session()->get('trabajo-id');
+                $foto->nombre = $indice;
+                $foto->nombre_archivo = $valor;
+                $foto->save();
+            }
+
+            $trabajo = Trabajo::find($request->session()->get('trabajo-id'));
+            $trabajo->estado_cod = '1'; // Con Documentos Legales
+            $trabajo->update();
+
+            $historico = new Historico();
+            $historico->trabajo_id = $request->session()->get('trabajo-id');
+            $historico->user_id = Auth::user()->id;
+            $historico->operacion = "Trabajo Creado";
+            $historico->save();
+                     
+            return redirect()->route('trabajos')->with('message','Las imágenes se guardaron correctamente');
+    }
+
+
+
+    public function postAdjuntarImagenes(Request $request)
+    {
+            $fotos = array();
+            if($request->hasfile('oclusion'))
+            {               
+                $path = public_path().'/fotos-trabajos/' .  $request->session()->get('trabajo-id');;
+                File::makeDirectory($path, $mode = 0755, true, true);          
+                $request->file('oclusion')->move($path,$request->file('oclusion')->getClientOriginalName());
+                $fotos['oclusion'] = $request->file('oclusion')->getClientOriginalName();
+            }
+            if($request->hasfile('lateralDerecho'))
+            {
+                $path = public_path().'/fotos-trabajos/' . $request->session()->get('trabajo-id');
+                File::makeDirectory($path, $mode = 0755, true, true);          
+                $request->file('lateralDerecho')->move($path,$request->file('lateralIzquierdo')->getClientOriginalName());
+                $fotos['lateralDerecho'] = $request->file('lateralDerecho')->getClientOriginalName();
+            }
+            if($request->hasfile('lateralIzquierdo'))
+            {
+                $path = public_path().'/fotos-trabajos/' .  $request->session()->get('trabajo-id');
+                File::makeDirectory($path, $mode = 0755, true, true);          
+                $request->file('lateralIzquierdo')->move($path,$request->file('lateralIzquierdo')->getClientOriginalName());
+                $fotos['lateralIzquierdo'] = $request->file('lateralIzquierdo')->getClientOriginalName();
+            }
+            if($request->hasfile('arcoSuperior'))
+            {
+                $path = public_path().'/fotos-trabajos/' .  $request->session()->get('trabajo-id');
+                File::makeDirectory($path, $mode = 0755, true, true);          
+                $request->file('arcoSuperior')->move($path,$request->file('arcoSuperior')->getClientOriginalName());
+                $fotos['arcoSuperior'] = $request->file('arcoSuperior')->getClientOriginalName();
+            }
+            if($request->hasfile('arcoInferior'))
+            {
+                $path = public_path().'/fotos-trabajos/' .  $request->session()->get('trabajo-id');
+                File::makeDirectory($path, $mode = 0755, true, true);          
+                $request->file('arcoInferior')->move($path,$request->file('arcoInferior')->getClientOriginalName());
+                $fotos['arcoInferior'] = $request->file('arcoInferior')->getClientOriginalName();
+            }
+            if($request->hasfile('sonrisa'))
+            {
+                $path = public_path().'/fotos-trabajos/' .  $request->session()->get('trabajo-id');
+                File::makeDirectory($path, $mode = 0755, true, true);          
+                $request->file('sonrisa')->move($path,$request->file('sonrisa')->getClientOriginalName());
+                $fotos['sonrisa'] = $request->file('sonrisa')->getClientOriginalName();
+            }
+            if($request->hasfile('reposo'))
+            {
+                $path = public_path().'/fotos-trabajos/' .  $request->session()->get('trabajo-id');
+                File::makeDirectory($path, $mode = 0755, true, true);          
+                $request->file('reposo')->move($path,$request->file('reposo')->getClientOriginalName());
+                $fotos['reposo'] = $request->file('reposo')->getClientOriginalName();
+            }
+            if($request->hasfile('perfilReposo'))
+            {
+                $path = public_path().'/fotos-trabajos/' . $request->session()->get('trabajo-id');
+                File::makeDirectory($path, $mode = 0755, true, true);          
+                $request->file('perfilReposo')->move($path,$request->file('perfilReposo')->getClientOriginalName());
+                $fotos['perfilReposo'] = $request->file('perfilReposo')->getClientOriginalName();
+            }
+
+            if($request->hasfile('rxPanoramica'))
+            {
+                $path = public_path().'/fotos-trabajos/' . $request->session()->get('trabajo-id');
+                File::makeDirectory($path, $mode = 0755, true, true);          
+                $request->file('rxPanoramica')->move($path,$request->file('rxPanoramica')->getClientOriginalName());
+                $fotos['rxPanoramica'] = $request->file('rxPanoramica')->getClientOriginalName();
+            }
+
+            if($request->hasfile('otro'))
+            {
+                $path = public_path().'/fotos-trabajos/' . $request->session()->get('trabajo-id');
+                 File::makeDirectory($path, $mode = 0755, true, true); 
+                File::makeDirectory($path, $mode = 0755, true, true);          
+                $request->file('otro')->move($path,$request->file('otro')->getClientOriginalName());
+                $fotos['otro'] = $request->file('otro')->getClientOriginalName();
+            }           
             
             foreach($fotos as $indice =>$valor){
                 $foto = new Foto();
@@ -308,7 +419,7 @@ class TrabajosController extends Controller
         {
             $path = public_path().'/documentos-legales/' .  $request->session()->get('trabajo-id');
             File::makeDirectory($path, $mode = 0755, true, true);          
-            $request->file('advertencias')->move($path,$request->file('advertencias')->getClientOriginalName());
+            $request->file('advertencias')->move($path,$request->file('advertencias')->getClientOriginalName());           
             $documentos['advertencias'] = $request->file('advertencias')->getClientOriginalName();
         }
 
@@ -316,7 +427,7 @@ class TrabajosController extends Controller
         {
             $path = public_path().'/documentos-legales/' .  $request->session()->get('trabajo-id');
             File::makeDirectory($path, $mode = 0755, true, true);          
-            $request->file('autorizacion')->move($path,$request->file('autorizacion')->getClientOriginalName());
+            $request->file('autorizacion')->move($path,$request->file('autorizacion')->getClientOriginalName());            
             $documentos['autorizacion'] = $request->file('autorizacion')->getClientOriginalName();
         }
         
@@ -336,10 +447,94 @@ class TrabajosController extends Controller
     }
 
     public function adjuntarImagenes(Request $request)
-    {
-       
+    {       
         return view('trabajos.adjuntar-imagenes');
     }
+
+    public function adjuntarStl(Request $request)
+    {        
+        return view('trabajos.adjuntar-stl');
+    }
+
+    public function postAdjuntarStl(Request $request)
+    {    
+          // create the file receiver
+          $receiver = new FileReceiver("file", $request, HandlerFactory::classFromRequest($request));
+
+          // check if the upload is success, throw exception or return response you need
+          if ($receiver->isUploaded() === false) {
+              throw new UploadMissingFileException();
+          }
+  
+          // receive the file
+          $save = $receiver->receive();
+  
+          // check if the upload has finished (in chunk mode it will send smaller files)
+          if ($save->isFinished()) {
+              // save the file and return any response you need, current example uses `move` function. If you are
+              // not using move, you need to manually delete the file by unlink($save->getFile()->getPathname())
+              return $this->saveFile($save->getFile());
+          }
+  
+          // we are in chunk mode, lets send the current progress
+          /**  AbstractHandler $handler */
+          $handler = $save->handler();
+  
+          return response()->json([
+              "done" => $handler->getPercentageDone(),
+              'status' => true
+          ]);
+
+
+       // return view('trabajos.adjuntar-stl');
+    }
+
+      /**
+     * Saves the file
+     *
+     * @param UploadedFile $file
+     *
+     * @return JsonResponse
+     */
+    protected function saveFile(UploadedFile $file)
+    {
+       // throw new Exception('Exception message'.$file);
+        $fileName = $this->createFilename($file);
+        // Group files by mime type
+        $mime = str_replace('/', '-', $file->getMimeType());
+        // Group files by the date (week
+        $dateFolder = date("Y-m-W");
+
+        // Build the file path
+        $filePath = "fotos-trabajos/18/";
+        $finalPath = storage_path("public/".$filePath);
+
+        // move the file name
+        $file->move($finalPath, $fileName);
+
+        return response()->json([
+            'path' => $filePath,
+            'name' => $fileName,
+            'mime_type' => $mime
+        ]);
+    }
+
+    /**
+     * Create unique filename for uploaded file
+     * @param UploadedFile $file
+     * @return string
+     */
+    protected function createFilename(UploadedFile $file)
+    {
+        $extension = $file->getClientOriginalExtension();
+        $filename = str_replace(".".$extension, "", $file->getClientOriginalName()); // Filename without extension
+
+        // Add timestamp hash to name of the file
+        $filename .= "_" . md5(time()) . "." . $extension;
+
+        return $filename;
+    }
+
 
     public function postAceptarPlanificacion(Request $request)
     {

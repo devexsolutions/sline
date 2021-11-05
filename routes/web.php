@@ -49,6 +49,10 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     
     Route::get('trabajos/adjuntar-imagenes', '\App\Http\Controllers\TrabajosController@adjuntarImagenes')->name('trabajos.adjuntar-imagenes');
     Route::post('trabajos/adjuntar-imagenes', '\App\Http\Controllers\TrabajosController@postAdjuntarImagenes')->name('trabajos.adjuntar-imagenes.post');
+    
+    Route::get('trabajos/adjuntar-stl', '\App\Http\Controllers\TrabajosController@adjuntarStl')->name('trabajos.adjuntar-stl');
+    Route::post('trabajos/adjuntar-stl', '\App\Http\Controllers\TrabajosController@postAdjuntarStl')->name('trabajos.adjuntar-stl.post');
+
 
     Route::get('trabajos/view/{id}', '\App\Http\Controllers\TrabajosController@view')->name('trabajos.view');
     Route::post('trabajos/aceptar-planificacion', '\App\Http\Controllers\TrabajosController@postAceptarPlanificacion')->name('trabajos.aceptar-planificacion.post');
@@ -64,5 +68,9 @@ Route::post('admin/trabajos/guardar-planificacion', '\App\Http\Controllers\Admin
 Route::post('admin/trabajos/guardar-factura', '\App\Http\Controllers\AdminController@postGuardarFactura')->name('admin.trabajos.guardar-factura.post')->middleware('is_admin');
 Route::post('admin/trabajos/guardar-presupuesto', '\App\Http\Controllers\AdminController@postGuardarPresupuesto')->name('admin.trabajos.guardar-presupuesto.post')->middleware('is_admin');
 Route::post('admin/trabajos/guardar-envio', '\App\Http\Controllers\AdminController@postGuardarEnvio')->name('admin.trabajos.guardar-envio.post')->middleware('is_admin');
+
+Route::get('admin/usuarios', ['\App\Http\Controllers\AdminController', 'listarUsuarios'])->name('admin.usuarios')->middleware('is_admin');
+Route::get('admin/usuarios/{id}', ['\App\Http\Controllers\AdminController', 'verUsuario'])->name('admin.usuarios.view')->middleware('is_admin');
+Route::post('admin/usuarios/activar-usuario', '\App\Http\Controllers\AdminController@postActivarUsuario')->name('admin.usuarios.activar-usuario.post')->middleware('is_admin');
 
 //Route::get('send-mail', 'MailController@sendMail')->name('send.mail');

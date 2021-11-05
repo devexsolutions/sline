@@ -31,6 +31,7 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->string('codigo_comercial'); 
             $table->boolean('is_admin')->default(0);
+            $table->boolean('is_active')->default(0);
             $table->foreignId('current_team_id')->nullable();
             $table->string('profile_photo_path', 2048)->nullable();
             $table->timestamps();

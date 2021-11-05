@@ -10,6 +10,7 @@ use App\Models\Documento;
 use App\Models\Estado;
 use App\Models\Tarifa;
 use App\Models\Historico;
+
 use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
@@ -41,6 +42,22 @@ class AdminController extends Controller
     ];
       
         return view('admin.trabajos.index', compact('trabajos', 'estado','colores'));
+    }
+
+
+    public function listarUsuarios()
+    {
+        $usuarios = User::all();   
+        $estados = Estado::all();
+        $estado =  $estados->toArray();
+
+        return view('admin.usuarios.index', compact('usuarios'));
+    }
+
+    public function verUsuario(int $id)
+    {
+        $usuario = User::find($id);
+        return view('admin.usuarios.view', compact('usuario'));
     }
 
     /**
@@ -121,11 +138,15 @@ class AdminController extends Controller
             $historico->save();
         }  
       
-        $documentos_planificacion = DB::table('documentos')->whereIn('nombre', ['IPR', 'url_planificacion', 'presupuesto', 'factura'])->get();
+        $documentos_planificacion = DB::table('documentos')
+                                    ->whereIn('nombre', ['IPR', 'url_planificacion', 'presupuesto', 'factura'])
+                                    ->where('trabajo_id', '=', session('trabajo_seleccionado'))
+                                    ->get();
                 
         $historico = DB::table('historicos')
-            ->join('users', 'users.id', '=', 'historicos.user_id')            
+            ->join('users', 'users.id', '=', 'historicos.user_id')                     
             ->select('historicos.*', 'users.nombre_fiscal')
+            ->where('historicos.trabajo_id', '=', session('trabajo_seleccionado'))
             ->get();
 
         $usuario = User::find($trabajo->user_id);
