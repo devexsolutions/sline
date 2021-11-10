@@ -52,7 +52,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     
     Route::get('trabajos/adjuntar-stl', '\App\Http\Controllers\TrabajosController@adjuntarStl')->name('trabajos.adjuntar-stl');
     Route::post('trabajos/adjuntar-stl', '\App\Http\Controllers\TrabajosController@postAdjuntarStl')->name('trabajos.adjuntar-stl.post');
-
+    Route::post('trabajos/guardar-stl', '\App\Http\Controllers\TrabajosController@guardarStl')->name('trabajos.guardar-stl');
 
     Route::get('trabajos/view/{id}', '\App\Http\Controllers\TrabajosController@view')->name('trabajos.view');
     Route::post('trabajos/aceptar-planificacion', '\App\Http\Controllers\TrabajosController@postAceptarPlanificacion')->name('trabajos.aceptar-planificacion.post');

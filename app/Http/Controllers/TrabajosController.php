@@ -64,135 +64,7 @@ class TrabajosController extends Controller
         return view('trabajos.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function postAdjuntarImagenesOld(Request $request)
-    {
-            $fotos = array();
-            if($request->hasfile('oclusion'))
-            {
-                $path = public_path().'/fotos-trabajos/' .  $request->session()->get('trabajo-id');;
-                File::makeDirectory($path, $mode = 0755, true, true);          
-                $request->file('oclusion')->move($path,$request->file('oclusion')->getClientOriginalName());
-                $fotos['oclusion'] = $request->file('oclusion')->getClientOriginalName();
-            }
-            if($request->hasfile('lateralDerecho'))
-            {
-                $path = public_path().'/fotos-trabajos/' . $request->session()->get('trabajo-id');
-                File::makeDirectory($path, $mode = 0755, true, true);          
-                $request->file('lateralDerecho')->move($path,$request->file('lateralIzquierdo')->getClientOriginalName());
-                $fotos['lateralDerecho'] = $request->file('lateralDerecho')->getClientOriginalName();
-            }
-            if($request->hasfile('lateralIzquierdo'))
-            {
-                $path = public_path().'/fotos-trabajos/' .  $request->session()->get('trabajo-id');
-                File::makeDirectory($path, $mode = 0755, true, true);          
-                $request->file('lateralIzquierdo')->move($path,$request->file('lateralIzquierdo')->getClientOriginalName());
-                $fotos['lateralIzquierdo'] = $request->file('lateralIzquierdo')->getClientOriginalName();
-            }
-            if($request->hasfile('arcoSuperior'))
-            {
-                $path = public_path().'/fotos-trabajos/' .  $request->session()->get('trabajo-id');
-                File::makeDirectory($path, $mode = 0755, true, true);          
-                $request->file('arcoSuperior')->move($path,$request->file('arcoSuperior')->getClientOriginalName());
-                $fotos['arcoSuperior'] = $request->file('arcoSuperior')->getClientOriginalName();
-            }
-            if($request->hasfile('arcoInferior'))
-            {
-                $path = public_path().'/fotos-trabajos/' .  $request->session()->get('trabajo-id');
-                File::makeDirectory($path, $mode = 0755, true, true);          
-                $request->file('arcoInferior')->move($path,$request->file('arcoInferior')->getClientOriginalName());
-                $fotos['arcoInferior'] = $request->file('arcoInferior')->getClientOriginalName();
-            }
-            if($request->hasfile('sonrisa'))
-            {
-                $path = public_path().'/fotos-trabajos/' .  $request->session()->get('trabajo-id');
-                File::makeDirectory($path, $mode = 0755, true, true);          
-                $request->file('sonrisa')->move($path,$request->file('sonrisa')->getClientOriginalName());
-                $fotos['sonrisa'] = $request->file('sonrisa')->getClientOriginalName();
-            }
-            if($request->hasfile('reposo'))
-            {
-                $path = public_path().'/fotos-trabajos/' .  $request->session()->get('trabajo-id');
-                File::makeDirectory($path, $mode = 0755, true, true);          
-                $request->file('reposo')->move($path,$request->file('reposo')->getClientOriginalName());
-                $fotos['reposo'] = $request->file('reposo')->getClientOriginalName();
-            }
-            if($request->hasfile('perfilReposo'))
-            {
-                $path = public_path().'/fotos-trabajos/' . $request->session()->get('trabajo-id');
-                File::makeDirectory($path, $mode = 0755, true, true);          
-                $request->file('perfilReposo')->move($path,$request->file('perfilReposo')->getClientOriginalName());
-                $fotos['perfilReposo'] = $request->file('perfilReposo')->getClientOriginalName();
-            }
-
-            if($request->hasfile('rxPanoramica'))
-            {
-                $path = public_path().'/fotos-trabajos/' . $request->session()->get('trabajo-id');
-                File::makeDirectory($path, $mode = 0755, true, true);          
-                $request->file('rxPanoramica')->move($path,$request->file('rxPanoramica')->getClientOriginalName());
-                $fotos['rxPanoramica'] = $request->file('rxPanoramica')->getClientOriginalName();
-            }
-
-            if($request->hasfile('otro'))
-            {
-                $path = public_path().'/fotos-trabajos/' . $request->session()->get('trabajo-id');
-                File::makeDirectory($path, $mode = 0755, true, true);          
-                $request->file('otro')->move($path,$request->file('otro')->getClientOriginalName());
-                $fotos['otro'] = $request->file('otro')->getClientOriginalName();
-            }
-
-            if($request->hasfile('superiorStl'))
-            {
-                $path = public_path().'/fotos-trabajos/' . $request->session()->get('trabajo-id');
-                File::makeDirectory($path, $mode = 0755, true, true);          
-                $request->file('superiorStl')->move($path,$request->file('superiorStl')->getClientOriginalName());
-                $fotos['superiorStl'] = $request->file('superiorStl')->getClientOriginalName();
-            }
-
-            if($request->hasfile('inferiorStl'))
-            {
-                $path = public_path().'/fotos-trabajos/' . $request->session()->get('trabajo-id');
-                File::makeDirectory($path, $mode = 0755, true, true);          
-                $request->file('inferiorStl')->move($path,$request->file('inferiorStl')->getClientOriginalName());
-                $fotos['inferiorStl'] = $request->file('inferiorStl')->getClientOriginalName();
-            }
-
-            if($request->hasfile('oclusionStl'))
-            {
-                $path = public_path().'/fotos-trabajos/' . $request->session()->get('trabajo-id');
-                File::makeDirectory($path, $mode = 0755, true, true);          
-                $request->file('oclusionStl')->move($path,$request->file('oclusionStl')->getClientOriginalName());
-                $fotos['oclusionStl'] = $request->file('oclusionStl')->getClientOriginalName();
-            }
-            
-            foreach($fotos as $indice =>$valor){
-                $foto = new Foto();
-                $foto->trabajo_id =  $request->session()->get('trabajo-id');
-                $foto->nombre = $indice;
-                $foto->nombre_archivo = $valor;
-                $foto->save();
-            }
-
-            $trabajo = Trabajo::find($request->session()->get('trabajo-id'));
-            $trabajo->estado_cod = '1'; // Con Documentos Legales
-            $trabajo->update();
-
-            $historico = new Historico();
-            $historico->trabajo_id = $request->session()->get('trabajo-id');
-            $historico->user_id = Auth::user()->id;
-            $historico->operacion = "Trabajo Creado";
-            $historico->save();
-                     
-            return redirect()->route('trabajos')->with('message','Las imágenes se guardaron correctamente');
-    }
-
-
-
+    
     public function postAdjuntarImagenes(Request $request)
     {
             $fotos = array();
@@ -282,13 +154,8 @@ class TrabajosController extends Controller
             $trabajo->estado_cod = '1'; // Con Documentos Legales
             $trabajo->update();
 
-            $historico = new Historico();
-            $historico->trabajo_id = $request->session()->get('trabajo-id');
-            $historico->user_id = Auth::user()->id;
-            $historico->operacion = "Trabajo Creado";
-            $historico->save();
-                     
-            return redirect()->route('trabajos')->with('message','Las imágenes se guardaron correctamente');
+                               
+            return redirect()->route('trabajos.adjuntar-stl')->with('message','Las imágenes se guardaron correctamente');
     }
 
     /**
@@ -396,7 +263,10 @@ class TrabajosController extends Controller
         $trabajo->save(); 
         $trabajoId = $trabajo->id;
         $request->session()->put('trabajo-id', $trabajoId);
-    
+
+        session(['trabajo_guardado' => $trabajo->id ]);
+        $usuario = User::find( Auth::user()->id );
+
         return redirect()->route('trabajos.documentos-legales')->with('message','Datos del Paciente guardados correctamente');
     }
 
@@ -458,35 +328,29 @@ class TrabajosController extends Controller
 
     public function postAdjuntarStl(Request $request)
     {    
-          // create the file receiver
+         
           $receiver = new FileReceiver("file", $request, HandlerFactory::classFromRequest($request));
-
-          // check if the upload is success, throw exception or return response you need
-          if ($receiver->isUploaded() === false) {
-              throw new UploadMissingFileException();
-          }
-  
-          // receive the file
           $save = $receiver->receive();
-  
-          // check if the upload has finished (in chunk mode it will send smaller files)
           if ($save->isFinished()) {
-              // save the file and return any response you need, current example uses `move` function. If you are
-              // not using move, you need to manually delete the file by unlink($save->getFile()->getPathname())
               return $this->saveFile($save->getFile());
-          }
-  
-          // we are in chunk mode, lets send the current progress
-          /**  AbstractHandler $handler */
+          } 
+      
           $handler = $save->handler();
   
           return response()->json([
               "done" => $handler->getPercentageDone(),
               'status' => true
           ]);
+    }
 
 
-       // return view('trabajos.adjuntar-stl');
+    public function guardarStl(Request $request)
+    {         
+        $trabajo = Trabajo::find(session('trabajo_guardado'));   
+        $nuevoEstado = "Trabajo creado";
+        $usuario = User::find($trabajo->user_cod);        
+        event(new CambioEstadoTrabajo($nuevoEstado, $usuario, $trabajo));
+        return redirect()->route('trabajos');
     }
 
       /**
@@ -498,15 +362,11 @@ class TrabajosController extends Controller
      */
     protected function saveFile(UploadedFile $file)
     {
-       // throw new Exception('Exception message'.$file);
-        $fileName = $this->createFilename($file);
-        // Group files by mime type
+       
+        $fileName = $this->createFilename($file);        
         $mime = str_replace('/', '-', $file->getMimeType());
-        // Group files by the date (week
-        $dateFolder = date("Y-m-W");
-
-        // Build the file path
-        $filePath = "fotos-trabajos/18/";
+        $dateFolder = date("Y-m-W");        
+        $filePath = "fotos-trabajos/". session('trabajo_guardado'). "/";
         $finalPath = storage_path("public/".$filePath);
 
         // move the file name
@@ -528,10 +388,7 @@ class TrabajosController extends Controller
     {
         $extension = $file->getClientOriginalExtension();
         $filename = str_replace(".".$extension, "", $file->getClientOriginalName()); // Filename without extension
-
-        // Add timestamp hash to name of the file
         $filename .= "_" . md5(time()) . "." . $extension;
-
         return $filename;
     }
 
@@ -541,12 +398,11 @@ class TrabajosController extends Controller
         $trabajo = Trabajo::find(session('trabajo_seleccionado'));
         $trabajo->estado_cod = '4'; //Pendiente Pago
         $trabajo->update();
+       
+        $nuevoEstado = "El trabajo ha sido aceptado por el cliente";
+        $usuario = User::find($trabajo->user_cod);        
+        event(new CambioEstadoTrabajo($nuevoEstado, $usuario, $trabajo));
 
-        $historico = new Historico();
-        $historico->trabajo_id = session('trabajo_seleccionado');
-        $historico->user_id = Auth::user()->id;
-        $historico->operacion = "El trabajo ha sido aceptado por el cliente";
-        $historico->save();
         return redirect()->route('trabajos')->with('message','El trabajo ha cambiado de estado correctamente. Aceptada Planificación');
     }
 
@@ -556,11 +412,9 @@ class TrabajosController extends Controller
         $trabajo->estado_cod = '20'; //Segunda Revision
         $trabajo->update();
 
-        $historico = new Historico();
-        $historico->trabajo_id = session('trabajo_seleccionado');
-        $historico->user_id = Auth::user()->id;
-        $historico->operacion = "El trabajo ha sido rechazado por el cliente";
-        $historico->save();
+        $nuevoEstado = "El trabajo ha sido rechazado por el cliente";
+        $usuario = User::find($trabajo->user_cod);        
+        event(new CambioEstadoTrabajo($nuevoEstado, $usuario, $trabajo));
 
         return redirect()->route('trabajos')->with('message','El trabajo ha cambiado de estado correctamente. Rechazada Planificación');
     }
@@ -578,7 +432,6 @@ class TrabajosController extends Controller
         $fotos = $trabajo->fotos; //>toArray();
         $documentos = $trabajo->documentos;
         $nombrefotos = array('oclusion','lateralDerecho','lateralIzquierdo','arcoSuperior','arcoInferior','sonrisa','reposo','perfilReposo','rxPanoramica','otro','superiorStl','inferiorStl','oclusionStl');
-      
         $usuario = User::find($trabajo->user_id);
 
         return view('trabajos.view', compact('trabajo','fotos','nombrefotos','documentos'));
@@ -592,11 +445,10 @@ class TrabajosController extends Controller
         $trabajo->estado_cod = '12'; //Plantillas aceptadas
         $trabajo->update(); 
 
-        $historico = new Historico();
-        $historico->trabajo_id = session('trabajo_seleccionado');
-        $historico->user_id = Auth::user()->id;
-        $historico->operacion = "El trabajo pasa al estado. Plantillas aceptadas";
-        $historico->save();
+        $nuevoEstado = "El Envío ha sido rechazado por el cliente";
+        $usuario = User::find($trabajo->user_cod);        
+        event(new CambioEstadoTrabajo($nuevoEstado, $usuario, $trabajo));
+        
         return redirect()->route('trabajos')->with('message','El trabajo ha cambiado de estado correctamente');           
        
     }
@@ -607,11 +459,10 @@ class TrabajosController extends Controller
         $trabajo->estado_cod = '12'; //Plantillas aceptadas
         $trabajo->update(); 
 
-        $historico = new Historico();
-        $historico->trabajo_id = session('trabajo_seleccionado');
-        $historico->user_id = Auth::user()->id;
-        $historico->operacion = "El trabajo pasa al estado. Plantillas aceptadas";
-        $historico->save();
+        $nuevoEstado = "El Envío ha sido aceptado por el cliente";
+        $usuario = User::find($trabajo->user_cod);        
+        event(new CambioEstadoTrabajo($nuevoEstado, $usuario, $trabajo));
+
         return redirect()->route('trabajos')->with('message','El trabajo ha cambiado de estado correctamente');
     }
 }

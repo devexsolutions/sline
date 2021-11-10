@@ -24,16 +24,19 @@ class CambioEstadoTrabajo
     public $trabajo;
 
     /**
-     * Create a new event instance.
-     *
+     * Create a new event instance.    
+     *    
+     * @param  String  $nuevoEstado
+     * @param  App\Models\User  $user
+     * @param  App\Models\Trabajo  $trabajo
      * @return void
      */
-    public function __construct( String $nuevoEstado, User $user, Trabajo $trabajo)
+    public function __construct(String $nuevoEstado,  User $user, Trabajo $trabajo)
     {
         Log::info("Entro en el constructor del Evento"); 
         $this->nuevoEstado = $nuevoEstado;
         $this->user = $user;
-        $this->Trabajo = $trabajo;
+        $this->trabajo = $trabajo;
     }
 
     /**

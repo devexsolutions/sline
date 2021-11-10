@@ -39,7 +39,7 @@ class AdminController extends Controller
         $colores = ["gray-200", "red-400", "orange-200", "green-200", "blue-200", "indigo-200", "purple-200", "pink-200",
         "gray-300", "red-500", "orange-300", "green-300", "blue-300", "indigo-300", "purple-300", "pink-300",
         "gray-400", "red-600", "orange-500", "green-500", "blue-500", "indigo-500", "purple-500", "pink-500",   
-    ];
+        ];
       
         return view('admin.trabajos.index', compact('trabajos', 'estado','colores'));
     }
@@ -103,9 +103,7 @@ class AdminController extends Controller
         
         $fotos = $trabajo->fotos; //>toArray();
         $nombrefotos = array('oclusion','lateralDerecho','lateralIzquierdo','arcoSuperior','arcoInferior','sonrisa','reposo','perfilReposo');
-        
        
-
         $trabajo = Trabajo::find($id);
         $estados = Estado::All();
         $estado =  $estados->toArray();
@@ -117,10 +115,10 @@ class AdminController extends Controller
         $trabajo->update();  
         
         $usuario = User::find($trabajo->user_id);
-        
-         // call our event here
-         event(new CambioEstadoTrabajo($nuevoEstado, $usuario, $trabajo->id));
 
+        $nuevoEstado = "El trabajo ha cambiado de estado a Pendiente de Planificación";
+        $usuario = User::find($trabajo->user_cod);        
+        event(new CambioEstadoTrabajo($nuevoEstado, $usuario, $trabajo));
 
         return view('admin.trabajos.view', compact('trabajo','fotos','nombrefotos'));
     }
@@ -140,11 +138,9 @@ class AdminController extends Controller
         if ($trabajo->estado_cod == 1){
             $trabajo->estado_cod = '2'; //Pendiente Planificar
             $trabajo->update();
-            $historico = new Historico();
-            $historico->trabajo_id = session('trabajo_seleccionado');
-            $historico->user_id = Auth::user()->id;
-            $historico->operacion = "El trabajo pasa a Pendiente";
-            $historico->save();
+            $nuevoEstado = "El trabajo ha cambiado de estado a Pendiente de Planificación";
+            $usuario = User::find($trabajo->user_cod);        
+            event(new CambioEstadoTrabajo($nuevoEstado, $usuario, $trabajo));
         }  
       
         $documentos_planificacion = DB::table('documentos')
@@ -158,12 +154,8 @@ class AdminController extends Controller
             ->where('historicos.trabajo_id', '=', session('trabajo_seleccionado'))
             ->get();
 
-        $usuario = User::find($trabajo->user_id);
+        $usuario = User::find($trabajo->user_id);        
         
-         // call our event here
-         //event(new CambioEstadoTrabajo($nuevoEstado, $usuario, $trabajo->id));
-
-
         return view('admin.trabajos.view', compact('trabajo','fotos','nombrefotos','historico','documentos_planificacion'));
     }
 
@@ -194,11 +186,9 @@ class AdminController extends Controller
         $trabajo->estado_cod = '3'; //Planificacion Realizada
         $trabajo->update(); 
 
-        $historico = new Historico();
-        $historico->trabajo_id = session('trabajo_seleccionado');
-        $historico->user_id = Auth::user()->id;
-        $historico->operacion = "El trabajo Planificación Realizada";
-        $historico->save();
+        $nuevoEstado = "El trabajo ha cambiado de estado a Planificación Realizada";
+        $usuario = User::find($trabajo->user_cod);        
+        event(new CambioEstadoTrabajo($nuevoEstado, $usuario, $trabajo));
 
 
 
@@ -224,11 +214,9 @@ class AdminController extends Controller
         $trabajo->estado_cod = '4'; //Pendiente de Pago
         $trabajo->update(); 
 
-        $historico = new Historico();
-        $historico->trabajo_id = session('trabajo_seleccionado');
-        $historico->user_id = Auth::user()->id;
-        $historico->operacion = "El trabajo pasa a pendiente de pago";
-        $historico->save();
+        $nuevoEstado = "El trabajo ha cambiado de estado a Pendiente de Pago";
+        $usuario = User::find($trabajo->user_cod);        
+        event(new CambioEstadoTrabajo($nuevoEstado, $usuario, $trabajo));
 
 
         return redirect()->route('admin.trabajos')->with('message','El trabajo ha cambiado de estado correctamente. Pendiente de Pago');
@@ -256,13 +244,9 @@ class AdminController extends Controller
         // Buscamos si hay algúna solicitud de recogida por parte del cliente.
 
 
-        $historico = new Historico();
-        $historico->trabajo_id = session('trabajo_seleccionado');
-        $historico->user_id = Auth::user()->id;
-        $historico->operacion = "El trabajo pasa a pendiente de pago";
-        $historico->save();
-
-
+        $nuevoEstado = "El trabajo ha cambiado de estado a Pendiente de Pago";
+        $usuario = User::find($trabajo->user_cod);        
+        event(new CambioEstadoTrabajo($nuevoEstado, $usuario, $trabajo));
 
         return redirect()->route('admin.trabajos')->with('message','El trabajo ha cambiado de estado correctamente. Pago Recibido');
     }
@@ -290,13 +274,9 @@ class AdminController extends Controller
         $trabajo->estado_cod = $estado; 
         $trabajo->update(); 
 
-        $historico = new Historico();
-        $historico->trabajo_id = session('trabajo_seleccionado');
-        $historico->user_id = Auth::user()->id;
-        $historico->operacion = $textoOperacion;
-        $historico->save();
-
-
+        $nuevoEstado = "El trabajo pasa a envio de ".$enviado;
+        $usuario = User::find($trabajo->user_cod);        
+        event(new CambioEstadoTrabajo($nuevoEstado, $usuario, $trabajo));
 
         return redirect()->route('admin.trabajos')->with('message','El trabajo ha cambiado de estado correctamente a '.$textoOperacion);
     }

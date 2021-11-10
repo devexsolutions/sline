@@ -12,7 +12,7 @@
 <x-app-layout>
     <x-slot name="header">        
     </x-slot>
-    <form action="{{ route('trabajos.adjuntar-stl.post') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('trabajos.guardar-stl') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
      <div class="px-4 py-3 my-7 bg-gray-50 text-right sm:px-6">

@@ -8,7 +8,8 @@ use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvi
 use Illuminate\Support\Facades\Event;
 use App\Events\CambioEstadoTrabajo;
 use App\Listeners\EnviarEmailCambioEstado;
-
+use App\Listeners\EnviarNotificacionCambioEstado;
+use App\Listeners\EnviarHistoricoCambioEstado;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -21,8 +22,10 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-        CambioEstadoTrabajo::class => [
-            EnviarEmailCambioEstado::class   
+        CambioEstadoTrabajo::class => [           
+            EnviarHistoricoCambioEstado::class, 
+            EnviarNotificacionCambioEstado::class,   
+            EnviarEmailCambioEstado::class
         ],
     ];
 

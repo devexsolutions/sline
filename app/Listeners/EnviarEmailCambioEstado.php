@@ -27,11 +27,12 @@ class EnviarEmailCambioEstado
 
     /**
      * Handle the event.
-     *
-     * @param  Trabajo  $trabajo
+     *     
+     * @param  CambioEstadoTrabajo  $event
+     * @param  App\Models\Trabajo  $trabajo
      * @return void
      */
-    public function handle(Trabajo $trabajo)
+    public function handle(  CambioEstadoTrabajo $event )
     {
        /* Log::info("Entro en el Manejador del Listener"); 
         $data = array('name' => $event->user->nombre, 
@@ -44,7 +45,8 @@ class EnviarEmailCambioEstado
                     ->subject('Cambio estado de trabajo');
             $message->from('info@slineinvisible.com');
         });*/
-        Mail::to('jacampossegura@gmail.com')->send(new CambioEstadoTrabajoMail($trabajo));    
+       
+        Mail::to('jacampossegura@gmail.com')->send(new CambioEstadoTrabajoMail($event->trabajo));    
 
     }
 }
