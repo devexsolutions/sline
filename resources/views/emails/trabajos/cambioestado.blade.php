@@ -1,1 +1,1 @@
-El trabajo con expediente número {{ $trabajo->numero_expediente }} ha cambiado de estado a  
+El trabajo con expediente número {{ $trabajo->numero_expediente }} ha cambiado de estado a  {{ $nuevoEstado }}

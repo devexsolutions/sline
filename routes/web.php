@@ -60,6 +60,11 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     
     Route::post('trabajos/aceptar-envio', '\App\Http\Controllers\TrabajosController@postAceptarEnvio')->name('trabajos.aceptar-envio.post');
     Route::post('trabajos/rechazar-envio', '\App\Http\Controllers\TrabajosController@postRechazarEnvio')->name('trabajos.rechazar-envio.post');
+
+    Route::get('notificaciones', '\App\Http\Controllers\PagesController@obtenerNotificaciones')->name('notificaciones');
+    Route::get('notificaciones/{id}', '\App\Http\Controllers\PagesController@saveNotificaciones')->name('notificaciones.view');
+
+
 });
 
 Route::get('admin/trabajos', ['\App\Http\Controllers\AdminController', 'index'])->name('admin.trabajos')->middleware('is_admin');

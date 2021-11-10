@@ -46,7 +46,7 @@ class EnviarEmailCambioEstado
             $message->from('info@slineinvisible.com');
         });*/
        
-        Mail::to('jacampossegura@gmail.com')->send(new CambioEstadoTrabajoMail($event->trabajo));    
+        Mail::to('jacampossegura@gmail.com')->send(new CambioEstadoTrabajoMail($event->trabajo, $event->nuevoEstado));    
 
     }
 }

@@ -25,9 +25,10 @@ class CambioEstadoTrabajo extends Mailable
      *
      * @return void
      */
-    public function __construct(Trabajo $trabajo)
+    public function __construct(Trabajo $trabajo, String $nuevoEstado)
     {
         $this->trabajo = $trabajo;
+        $this->nuevoEstado = $nuevoEstado;
     }
 
     /**
@@ -38,7 +39,8 @@ class CambioEstadoTrabajo extends Mailable
     public function build()
     {
         return $this->markdown('emails.trabajos.cambioestado')->with([
-            'trabajo' => $this->trabajo,            
+            'trabajo' => $this->trabajo, 
+            'nuevoEstado' => $this->nuevoEstado,           
         ]);
     }
 }

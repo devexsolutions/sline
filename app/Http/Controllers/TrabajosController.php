@@ -346,9 +346,9 @@ class TrabajosController extends Controller
 
     public function guardarStl(Request $request)
     {         
-        $trabajo = Trabajo::find(session('trabajo_guardado'));   
+        $trabajo = Trabajo::find(23);   
         $nuevoEstado = "Trabajo creado";
-        $usuario = User::find($trabajo->user_cod);        
+        $usuario = User::find(1);        
         event(new CambioEstadoTrabajo($nuevoEstado, $usuario, $trabajo));
         return redirect()->route('trabajos');
     }

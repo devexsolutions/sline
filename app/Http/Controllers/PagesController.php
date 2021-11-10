@@ -9,6 +9,7 @@ use App\Models\Foto;
 use App\Models\Documento;
 use App\Models\Estado;
 use App\Models\Tarifa;
+use App\Models\Notification;
 use Carbon\Carbon;
 
 use Illuminate\Support\Facades\File;
@@ -37,6 +38,25 @@ class PagesController extends Controller
         return view('solicitar_recogida', compact('trabajos'));
     }
 
+    public function obtenerNotificaciones()
+    {
+        $notifications = DB::table('notifications')
+        ->where('user_id', '=', Auth::user()->id )
+        ->orderby('created_at', 'desc')
+        ->get();       
+        return view('notificaciones', compact('notifications'));
+    }
+
+
+    public function saveNotificaciones(int $id)
+    {
+        $notificacion = Notification::find($id);
+        $notificacion->leido = true;
+        $notificacion->update(); 
+        return redirect()->route('notificaciones')->with('message','La notificación se marcó como leída correctamente');
+        
+    }
+
 
     public function verDashboard()
     {
@@ -47,13 +67,21 @@ class PagesController extends Controller
         
         $estados = Estado::all();
         $estado =  $estados->toArray(); 
+
+        $notifications_no_leidas = DB::table('notifications')
+        ->where('user_id', '=', Auth::user()->id )
+        ->where('leido', '=', 'false')
+        ->orderby('created_at', 'desc')
+        ->get();       
+
+        session(['notifications_no_leidas' => count($notifications_no_leidas)]);
         
         $colores = ["gray-200", "red-400", "orange-200", "green-200", "blue-200", "indigo-200", "purple-200", "pink-200",
         "gray-300", "red-500", "orange-300", "green-300", "blue-300", "indigo-300", "purple-300", "pink-300",
         "gray-400", "red-600", "orange-500", "green-500", "blue-500", "indigo-500", "purple-500", "pink-500",   
     ];
       
-        return view('dashboard', compact('trabajos', 'estado','colores'));
+        return view('dashboard', compact('trabajos', 'estado','colores','notifications_no_leidas'));
       
     }
 
