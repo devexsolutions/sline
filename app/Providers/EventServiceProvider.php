@@ -24,8 +24,8 @@ class EventServiceProvider extends ServiceProvider
         ],
         CambioEstadoTrabajo::class => [           
             EnviarHistoricoCambioEstado::class, 
-            EnviarNotificacionCambioEstado::class,   
-            EnviarEmailCambioEstado::class
+            EnviarNotificacionCambioEstado::class  
+          //  EnviarEmailCambioEstado::class
         ],
     ];
 
