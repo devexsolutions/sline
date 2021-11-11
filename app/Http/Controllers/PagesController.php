@@ -85,6 +85,66 @@ class PagesController extends Controller
       
     }
 
+
+    public function externoStls()
+    {
+      
+        $trabajos = DB::table('trabajos')
+        ->where('estado_cod', '<', '3' )
+        ->get(); 
+        
+        return view('externo.adjuntar-stl', compact('trabajos'));
+      
+    }
+
+    public function guardarStl(Request $request)
+    {         
+        $trabajo = Trabajo::find(session('trabajo_guardado'));   
+        $nuevoEstado = "Trabajo creado";
+        $usuario = User::find($trabajo->user_cod);        
+        event(new CambioEstadoTrabajo($nuevoEstado, $usuario, $trabajo));
+        return redirect()->route('trabajos');
+    }
+
+    /**
+     * Saves the file
+     *
+     * @param UploadedFile $file
+     *
+     * @return JsonResponse
+     */
+    protected function saveFile(UploadedFile $file)
+    {
+       
+        $fileName = $this->createFilename($file);        
+        $mime = str_replace('/', '-', $file->getMimeType());
+        $dateFolder = date("Y-m-W");        
+        $filePath = "fotos-trabajos/". session('trabajo_guardado'). "/";
+        $finalPath = storage_path("public/".$filePath);
+
+        // move the file name
+        $file->move($finalPath, $fileName);
+
+        return response()->json([
+            'path' => $filePath,
+            'name' => $fileName,
+            'mime_type' => $mime
+        ]);
+    }
+
+    /**
+     * Create unique filename for uploaded file
+     * @param UploadedFile $file
+     * @return string
+     */
+    protected function createFilename(UploadedFile $file)
+    {
+        $extension = $file->getClientOriginalExtension();
+        $filename = str_replace(".".$extension, "", $file->getClientOriginalName()); // Filename without extension
+        $filename .= "_" . md5(time()) . "." . $extension;
+        return $filename;
+    }
+
     /**
      * Show the form for creating a new resource.
      *

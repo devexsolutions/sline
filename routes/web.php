@@ -64,7 +64,8 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('notificaciones', '\App\Http\Controllers\PagesController@obtenerNotificaciones')->name('notificaciones');
     Route::get('notificaciones/{id}', '\App\Http\Controllers\PagesController@saveNotificaciones')->name('notificaciones.view');
 
-
+    Route::get('externo-stls', '\App\Http\Controllers\PagesController@externoStls')->name('externo-stls');
+    Route::post('externo-guardar-stl', '\App\Http\Controllers\PagesController@externoGuardarStl')->name('externo-guardar-stl');
 });
 
 Route::get('admin/trabajos', ['\App\Http\Controllers\AdminController', 'index'])->name('admin.trabajos')->middleware('is_admin');

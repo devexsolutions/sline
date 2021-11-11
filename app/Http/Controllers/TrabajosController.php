@@ -346,9 +346,9 @@ class TrabajosController extends Controller
 
     public function guardarStl(Request $request)
     {         
-        $trabajo = Trabajo::find(23);   
+        $trabajo = Trabajo::find(session('trabajo_guardado'));   
         $nuevoEstado = "Trabajo creado";
-        $usuario = User::find(1);        
+        $usuario = User::find($trabajo->user_id);        
         event(new CambioEstadoTrabajo($nuevoEstado, $usuario, $trabajo));
         return redirect()->route('trabajos');
     }
@@ -400,7 +400,7 @@ class TrabajosController extends Controller
         $trabajo->update();
        
         $nuevoEstado = "El trabajo ha sido aceptado por el cliente";
-        $usuario = User::find($trabajo->user_cod);        
+        $usuario = User::find($trabajo->user_id);        
         event(new CambioEstadoTrabajo($nuevoEstado, $usuario, $trabajo));
 
         return redirect()->route('trabajos')->with('message','El trabajo ha cambiado de estado correctamente. Aceptada Planificación');
@@ -413,7 +413,7 @@ class TrabajosController extends Controller
         $trabajo->update();
 
         $nuevoEstado = "El trabajo ha sido rechazado por el cliente";
-        $usuario = User::find($trabajo->user_cod);        
+        $usuario = User::find($trabajo->user_id);        
         event(new CambioEstadoTrabajo($nuevoEstado, $usuario, $trabajo));
 
         return redirect()->route('trabajos')->with('message','El trabajo ha cambiado de estado correctamente. Rechazada Planificación');
@@ -433,8 +433,16 @@ class TrabajosController extends Controller
         $documentos = $trabajo->documentos;
         $nombrefotos = array('oclusion','lateralDerecho','lateralIzquierdo','arcoSuperior','arcoInferior','sonrisa','reposo','perfilReposo','rxPanoramica','otro','superiorStl','inferiorStl','oclusionStl');
         $usuario = User::find($trabajo->user_id);
+        $documentos_planificacion = DB::table('documentos')
+        ->whereIn('nombre', ['IPR', 'url_planificacion', 'presupuesto', 'factura'])
+        ->where('trabajo_id', '=', session('trabajo_seleccionado'))
+        ->get();
 
-        return view('trabajos.view', compact('trabajo','fotos','nombrefotos','documentos'));
+        $documentos_envio = DB::table('documentos')
+        ->whereIn('nombre', ['url_seguimiento_plantillas', 'url_seguimiento_envio_parcial', 'url_seguimiento_envio_completo'])
+        ->where('trabajo_id', '=', session('trabajo_seleccionado'))
+        ->get();
+        return view('trabajos.view', compact('trabajo','fotos','nombrefotos','documentos','documentos_planificacion','documentos_envio'));
     }
 
 
@@ -446,7 +454,7 @@ class TrabajosController extends Controller
         $trabajo->update(); 
 
         $nuevoEstado = "El Envío ha sido rechazado por el cliente";
-        $usuario = User::find($trabajo->user_cod);        
+        $usuario = User::find($trabajo->user_id);        
         event(new CambioEstadoTrabajo($nuevoEstado, $usuario, $trabajo));
         
         return redirect()->route('trabajos')->with('message','El trabajo ha cambiado de estado correctamente');           
@@ -460,7 +468,7 @@ class TrabajosController extends Controller
         $trabajo->update(); 
 
         $nuevoEstado = "El Envío ha sido aceptado por el cliente";
-        $usuario = User::find($trabajo->user_cod);        
+        $usuario = User::find($trabajo->user_id);        
         event(new CambioEstadoTrabajo($nuevoEstado, $usuario, $trabajo));
 
         return redirect()->route('trabajos')->with('message','El trabajo ha cambiado de estado correctamente');

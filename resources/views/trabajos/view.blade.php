@@ -235,70 +235,130 @@
                                         <span class="font-bold">PLANIFICACIÓN</span>
                                     </div>
                                     <div class="mt-12 md:mt-0 ">
-                                        <div class="shadow">  
-                                            <div class="px-4 py-5 bg-white ">
-                                                    <div class="container px-5 py-7 mx-auto">
-                                                        <div class="grid grid-cols-4 gap-4 items-center">
-                                                                @if (sizeof($trabajo->documentos) > 0)
-                                                                    @foreach($trabajo->documentos as $documento) 
-                                                                        @switch($documento->nombre)
-                                                                            @case('url_planificacion')
-                                                                                <div id="whoobe-pqyb1" class="w-full md:w-56 justify-center items-center shadow px-6 py-4 flex flex-col" style="font-family: Montserrat;">
-                                                                                    <h3 class="text-gray-700 text-3xl" id="whoobe-d4an2">
-                                                                                        Setup
-                                                                                    </h3>                                                                   
-                                                                                    <a  @click="$dispatch('setup-modal', {  setupModalSrc: '{{$documento->nombre_archivo}}', imgModalDesc: '' })" class="cursor-pointer">
-                                                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
-                                                                                    </svg>
-                                                                                    </a>                                                                        
-                                                                                </div>
-                                                                            
-                                                                                @break
-                                                                            @case('IPR')
-                                                                                    <div id="whoobe-pqyb2" class="w-full md:w-56 justify-center items-center shadow px-6 py-4 flex flex-col" style="font-family: Montserrat;">
-                                                                                        <h3 class="text-gray-700 text-3xl" id="whoobe-d4an2">
-                                                                                            {{$documento->nombre}}
-                                                                                        </h3>
-                                                                                        <a target="_blank" href="/documentos-gestion/{{$trabajo->id}}/{{$documento->nombre_archivo}}" class="cursor-pointer">
-                                                                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                                                                            </svg>
-                                                                                        </a>
-                                                                                    </div>
-                                                                                @break  
-                                                                            @case('factura')
-                                                                                <div id="whoobe-pqyb3" class="w-full md:w-56 justify-center items-center shadow px-6 py-4 flex flex-col" style="font-family: Montserrat;">
-                                                                                    <h5 class="text-gray-700 text-3xl" id="whoobe-d4an2">Factura Planificación</h5>                                          
-                                                                                    <a target="_blank" href="{{$documento->nombre_archivo}}" class="cursor-pointer">
-                                                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                                                                        </svg>
-                                                                                    </a>
-                                                                                </div>
-                                                                                @break
-                                                                            @case('presupuesto')
-                                                                                <div id="whoobe-pqyb4" class="w-full md:w-56 justify-center items-center shadow px-6 py-4 flex flex-col" style="font-family: Montserrat;">
-                                                                                    <h5 class="text-gray-700 text-3xl" id="whoobe-d4an2">Presupuesto Fabricación</h5>                                          
-                                                                                    <a target="_blank" href="{{$documento->nombre_archivo}}" class="cursor-pointer">
-                                                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                                                                        </svg>
-                                                                                    </a>
-                                                                                </div>
-                                                                                @break                                                          
-                                                                        @endswitch                                                                                                                                                                     
-                                                                    @endforeach                             
-                                                                @endif                                           
-                                                        </div>
+                                        <div class="shadow"> 
+                                            
+                                        @if (sizeof($trabajo->documentos) > 0)
+                                            <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
+                                                <div class="container px-5 py-7 mx-auto">
+                                                    <div class="grid grid-cols-1">
+                                                    <table class="w-full divide-y divide-gray-200">
+                                                        <thead class="bg-gray-200">
+                                                            <tr>
+                                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
+                                                                    Nombre  
+                                                                </th>
+                                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
+                                                                    Enlace
+                                                                </th>
+                                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
+                                                                    Fecha
+                                                                </th>                    
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody class="bg-white divide-y divide-gray-200">
+                                                            @forelse ($documentos_planificacion as $documentop)    
+                                                                <tr>
+                                                                    
+                                                                    <td class="px-6 py-4 whitespace-nowrap">
+                                                                        <span>{{$documentop->nombre}}</span>
+                                                                    </td>
+                                                                    
+                                                                    
+                                                                    <td class="px-6 py-4 whitespace-nowrap">
+                                                                    @if ($documentop->nombre == 'url_planificacion')
+                                                                    <a  @click="$dispatch('setup-modal', {  setupModalSrc: '{{$documentop->nombre_archivo}}', imgModalDesc: '' })" class="cursor-pointer">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+                                                                        </svg>
+                                                                        </a>
+                                                                    @else
+                                                                        <a target="_blank" href="/documentos-gestion/{{$trabajo->id}}/{{$documentop->nombre_archivo}}" class="cursor-pointer">
+                                                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                                                                </svg>
+                                                                        </a>
+                                                                    @endif
+                                                                    </td>                            
+                                                                    <td class="px-6 py-4 whitespace-nowrap">
+                                                                        {{$documentop->created_at}}
+                                                                    </td>
+                                                                </tr>
+                                                                @empty
+                                                                <tr>
+                                                                    <td colspan="3" class="text-center">
+                                                                    No hay planificacion del trabajo
+                                                                    </td>
+                                                                </tr>   
+                                                            @endforelse  
+                                                        </tbody>
+                                                    </table>                          
                                                     </div>
-                                            </div>
-                                </div>
+                                                </div>
+                                            </div>                         
+                                            @endif  
+
+                                    </div>
                                 </div>
                             </div>
+                            <div class="md:col-span-8 mt-6">
+                                    <div id="whoobe-pqyb1" class="w-full md:w-56 justify-center items-center shadow px-6 py-4 flex flex-col" style="font-family: Montserrat;">
+                                        <span class="font-bold">ENVÍO</span>
+                                    </div>
+                                    <div class="mt-12 md:mt-0 ">
+                                        <div class="shadow"> 
+                                            @if (sizeof($documentos_envio) > 0)
+                                                <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
+                                                    <div class="container px-5 py-7 mx-auto">
+                                                        <div class="grid grid-cols-1">
+                                                        <table class="w-full divide-y divide-gray-200">
+                                                            <thead class="bg-gray-200">
+                                                                <tr>
+                                                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
+                                                                        Nombre  
+                                                                    </th>
+                                                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
+                                                                        Enlace
+                                                                    </th>
+                                                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
+                                                                        Fecha
+                                                                    </th>                    
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody class="bg-white divide-y divide-gray-200">
+                                                                @forelse ($documentos_envio as $documentoe)    
+                                                                    <tr>
+                                                                        
+                                                                        <td class="px-6 py-4 whitespace-nowrap">
+                                                                            <span>{{$documentoe->nombre}}</span>
+                                                                        </td>                                        
+                                                                        
+                                                                        <td class="px-6 py-4 whitespace-nowrap">                                        
+                                                                            <a target="_blank" href="{{$documentoe->nombre_archivo}}" class="cursor-pointer">
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                                                                    </svg>
+                                                                            </a>                                        
+                                                                        </td>                            
+                                                                        <td class="px-6 py-4 whitespace-nowrap">
+                                                                            {{$documentoe->created_at}}
+                                                                        </td>
+                                                                    </tr>
+                                                                @empty
+                                                                <tr>
+                                                                    <td colspan="3" class="text-center">
+                                                                    No hay seguimiento de envios
+                                                                    </td>
+                                                                </tr>   
+                                                                @endforelse  
+                                                            </tbody>
+                                                        </table>                          
+                                                        </div>
+                                                    </div>
+                                                </div>                         
+                                            @endif 
 
-                                @if ($trabajo->estado_cod == 3) 
-                                <div class="px-4 py-5 bg-white space-y-6 sm:p-6 mt-6 border-teal p-8 border-t-12 bg-white mb-6 rounded-lg shadow-lg">
+                                            @if ($trabajo->estado_cod == 3) 
+                                            <div class="px-4 py-5 bg-white space-y-6 sm:p-6 mt-6 border-teal p-8 border-t-12 bg-white mb-6 rounded-lg shadow-lg">
                                         <div class="container px-5 py-7 mx-auto">
                                             <div class="grid grid-cols-3 gap-4 w-full items-center ">
                                             <h2>Indique si acepta o rechaza la planificación</h2>                                                                                    
@@ -332,6 +392,13 @@
                                         </div>
                                 </div>
                                 @endif  
+                            </div>
+                            </div>
+                            </div>
+
+
+
+                               
                                 
                                 
                                 @if ($trabajo->estado_cod == 9 ) 

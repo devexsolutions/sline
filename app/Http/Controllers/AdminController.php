@@ -147,6 +147,11 @@ class AdminController extends Controller
                                     ->whereIn('nombre', ['IPR', 'url_planificacion', 'presupuesto', 'factura'])
                                     ->where('trabajo_id', '=', session('trabajo_seleccionado'))
                                     ->get();
+
+        $documentos_envio = DB::table('documentos')
+        ->whereIn('nombre', ['url_seguimiento_plantillas', 'url_seguimiento_envio_parcial', 'url_seguimiento_envio_completo'])
+        ->where('trabajo_id', '=', session('trabajo_seleccionado'))
+        ->get();
                 
         $historico = DB::table('historicos')
             ->join('users', 'users.id', '=', 'historicos.user_id')                     
@@ -156,7 +161,7 @@ class AdminController extends Controller
 
         $usuario = User::find($trabajo->user_id);        
         
-        return view('admin.trabajos.view', compact('trabajo','fotos','nombrefotos','historico','documentos_planificacion'));
+        return view('admin.trabajos.view', compact('trabajo','fotos','nombrefotos','historico','documentos_planificacion','documentos_envio'));
     }
 
 
@@ -257,16 +262,28 @@ class AdminController extends Controller
             case 'ataches':
                 $estado = 9;
                 $enviado = " Plantilla de Ataches";
+                $nombre = "url_seguimiento_plantillas";
+                $url_envio = $request->url_seguimiento;
                 break;
             case 'parcial':
                 $estado = 10;
                 $enviado = " Caso Parcial";
+                $nombre = "url_seguimiento_envio_parcial";
+                $url_envio = $request->url_seguimiento_parcial;
                 break;
             case 'completo':
                 $estado = 11;
                 $enviado = " Caso Completo";
+                $nombre = "url_seguimiento_envio_completo";
+                $url_envio = $request->url_seguimiento_total;
                 break;           
         }
+
+        $documento = new Documento();
+        $documento->trabajo_id =  session('trabajo_seleccionado');
+        $documento->nombre = $nombre;
+        $documento->nombre_archivo =  $url_envio;
+        $documento->save();
 
         $textoOperacion = "El trabajo pasa a envio de ".$enviado;
            
@@ -275,7 +292,7 @@ class AdminController extends Controller
         $trabajo->update(); 
 
         $nuevoEstado = "El trabajo pasa a envio de ".$enviado;
-        $usuario = User::find($trabajo->user_cod);        
+        $usuario = User::find($trabajo->user_id);        
         event(new CambioEstadoTrabajo($nuevoEstado, $usuario, $trabajo));
 
         return redirect()->route('admin.trabajos')->with('message','El trabajo ha cambiado de estado correctamente a '.$textoOperacion);
