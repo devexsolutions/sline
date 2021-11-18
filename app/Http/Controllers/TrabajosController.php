@@ -123,7 +123,7 @@ class TrabajosController extends Controller
             
             foreach($fotos as $indice =>$valor){
                 $foto = new Foto();
-                $foto->trabajo_id =  $request->session()->get('public/trabajo-id');
+                $foto->trabajo_id =  $request->session()->get('trabajo-id');
                 $foto->nombre = $indice;
                 $foto->nombre_archivo = $valor;
                 $foto->save();
