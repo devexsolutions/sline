@@ -260,25 +260,20 @@ class TrabajosController extends Controller
     
         if($request->hasfile('prescripcion'))
         {
-            $path = public_path().'/documentos-legales/' .  $request->session()->get('trabajo-id');
-            File::makeDirectory($path, $mode = 0755, true, true);          
-            $request->file('prescripcion')->move($path,$request->file('prescripcion')->getClientOriginalName());
-            $documentos['prescripcion'] = $request->file('prescripcion')->getClientOriginalName();
+            $path = $request->file('prescripcion')->store('documentos-legales');
+			$documentos['prescripcion'] = $path;          
+          
         }
         if($request->hasfile('advertencias'))
         {
-            $path = public_path().'/documentos-legales/' .  $request->session()->get('trabajo-id');
-            File::makeDirectory($path, $mode = 0755, true, true);          
-            $request->file('advertencias')->move($path,$request->file('advertencias')->getClientOriginalName());           
-            $documentos['advertencias'] = $request->file('advertencias')->getClientOriginalName();
+            $path = $request->file('advertencias')->store('documentos-legales');
+			$documentos['advertencias'] = $path;         
         }
 
         if($request->hasfile('autorizacion'))
         {
-            $path = public_path().'/documentos-legales/' .  $request->session()->get('trabajo-id');
-            File::makeDirectory($path, $mode = 0755, true, true);          
-            $request->file('autorizacion')->move($path,$request->file('autorizacion')->getClientOriginalName());            
-            $documentos['autorizacion'] = $request->file('autorizacion')->getClientOriginalName();
+            $path = $request->file('autorizacion')->store('documentos-legales');
+			$documentos['autorizacion'] = $path;         
         }
         
         foreach($documentos as $indice =>$valor){
