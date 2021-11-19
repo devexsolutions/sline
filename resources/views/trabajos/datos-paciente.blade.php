@@ -50,7 +50,7 @@
                                 <div class="flex flex-wrap -m-4"> 
                                           <div class="lg:w-1/2  w-1/2">                              
                                                   <label for="nombre_paciente" class="block text-sm font-medium text-gray-700 px-6">
-                                                      Nombre
+                                                      Nombre del Paciente
                                                   </label>
                                                   <div class="mt-1 flex rounded-md shadow-sm px-6">                  
                                                       <input type="text" required name="nombre_paciente" id="nombre_paciente" class="p-2 focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border border-gray-300" >
@@ -58,7 +58,7 @@
                                           </div>
                                           <div class="lg:w-1/2 w-1/2">
                                               <label for="apellidos_paciente" class="block text-sm font-medium text-gray-700 px-6">
-                                              Apellidos
+                                              Apellidos del Paciente
                                               </label>
                                               <div class="mt-1 flex rounded-md shadow-sm px-6">                  
                                                 <input type="text" required name="apellidos_paciente" id="apellidos_paciente" class="p-2 focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border border-gray-300" >
@@ -70,7 +70,7 @@
                                 <div class="flex flex-wrap -m-4"> 
                                           <div class="lg:w-1/2  w-1/2">                              
                                                   <label for="edad" class="block text-sm font-medium text-gray-700 px-6">
-                                                      Edad
+                                                      Edad del Paciente
                                                   </label>
                                                   <div class="mt-1 flex rounded-md shadow-sm  px-6">                  
                                                       <input type="text" required name="edad" id="edad" class="p-2 focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border border-gray-300" >
@@ -79,7 +79,7 @@
                                           
                                           <div class="lg:w-1/2  w-1/2">                              
                                           <label for="numero_expediente" class="block text-sm font-medium text-gray-700 px-6">
-                                            Número de Expediente
+                                            Número de Expediente del Paciente
                                             </label>
                                             <div class="mt-1 flex rounded-md shadow-sm px-6">                  
                                             <input type="text" required name="numero_expediente" id="numero_expediente" class="p-2 focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border border-gray-300" >
