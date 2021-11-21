@@ -102,7 +102,7 @@
 
             </div>
            
-            <div class="grid w-full gap-6 mb-8 md:grid-cols-2"> 
+            <div class="grid w-full gap-6 mb-8"> 
                 <form action="{{ route('admin.trabajos.guardar-factura.post') }}" method="POST" enctype="multipart/form-data">
                 @csrf                    
                 <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
@@ -130,35 +130,7 @@
                         </div>                                                            
                     </button>
                 </div>
-                </form>
-                <form action="{{ route('admin.trabajos.guardar-presupuesto.post') }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
-                    <h1>Presupuesto de Fabricación </h1>
-                    <div  x-data="items3()" class="border  border-dashed border-gray-500 relative w-full	">
-                        <input type="file" required @change="updatePreview3()" name="presupuesto" id="presupuesto" class="cursor-pointer relative block opacity-0 w-full h-full p-20 z-50">
-                        <div class="text-center p-10 absolute top-0 right-0 left-0 m-auto justify-items-center">
-                            <h4>
-                                Arrastre o haga clic para seleccionar el fichero
-                                <br/>
-                            </h4>
-                            <p class="">Seleccionar Fichero</p>
-                            <img aria-hidden="true" class="h-14 m-auto dark:hidden" src="{{ asset('img/pdf.png') }}" alt="Office" />
-                            <span class=" text-gray-800 font-bold py-2 px-4 rounded-full" x-text="nombreFicheroPresupuesto"></span>
-                            </div>
-                    </div>
-                </div>
-                <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 md:text-right mb-6">
-                    <button type="submit" class="flex float-right	items-right justify-between p-4 mb-8 text-sm font-semibold bg-yellow-300 bg-gray-700 rounded-lg shadow-md focus:outline-none focus:shadow-outline-purple" href="https://github.com/estevanmaito/windmill-dashboard">
-                        <div class="flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                        </svg>
-                            <span>Guardar Presupuesto</span>
-                        </div>                                                            
-                    </button>
-                </div>
-                </form>                 
+                </form>                            
             </div>
                 <div class="grid w-full gap-6 mb-8 ">  
                     @if (sizeof($trabajo->documentos) > 0)

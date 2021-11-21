@@ -142,13 +142,13 @@
                                                     <div class="container px-5 py-7 mx-auto">
                                                 
                                                         <div class="grid grid-cols-4 gap-4">
-                                                                @if (sizeof($trabajo->documentos) > 0)
-                                                                    @foreach($trabajo->documentos as $documento) 
-                                                                        @switch($documento->nombre)
+                                                                @if (sizeof($documentos_legales) > 0)
+                                                                    @foreach($documentos_legales as $key => $documento) 
+                                                                        @switch($key)
                                                                             @case('prescripcion')
                                                                                 <div id="whoobe-pqyb1" class="w-full md:w-56 justify-center items-center shadow px-6 py-4 flex flex-col" style="font-family: Montserrat;">
                                                                                     <h5>Prescripción</h5>                                          
-                                                                                    <a target="_blank" href="/documentos-legales/{{$trabajo->id}}/{{$documento->nombre_archivo}}" class="cursor-pointer">
+                                                                                    <a target="_blank" href="{{ $documento }}" class="cursor-pointer">
                                                                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                                                                         </svg>
@@ -161,7 +161,7 @@
                                                                                         <h5>
                                                                                             Advertencias Legales
                                                                                         </h5>
-                                                                                        <a target="_blank" href="/documentos-legales/{{$trabajo->id}}/{{$documento->nombre_archivo}}" class="cursor-pointer">
+                                                                                        <a target="_blank" href=" {{ $documento }} " class="cursor-pointer">
                                                                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                                                                             </svg>
@@ -171,7 +171,7 @@
                                                                             @case('autorizacion')
                                                                             <div id="whoobe-pqyb1" class="w-full md:w-56 justify-center items-center shadow px-6 py-4 flex flex-col" style="font-family: Montserrat;">
                                                                                     <h5>Autorización</h5>                                          
-                                                                                    <a target="_blank" href="/documentos-legales/{{$trabajo->id}}/{{$documento->nombre_archivo}}" class="cursor-pointer">
+                                                                                    <a target="_blank" href="{{ $documento }}" class="cursor-pointer">
                                                                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                                                                         </svg>
@@ -198,18 +198,18 @@
                                         <div class=" py-3 bg-white  text-right ">
                                             <div class="container px-5 py-14 mx-auto">           
                                                     <div class="flex flex-wrap -m-4">
-                                                        @if (sizeof($trabajo->fotos) > 0)
-                                                            @foreach($trabajo->fotos as $foto)
+                                                        @if (sizeof($imagenesS3) > 0)
+                                                            @foreach($imagenesS3 as $key => $imagenS3)
                                                             <div class="lg:w-1/4 p-4 w-1/2"> 
-                                                                @if (in_array($foto->nombre, $nombrefotos)) 
-                                                                    <a @click="$dispatch('img-modal', {  imgModalSrc: '/fotos-trabajos/{{$trabajo->id}}/{{$foto->nombre_archivo}}', imgModalDesc: '' })" class="cursor-pointer">
-                                                                        <img alt="Placeholder" class="object-fit w-full" src="/fotos-trabajos/{{$trabajo->id}}/{{$foto->nombre_archivo}}">
-                                                                    </a>    
+                                                                @if (in_array($key, $nombrefotos)) 
+                              
+                                                                    {!! Html::image($imagenS3, 'alt text', array('class' => 'css-class')) !!}
+                                                                     
                                                                 @else 
                                                                     <img class="w-full rounded-lg" src="/fotos-trabajos/no-image.png" />
                                                                 @endif
                                                                 <div class="mt-4">  
-                                                                    <h2 class="text-gray-900 title-font text-lg text-center font-medium">{{$foto->nombre}}</h2>
+                                                                    <h2 class="text-gray-900 title-font text-lg text-center font-medium">{{$key}}</h2>
                                                                 </div>
                                                             </div>
                                                             @endforeach                             
@@ -237,6 +237,7 @@
                                     <div class="mt-12 md:mt-0 ">
                                         <div class="shadow"> 
                                             
+                                     
                                         @if (sizeof($trabajo->documentos) > 0)
                                             <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
                                                 <div class="container px-5 py-7 mx-auto">

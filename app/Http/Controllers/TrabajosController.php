@@ -24,6 +24,7 @@ use Pion\Laravel\ChunkUpload\Handler\AbstractHandler;
 use Pion\Laravel\ChunkUpload\Handler\HandlerFactory;
 use Pion\Laravel\ChunkUpload\Receiver\FileReceiver;
 
+
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
@@ -69,56 +70,76 @@ class TrabajosController extends Controller
     {
             $fotos = array();
             if($request->hasfile('oclusion'))
-            {          
-				$path = $request->file('oclusion')->store('public/fotos-trabajos');
-				$documentos['oclusion'] = $path;	
+            {      					
+                $file = $request->file('oclusion');
+                $imageName=time().$file->getClientOriginalName();           
+                Storage::disk('s3')->put('fotos/'.$imageName, file_get_contents($file));
+                $documentos['oclusion'] = $imageName;
             }
             if($request->hasfile('lateralDerecho'))
             {
-                $path = $request->file('lateralDerecho')->store('public/fotos-trabajos');
-				$documentos['lateralDerecho'] = $path;
+                $file = $request->file('lateralDerecho');
+                $imageName=time().$file->getClientOriginalName();           
+                Storage::disk('s3')->put('fotos/'.$imageName, file_get_contents($file));
+                $documentos['lateralDerecho'] = $imageName;
             }
             if($request->hasfile('lateralIzquierdo'))
             {
-                $path = $request->file('lateralIzquierdo')->store('public/fotos-trabajos');
-				$documentos['lateralIzquierdo'] = $path;
+                $file = $request->file('lateralIzquierdo');
+                $imageName=time().$file->getClientOriginalName();           
+                Storage::disk('s3')->put('fotos/'.$imageName, file_get_contents($file));
+                $documentos['lateralIzquierdo'] = $imageName;
             }
             if($request->hasfile('arcoSuperior'))
             {
-                $path = $request->file('arcoSuperior')->store('public/fotos-trabajos');
-				$documentos['arcoSuperior'] = $path;
+                $file = $request->file('arcoSuperior');
+                $imageName=time().$file->getClientOriginalName();           
+                Storage::disk('s3')->put('fotos/'.$imageName, file_get_contents($file));
+                $documentos['arcoSuperior'] = $imageName;
             }
             if($request->hasfile('arcoInferior'))
             {
-                $path = $request->file('arcoInferior')->store('public/fotos-trabajos');
-				$documentos['arcoInferior'] = $path;
+                $file = $request->file('arcoInferior');
+                $imageName=time().$file->getClientOriginalName();           
+                Storage::disk('s3')->put('fotos/'.$imageName, file_get_contents($file));
+                $documentos['arcoInferior'] = $imageName;
             }
             if($request->hasfile('sonrisa'))
             {
-                $path = $request->file('sonrisa')->store('public/fotos-trabajos');
-				$documentos['sonrisa'] = $path;
+                $file = $request->file('sonrisa');
+                $imageName=time().$file->getClientOriginalName();           
+                Storage::disk('s3')->put('fotos/'.$imageName, file_get_contents($file));
+                $documentos['sonrisa'] = $imageName;
             }
             if($request->hasfile('reposo'))
             {
-                $path = $request->file('reposo')->store('public/fotos-trabajos');
-				$documentos['reposo'] = $path;
+                $file = $request->file('reposo');
+                $imageName=time().$file->getClientOriginalName();           
+                Storage::disk('s3')->put('fotos/'.$imageName, file_get_contents($file));
+                $documentos['reposo'] = $imageName;
             }
             if($request->hasfile('perfilReposo'))
             {
-                $path = $request->file('perfilReposo')->store('public/fotos-trabajos');
-				$documentos['perfilReposo'] = $path;
+                $file = $request->file('perfilReposo');
+                $imageName=time().$file->getClientOriginalName();           
+                Storage::disk('s3')->put('fotos/'.$imageName, file_get_contents($file));
+                $documentos['perfilReposo'] = $imageName;
             }
 
             if($request->hasfile('rxPanoramica'))
             {
-                $path = $request->file('rxPanoramica')->store('public/fotos-trabajos');
-				$documentos['rxPanoramica'] = $path;
+                $file = $request->file('rxPanoramica');
+                $imageName=time().$file->getClientOriginalName();           
+                Storage::disk('s3')->put('fotos/'.$imageName, file_get_contents($file));
+                $documentos['rxPanoramica'] = $imageName;
             }
 
             if($request->hasfile('otro'))
             {
-                $path = $request->file('otro')->store('public/fotos-trabajos');
-				$documentos['otro'] = $path;
+                $file = $request->file('otro');
+                $imageName=time().$file->getClientOriginalName();           
+                Storage::disk('s3')->put('fotos/'.$imageName, file_get_contents($file));
+                $documentos['otro'] = $imageName;
             }           
             
             foreach($fotos as $indice =>$valor){
@@ -260,20 +281,29 @@ class TrabajosController extends Controller
     
         if($request->hasfile('prescripcion'))
         {
-            $path = $request->file('prescripcion')->store('documentos-legales');
-			$documentos['prescripcion'] = $path;          
+          // $path = $request->file('prescripcion')->store('documentos-legales'); 
+            
+            $file = $request->file('prescripcion');
+            $imageName=time().$file->getClientOriginalName();            
+            Storage::disk('s3')->put('documentos-legales/'.$imageName, file_get_contents($file));
+            $documentos['prescripcion'] = $imageName;
+   
+        }   
           
-        }
         if($request->hasfile('advertencias'))
         {
-            $path = $request->file('advertencias')->store('documentos-legales');
-			$documentos['advertencias'] = $path;         
+            $file = $request->file('advertencias');
+            $imageName=time().$file->getClientOriginalName();            
+            Storage::disk('s3')->put($imageName, file_get_contents($file));
+            $documentos['advertencias'] = $imageName;         
         }
 
         if($request->hasfile('autorizacion'))
         {
-            $path = $request->file('autorizacion')->store('documentos-legales');
-			$documentos['autorizacion'] = $path;         
+            $file = $request->file('autorizacion');
+            $imageName=time().$file->getClientOriginalName();           
+            Storage::disk('s3')->put('documentos-legales/'.$imageName, file_get_contents($file));
+            $documentos['autorizacion'] = $imageName;        
         }
         
         foreach($documentos as $indice =>$valor){
@@ -337,18 +367,13 @@ class TrabajosController extends Controller
      */
     protected function saveFile(UploadedFile $file)
     {
-       
+        ini_set('max_execution_time', 180); //3 minutes
         $fileName = $this->createFilename($file);        
-        $mime = str_replace('/', '-', $file->getMimeType());
-        $dateFolder = date("Y-m-W");        
-        $filePath = "fotos-trabajos/". session('trabajo_guardado'). "/";
-        $finalPath = storage_path("public/".$filePath);
-
-        // move the file name
-        $file->move($finalPath, $fileName);
+        $mime = str_replace('/', '-', $file->getMimeType());     
+        Storage::disk('s3')->put('stl/'.$fileName, file_get_contents($file));    
 
         return response()->json([
-            'path' => $filePath,
+            'path' => 'stl/'.$fileName,
             'name' => $fileName,
             'mime_type' => $mime
         ]);
@@ -405,7 +430,18 @@ class TrabajosController extends Controller
         $nuevoEstado = $estados[$trabajo->estado_cod];
         session(['trabajo_seleccionado' => $trabajo->id ]);
         $fotos = $trabajo->fotos; //>toArray();
+        $imagenesS3 = array();
+        foreach ($fotos as $foto) {
+            $imagenesS3[$foto->nombre] = Storage::disk('s3')->temporaryUrl('fotos/'.$foto->nombre_archivo, now()->addMinutes(10));
+        }
+
         $documentos = $trabajo->documentos;
+        foreach ($documentos as $documento) {
+            $documentos_legales[$documento->nombre] =  Storage::disk('s3')->temporaryUrl('documentos-legales/'.$documento->nombre_archivo, now()->addMinutes(10));
+        }
+
+       
+      
         $nombrefotos = array('oclusion','lateralDerecho','lateralIzquierdo','arcoSuperior','arcoInferior','sonrisa','reposo','perfilReposo','rxPanoramica','otro','superiorStl','inferiorStl','oclusionStl');
         $usuario = User::find($trabajo->user_id);
         $documentos_planificacion = DB::table('documentos')
@@ -417,7 +453,7 @@ class TrabajosController extends Controller
         ->whereIn('nombre', ['url_seguimiento_plantillas', 'url_seguimiento_envio_parcial', 'url_seguimiento_envio_completo'])
         ->where('trabajo_id', '=', session('trabajo_seleccionado'))
         ->get();
-        return view('trabajos.view', compact('trabajo','fotos','nombrefotos','documentos','documentos_planificacion','documentos_envio'));
+        return view('trabajos.view', compact('trabajo','fotos','nombrefotos','documentos','documentos_planificacion','documentos_envio','documentos_legales','imagenesS3'));
     }
 
 
