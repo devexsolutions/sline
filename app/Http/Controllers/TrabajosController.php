@@ -74,56 +74,56 @@ class TrabajosController extends Controller
                 $file = $request->file('oclusion');
                 $imageName=time().$file->getClientOriginalName();           
                 Storage::disk('s3')->put('fotos/'.$imageName, file_get_contents($file));
-                $documentos['oclusion'] = $imageName;
+                $fotos['oclusion'] = $imageName;
             }
             if($request->hasfile('lateralDerecho'))
             {
                 $file = $request->file('lateralDerecho');
                 $imageName=time().$file->getClientOriginalName();           
                 Storage::disk('s3')->put('fotos/'.$imageName, file_get_contents($file));
-                $documentos['lateralDerecho'] = $imageName;
+                $fotos['lateralDerecho'] = $imageName;
             }
             if($request->hasfile('lateralIzquierdo'))
             {
                 $file = $request->file('lateralIzquierdo');
                 $imageName=time().$file->getClientOriginalName();           
                 Storage::disk('s3')->put('fotos/'.$imageName, file_get_contents($file));
-                $documentos['lateralIzquierdo'] = $imageName;
+                $fotos['lateralIzquierdo'] = $imageName;
             }
             if($request->hasfile('arcoSuperior'))
             {
                 $file = $request->file('arcoSuperior');
                 $imageName=time().$file->getClientOriginalName();           
                 Storage::disk('s3')->put('fotos/'.$imageName, file_get_contents($file));
-                $documentos['arcoSuperior'] = $imageName;
+                $fotos['arcoSuperior'] = $imageName;
             }
             if($request->hasfile('arcoInferior'))
             {
                 $file = $request->file('arcoInferior');
                 $imageName=time().$file->getClientOriginalName();           
                 Storage::disk('s3')->put('fotos/'.$imageName, file_get_contents($file));
-                $documentos['arcoInferior'] = $imageName;
+                $fotos['arcoInferior'] = $imageName;
             }
             if($request->hasfile('sonrisa'))
             {
                 $file = $request->file('sonrisa');
                 $imageName=time().$file->getClientOriginalName();           
                 Storage::disk('s3')->put('fotos/'.$imageName, file_get_contents($file));
-                $documentos['sonrisa'] = $imageName;
+                $fotos['sonrisa'] = $imageName;
             }
             if($request->hasfile('reposo'))
             {
                 $file = $request->file('reposo');
                 $imageName=time().$file->getClientOriginalName();           
                 Storage::disk('s3')->put('fotos/'.$imageName, file_get_contents($file));
-                $documentos['reposo'] = $imageName;
+                $fotos['reposo'] = $imageName;
             }
             if($request->hasfile('perfilReposo'))
             {
                 $file = $request->file('perfilReposo');
                 $imageName=time().$file->getClientOriginalName();           
                 Storage::disk('s3')->put('fotos/'.$imageName, file_get_contents($file));
-                $documentos['perfilReposo'] = $imageName;
+                $fotos['perfilReposo'] = $imageName;
             }
 
             if($request->hasfile('rxPanoramica'))
@@ -131,7 +131,7 @@ class TrabajosController extends Controller
                 $file = $request->file('rxPanoramica');
                 $imageName=time().$file->getClientOriginalName();           
                 Storage::disk('s3')->put('fotos/'.$imageName, file_get_contents($file));
-                $documentos['rxPanoramica'] = $imageName;
+                $fotos['rxPanoramica'] = $imageName;
             }
 
             if($request->hasfile('otro'))
@@ -139,7 +139,7 @@ class TrabajosController extends Controller
                 $file = $request->file('otro');
                 $imageName=time().$file->getClientOriginalName();           
                 Storage::disk('s3')->put('fotos/'.$imageName, file_get_contents($file));
-                $documentos['otro'] = $imageName;
+                $fotos['otro'] = $imageName;
             }           
             
             foreach($fotos as $indice =>$valor){
@@ -294,7 +294,7 @@ class TrabajosController extends Controller
         {
             $file = $request->file('advertencias');
             $imageName=time().$file->getClientOriginalName();            
-            Storage::disk('s3')->put($imageName, file_get_contents($file));
+            Storage::disk('s3')->put('documentos-legales/'.$imageName, file_get_contents($file));
             $documentos['advertencias'] = $imageName;         
         }
 
