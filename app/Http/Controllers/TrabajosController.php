@@ -378,7 +378,7 @@ class TrabajosController extends Controller
         Storage::disk('s3')->put('stl/'.$fileName, file_get_contents($file));
         
         $documento = new Documento();
-        $documento->trabajo_id = 26; // $request->session()->get('trabajo-id');
+        $documento->trabajo_id = $request->session()->get('trabajo-id');
         $documento->nombre = $fichero;
         $documento->nombre_archivo = $fileName;
         $documento->save();
