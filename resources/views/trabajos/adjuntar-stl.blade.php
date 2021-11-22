@@ -106,7 +106,9 @@
 
   let resumable = new Resumable({
         target: '{{ route('trabajos.adjuntar-stl.post') }}',
-        query:{_token:'{{ csrf_token() }}'} ,// CSRF token
+        query:{_token:'{{ csrf_token() }}',
+               fichero: 'superiorSTL'  
+              } ,// CSRF token
         fileType: ['stl'],
         chunkSize: 10*1024*1024, // default is 1*1024*1024, this should be less than your maximum limit in php.ini
         headers: {
@@ -128,7 +130,8 @@
     });
 
     resumable.on('fileSuccess', function (file, response) { // trigger when file upload complete
-        response = JSON.parse(response)
+        alert('Fichero subido correctamente.')
+        //response = JSON.parse(response)
       //  $('#videoPreview').attr('src', response.path);
       //  $('.card-footer').show();
     });
@@ -157,7 +160,9 @@
 
     let resumable1 = new Resumable({
         target: '{{ route('trabajos.adjuntar-stl.post') }}',
-        query:{_token:'{{ csrf_token() }}'} ,// CSRF token
+        query:{_token:'{{ csrf_token() }}',
+               fichero: 'inferiorSTL'  
+              } ,// CSRF token
         fileType: ['stl'],
         chunkSize: 10*1024*1024, // default is 1*1024*1024, this should be less than your maximum limit in php.ini
         headers: {
@@ -179,7 +184,8 @@
     });
 
     resumable1.on('fileSuccess', function (file, response) { // trigger when file upload complete
-        response = JSON.parse(response)
+        alert('Fichero subido correctamente.')
+        //response = JSON.parse(response)
       //  $('#videoPreview').attr('src', response.path);
       //  $('.card-footer').show();
     });
@@ -207,7 +213,9 @@
 
     let resumable2 = new Resumable({
         target: '{{ route('trabajos.adjuntar-stl.post') }}',
-        query:{_token:'{{ csrf_token() }}'} ,// CSRF token
+        query:{_token:'{{ csrf_token() }}',
+               fichero: 'oclusionSTL'  
+              } ,// CSRF token
         fileType: ['stl'],
         chunkSize: 10*1024*1024, // default is 1*1024*1024, this should be less than your maximum limit in php.ini
         headers: {
@@ -229,7 +237,8 @@
     });
 
     resumable2.on('fileSuccess', function (file, response) { // trigger when file upload complete
-        response = JSON.parse(response)
+        alert('Fichero subido correctamente.')
+        //response = JSON.parse(response)
       //  $('#videoPreview').attr('src', response.path);
       //  $('.card-footer').show();
     });

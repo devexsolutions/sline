@@ -24,7 +24,7 @@ use Pion\Laravel\ChunkUpload\Handler\AbstractHandler;
 use Pion\Laravel\ChunkUpload\Handler\HandlerFactory;
 use Pion\Laravel\ChunkUpload\Receiver\FileReceiver;
 
-
+use Log;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
@@ -333,19 +333,22 @@ class TrabajosController extends Controller
 
     public function postAdjuntarStl(Request $request)
     {    
-         
-          $receiver = new FileReceiver("file", $request, HandlerFactory::classFromRequest($request));
-          $save = $receiver->receive();
-          if ($save->isFinished()) {
-              return $this->saveFile($save->getFile());
-          } 
-      
-          $handler = $save->handler();
-  
-          return response()->json([
-              "done" => $handler->getPercentageDone(),
-              'status' => true
-          ]);
+        Log::info("entro");              
+        Log::info($request->_token);
+        Log::info($request->fichero);
+        $receiver = new FileReceiver("file", $request, HandlerFactory::classFromRequest($request));
+        $save = $receiver->receive();
+        if ($save->isFinished()) {
+            $subido = $this->saveFile($save->getFile(), $request->fichero );
+            Log::info(var_dump($subido));
+        } 
+    
+        $handler = $save->handler();
+
+        return response()->json([
+            "done" => $handler->getPercentageDone(),
+            'status' => true
+        ]);
     }
 
 
@@ -362,16 +365,24 @@ class TrabajosController extends Controller
      * Saves the file
      *
      * @param UploadedFile $file
+     * @param String $fichero
      *
      * @return JsonResponse
      */
-    protected function saveFile(UploadedFile $file)
+    protected function saveFile(UploadedFile $file, String $fichero)
     {
-        ini_set('max_execution_time', 180); //3 minutes
+               
+        ini_set('max_execution_time', 180); //5 minutes
         $fileName = $this->createFilename($file);        
         $mime = str_replace('/', '-', $file->getMimeType());     
-        Storage::disk('s3')->put('stl/'.$fileName, file_get_contents($file));    
-
+        Storage::disk('s3')->put('stl/'.$fileName, file_get_contents($file));
+        
+        $documento = new Documento();
+        $documento->trabajo_id = $request->session()->get('trabajo-id');
+        $documento->nombre = $fichero;
+        $documento->nombre_archivo = $fileName;
+        $documento->save();
+                
         return response()->json([
             'path' => 'stl/'.$fileName,
             'name' => $fileName,
