@@ -130,8 +130,7 @@
     });
 
     resumable.on('fileSuccess', function (file, response) { // trigger when file upload complete
-        alert('Fichero subido correctamente.')
-        //response = JSON.parse(response)
+        response = JSON.parse(response)
       //  $('#videoPreview').attr('src', response.path);
       //  $('.card-footer').show();
     });
@@ -184,8 +183,7 @@
     });
 
     resumable1.on('fileSuccess', function (file, response) { // trigger when file upload complete
-        alert('Fichero subido correctamente.')
-        //response = JSON.parse(response)
+        response = JSON.parse(response)
       //  $('#videoPreview').attr('src', response.path);
       //  $('.card-footer').show();
     });
@@ -237,8 +235,7 @@
     });
 
     resumable2.on('fileSuccess', function (file, response) { // trigger when file upload complete
-        alert('Fichero subido correctamente.')
-        //response = JSON.parse(response)
+        response = JSON.parse(response)
       //  $('#videoPreview').attr('src', response.path);
       //  $('.card-footer').show();
     });

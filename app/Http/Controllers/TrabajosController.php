@@ -372,13 +372,13 @@ class TrabajosController extends Controller
     protected function saveFile(UploadedFile $file, String $fichero)
     {
                
-        ini_set('max_execution_time', 180); //5 minutes
+        ini_set('max_execution_time', 240); //4 minutes
         $fileName = $this->createFilename($file);        
         $mime = str_replace('/', '-', $file->getMimeType());     
         Storage::disk('s3')->put('stl/'.$fileName, file_get_contents($file));
         
         $documento = new Documento();
-        $documento->trabajo_id = $request->session()->get('trabajo-id');
+        $documento->trabajo_id = 26; // $request->session()->get('trabajo-id');
         $documento->nombre = $fichero;
         $documento->nombre_archivo = $fileName;
         $documento->save();
